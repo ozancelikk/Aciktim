@@ -6,6 +6,5 @@ namespace Core.Entities.Abstract
 {
     public interface IEntity
     {
-        public int sayi { get; set; } 
     }
 }
