@@ -39,5 +39,11 @@ namespace Core.Utilities.IoC
             return services;
 
         }
+
+        public static IServiceCollection Create(IServiceCollection services)
+        {
+            ServiceProvider = services.BuildServiceProvider();
+            return services;
+        }
     }
 }
