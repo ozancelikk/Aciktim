@@ -8,6 +8,6 @@ namespace Entities.Concrete
 	public class RestaurantCategory:IEntity
 	{
 		public string Id { get; set; }
-		public string? RestaurantCategoryName { get; set; }
+		public string RestaurantCategoryName { get; set; }
 	}
 }
