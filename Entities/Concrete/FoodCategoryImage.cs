@@ -5,10 +5,10 @@ using System.Text;
 
 namespace Entities.Concrete
 {
-    public class FoodImage : IEntity
+    public class FoodCategoryImage : IEntity
     {
         public string Id  { get; set; }
-        public string? FoodCategoryId { get; set; }
+        public string FoodCategoryId { get; set; }
         public string? ImagePath { get; set; }
 
     }
