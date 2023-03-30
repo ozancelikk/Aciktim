@@ -4,6 +4,7 @@ using Business.DependencyResolvers.Autofac;
 using Core.Utilities.IoC;
 using Core.Extensions;
 using Core.DependencyResolvers;
+using DataAccess.DependencyResolvers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,7 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
             });
 
 
-builder.Services.AddDependecyResolvers(new ICoreModule[] { new CoreModule() });
+builder.Services.AddDependecyResolvers(new ICoreModule[] { new CoreModule(),new DataAccessModule()  });
 
 var app = builder.Build();
 
