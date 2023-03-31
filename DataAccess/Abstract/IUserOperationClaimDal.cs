@@ -1,0 +1,12 @@
+﻿using Core.DataAccess.Databases;
+using Core.Entities.Concrete.DBEntities;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace DataAccess.Abstract
+{
+    internal interface IUserOperationClaimDal : IEntityRepository<UserOperationClaim>
+    {
+    }
+}
