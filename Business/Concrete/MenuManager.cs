@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -18,7 +19,7 @@ namespace Business.Concrete
         public IResult Add(Menu menu)
         {
             _menuDal.Add(menu);
-            return new SuccessResult();
+            return new SuccessResult(Messages.Successful);
         }
 
         public IResult Delete(string id)
@@ -26,24 +27,24 @@ namespace Business.Concrete
             var menu=GetById(id);
             if (menu.Data==null)
             {
-                return new ErrorResult();
+                return new ErrorResult(Messages.Unsuccessful);
             }
             var result = _menuDal.Delete(menu.Data);
             if (result.DeletedCount>0)
             {
-                return new SuccessResult();
+                return new SuccessResult(Messages.AddingSuccessful);
             }
-            return new ErrorResult();
+            return new ErrorResult(Messages.Unsuccessful);
         }
 
         public IDataResult<List<Menu>> GetAll()
         {
-            return new SuccessDataResult<List<Menu>>(_menuDal.GetAll());
+            return new SuccessDataResult<List<Menu>>(_menuDal.GetAll(), Messages.Successful);
         }
 
         public IDataResult<Menu> GetById(string id)
         {
-            return new SuccessDataResult<Menu>(_menuDal.Get(m=>m.Id==id));
+            return new SuccessDataResult<Menu>(_menuDal.Get(m=>m.Id==id), Messages.Successful);
         }
 
         public IResult Update(Menu menu)
@@ -51,9 +52,9 @@ namespace Business.Concrete
             var result=_menuDal.Update(menu);
             if (result.MatchedCount>0)
             {
-                return new SuccessResult();
+                return new SuccessResult(Messages.UpdateSuccessful);
             }
-            throw new FormatException();
+            throw new FormatException(Messages.Unsuccessful);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -18,7 +19,7 @@ namespace Business.Concrete
         public IResult Add(Category category)
         {
             _categoryDal.Add(category);
-            return new SuccessResult();
+            return new SuccessResult(Messages.AddingSuccessful);
         }
 
         public IResult Delete(string id)
@@ -26,24 +27,24 @@ namespace Business.Concrete
             var category=GetById(id);
             if (category.Data==null)
             {
-                return new ErrorResult();
+                return new ErrorResult(Messages.Unsuccessful);
             }
             var result = _categoryDal.Delete(category.Data);
             if (result.DeletedCount>0)
             {
-                return new SuccessResult();
+                return new SuccessResult(Messages.DeletionSuccessful);
             }
-            return new ErrorResult();
+            return new ErrorResult(Messages.Unsuccessful);
         }
 
         public IDataResult<List<Category>> GetAll()
         {
-            return new SuccessDataResult<List<Category>>(_categoryDal.GetAll());
+            return new SuccessDataResult<List<Category>>(_categoryDal.GetAll(),Messages.Successful);
         }
 
         public IDataResult<Category> GetById(string id)
         {
-            return new SuccessDataResult<Category>(_categoryDal.Get(c=>c.Id==id));
+            return new SuccessDataResult<Category>(_categoryDal.Get(c=>c.Id==id), Messages.Successful);
         }
 
         public IResult Update(Category category)
@@ -51,9 +52,9 @@ namespace Business.Concrete
             var result=_categoryDal.Update(category);
             if (result.MatchedCount>0)
             {
-                return new SuccessResult();
+                return new SuccessResult(Messages.UpdateSuccessful);
             }
-            throw new FormatException();
+            throw new FormatException(Messages.Unsuccessful);
         }
     }
 }

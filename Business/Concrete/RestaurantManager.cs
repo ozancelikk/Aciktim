@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -17,7 +18,7 @@ namespace Business.Concrete
         public IResult Add(Restaurant restaurant)
         {
             _restaurantDal.Add(restaurant);
-            return new SuccessResult();
+            return new SuccessResult(Messages.AddingSuccessful);
         }
 
         public IResult Delete(string id)
@@ -25,24 +26,24 @@ namespace Business.Concrete
             var restaurant = GetById(id);
             if (restaurant.Data == null)
             {
-                return new ErrorResult();
+                return new ErrorResult(Messages.Unsuccessful);
             }
             var result = _restaurantDal.Delete(restaurant.Data);
             if (result.DeletedCount > 0)
             {
-                return new SuccessResult();
+                return new SuccessResult(Messages.DeletionSuccessful);
             }
-            return new ErrorResult();
+            return new ErrorResult(Messages.Unsuccessful);
         }
 
         public IDataResult<List<Restaurant>> GetAll()
         {
-            return new SuccessDataResult<List<Restaurant>>(_restaurantDal.GetAll());
+            return new SuccessDataResult<List<Restaurant>>(_restaurantDal.GetAll(), Messages.Successful);
         }
 
         public IDataResult<Restaurant> GetById(string id)
         {
-            return new SuccessDataResult<Restaurant>(_restaurantDal.Get(r => r.Id == id));
+            return new SuccessDataResult<Restaurant>(_restaurantDal.Get(r => r.Id == id), Messages.Successful);
         }
 
         public IResult Update(Restaurant restaurant)
@@ -50,9 +51,9 @@ namespace Business.Concrete
             var result = _restaurantDal.Update(restaurant);
             if (result.MatchedCount > 0)
             {
-                return new SuccessResult();
+                return new SuccessResult(Messages.UpdateSuccessful);
             }
-            throw new FormatException();
+            throw new FormatException(Messages.Unsuccessful);
         }
     }
 }
