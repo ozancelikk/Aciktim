@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -18,7 +19,7 @@ namespace Business.Concrete
         public IResult Add(Customer customer)
         {
             _customerDal.Add(customer);
-            return new SuccessResult("Müşteri Eklendi");
+            return new SuccessResult(Messages.Successful);
         }
 
         public IResult Delete(string id)
@@ -26,24 +27,24 @@ namespace Business.Concrete
             var customer = GetById(id);
             if (customer.Data==null)
             {
-                return new ErrorResult("Kullanıcı Bulunamadı");
+                return new ErrorResult(Messages.Unsuccessful);
             }
             var result = _customerDal.Delete(customer.Data);
             if (result.DeletedCount>0)
             {
-                return new SuccessResult("Kullanıcı silindi");
+                return new SuccessResult(Messages.DeletionSuccessful);
             }
-            return new ErrorResult("Kullanıcıyı silerken hata oluştu");
+            return new ErrorResult(Messages.Unsuccessful);
         }
 
         public IDataResult<List<Customer>> GetAll()
         {
-            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(),"Kullanıcılar listelendi"); 
+            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(), Messages.Successful); 
         }
 
         public IDataResult<Customer> GetById(string id)
         {
-            return new SuccessDataResult<Customer>(_customerDal.Get(c => c.Id == id),"Kullanıcı listelendi");
+            return new SuccessDataResult<Customer>(_customerDal.Get(c => c.Id == id), Messages.Successful);
         }
 
         public IResult Update(Customer customer)
@@ -51,9 +52,9 @@ namespace Business.Concrete
             var result=_customerDal.Update(customer);
             if (result.MatchedCount>0)
             {
-                return new SuccessResult("Güncelleme Başarılı");
+                return new SuccessResult(Messages.UpdateSuccessful);
             }
-            throw new FormatException("Güncelleme sırasında hata oldu");
+            throw new FormatException(Messages.Unsuccessful);
         }
     }
 }

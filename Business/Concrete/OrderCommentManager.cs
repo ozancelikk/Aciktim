@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -18,7 +19,7 @@ namespace Business.Concrete
         public IResult Add(OrderComment orderCommet)
         {
             _orderCommentDal.Add(orderCommet);
-            return new SuccessResult();
+            return new SuccessResult(Messages.AddingSuccessful);
 
         }
 
@@ -27,24 +28,24 @@ namespace Business.Concrete
             var orderComment=GetById(id);
             if (orderComment.Data==null)
             {
-                return new ErrorResult();
+                return new ErrorResult(Messages.Unsuccessful);
             }
             var result = _orderCommentDal.Delete(orderComment.Data);
             if (result.DeletedCount>0)
             {
-                return new SuccessResult();
+                return new SuccessResult(Messages.DeletionSuccessful);
             }
-            return new ErrorResult();
+            return new ErrorResult(Messages.Unsuccessful);
         }
 
         public IDataResult<List<OrderComment>> GetAll()
         {
-            return new SuccessDataResult<List<OrderComment>>(_orderCommentDal.GetAll());
+            return new SuccessDataResult<List<OrderComment>>(_orderCommentDal.GetAll(), Messages.Successful);
         }
 
         public IDataResult<OrderComment> GetById(string id)
         {
-            return new SuccessDataResult<OrderComment>(_orderCommentDal.Get(o=>o.Id==id));
+            return new SuccessDataResult<OrderComment>(_orderCommentDal.Get(o=>o.Id==id), Messages.Successful);
         }
 
         public IResult Update(OrderComment orderCommet)
@@ -52,9 +53,9 @@ namespace Business.Concrete
             var result = _orderCommentDal.Update(orderCommet);
             if (result.MatchedCount>0)
             {
-                return new SuccessResult();
+                return new SuccessResult(Messages.UpdateSuccessful);
             }
-            throw new FormatException();
+            throw new FormatException(Messages.Unsuccessful);
         }
     }
 }
