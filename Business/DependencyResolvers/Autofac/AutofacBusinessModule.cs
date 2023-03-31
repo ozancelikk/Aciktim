@@ -1,10 +1,11 @@
 ﻿using Autofac;
 using Autofac.Extras.DynamicProxy;
+using Business.Abstract;
+using Business.Concrete;
 using Castle.DynamicProxy;
 using Core.Utilities.Interceptors;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using DataAccess.Abstract;
+using DataAccess.Concrete.Databases.MongoDB;
 
 namespace Business.DependencyResolvers.Autofac
 {
@@ -14,6 +15,8 @@ namespace Business.DependencyResolvers.Autofac
         {
 
             ////Manager - Service
+            builder.RegisterType<CustomerManager>().As<ICustomerService>();
+            builder.RegisterType<MongoDB_CustomerDal>().As<ICustomerDal>();
 
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();

@@ -35,14 +35,11 @@ namespace DataAccess.Concrete.DataBases.MongoDB.Utilities.ConnectionResolvers
 
             if (result)
             {
+             
                 return new SuccessDataResult<DatabaseConnectionSettings>(new DatabaseConnectionSettings { HostName = $"mongodb://" + Environment.GetEnvironmentVariable("DATABASE_HOSTNAME"), Database = databaseConnectionSettings.Database });
             }
 
             return new ErrorDataResult<DatabaseConnectionSettings>();
-
-
-
-
         }
     }
 }
