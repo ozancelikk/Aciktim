@@ -1,25 +1,42 @@
-var builder = WebApplication.CreateBuilder(args);
+using AciktimAdminWebAPI;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Business.DependencyResolvers.Autofac;
+using Core.DependencyResolvers;
+using Core.Extensions;
+using DataAccess.DependencyResolvers;
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+namespace AciktimMusteriWebAPI
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            IHost host = CreateHostBuilder(args).AddHostBuilder();
+
+            host.Run();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+           Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
+           {
+               webBuilder.UseUrls("https://*:5001", "http://*:5000");
+               //webBuilder.UseKestrel().UseStartup<Startup>();
+
+           })
+           .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+               .ConfigureContainer<ContainerBuilder>(builder =>
+               {
+
+                   builder.RegisterModule(new AutofacBusinessModule());
+                   builder.RegisterModule(new AutoFacCoreModule());
+                   builder.RegisterModule(new AutoFacDataAccessModule());
+
+
+               })
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();

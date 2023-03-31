@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DataAccess.DependencyResolvers
 {
-    public class DataAccessModule : ICoreModule
+    public class DataAccessModule : IDependencyInjectionModule
     {
         public void Load(IServiceCollection services)
         {

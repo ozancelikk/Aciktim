@@ -15,7 +15,6 @@ namespace Core.DataAccess.Databases.MongoDB
         MongoDBContext mongoDBContext = new MongoDBContext();
         public MongoDB_RepositoryBase()
         {
-
             _collection = mongoDBContext.GetMongoDBCollection();
         }
         public void Add(TEntity entity)
