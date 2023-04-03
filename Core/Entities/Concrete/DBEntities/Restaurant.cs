@@ -13,6 +13,7 @@ namespace Core.Entities.Concrete.DBEntities
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public string RestaurantName { get; set; }
+        public string MailAddress { get; set; }
         public string RestaurantAddress { get; set; }
         public string TaxNumber { get; set; }
         public string OpeningTime { get; set; }
