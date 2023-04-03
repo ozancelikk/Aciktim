@@ -30,7 +30,7 @@ namespace Business.BusinessAspects.Autofac
             var roleClaims = _httpContextAccessor.HttpContext.User.ClaimRoles();
             var userMailAddress = _httpContextAccessor.HttpContext.User.Claims.Where(r => r.Type.Contains("emailaddress")).Select(k => k.Value).FirstOrDefault();
             var user = _userService.GetByMail(userMailAddress);
-            if (roleClaims.Contains("employee"))
+            if (roleClaims.Contains("customer"))
             {
                 foreach (var role in _roles)
                 {
