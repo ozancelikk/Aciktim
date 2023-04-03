@@ -4,7 +4,6 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.Databases.MongoDB.Collections;
 using DataAccess.Concrete.DataBases.MongoDB;
 using DataAccess.Concrete.DataBases.MongoDB.Collections;
-using Entities.Concrete;
 using Entities.Concrete.Simples;
 using MongoDB.Driver;
 using System.Collections.Generic;

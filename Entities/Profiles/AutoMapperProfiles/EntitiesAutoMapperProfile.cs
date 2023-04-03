@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Entities.Concrete.DBEntities;
 using Entities.Concrete;
 using Entities.Dtos;
 using System;

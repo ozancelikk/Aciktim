@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Entities.Concrete
+namespace Core.Entities.Concrete.DBEntities
 {
-    public class Customer:IEntity
+    public class Customer : IEntity
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
