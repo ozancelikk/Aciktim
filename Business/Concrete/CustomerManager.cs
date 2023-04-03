@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Entities.Concrete.DBEntities;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -19,6 +20,12 @@ namespace Business.Concrete
         public IResult Add(Customer customer)
         {
             _customerDal.Add(customer);
+            return new SuccessResult(Messages.Successful);
+        }
+
+        public IResult ChangeForgottenPassword(Customer customer)
+        {
+           _customerDal.Update(customer); 
             return new SuccessResult(Messages.Successful);
         }
 
@@ -45,6 +52,16 @@ namespace Business.Concrete
         public IDataResult<Customer> GetById(string id)
         {
             return new SuccessDataResult<Customer>(_customerDal.Get(c => c.Id == id), Messages.Successful);
+        }
+
+        public IDataResult<Customer> GetByMail(string mail)
+        {
+            return new SuccessDataResult<Customer>(_customerDal.Get(c => c.MailAddress == mail),Messages.Successful);
+        }
+
+        public IDataResult<List<OperationClaim>> GetClaims(Customer customer)
+        {
+            return new SuccessDataResult<List<OperationClaim>>(_customerDal.GetClaims(customer),Messages.Successful);
         }
 
         public IResult Update(Customer customer)
