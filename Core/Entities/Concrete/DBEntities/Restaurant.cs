@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Entities.Concrete
+namespace Core.Entities.Concrete.DBEntities
 {
-    public class Restaurant:IEntity
+    public class Restaurant : IEntity
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

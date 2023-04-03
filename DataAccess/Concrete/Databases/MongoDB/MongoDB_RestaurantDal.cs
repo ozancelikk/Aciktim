@@ -1,8 +1,8 @@
 ﻿using Core.DataAccess.Databases.MongoDB;
+using Core.Entities.Concrete.DBEntities;
 using DataAccess.Abstract;
 using DataAccess.Concrete.Databases.MongoDB.Collections;
 using DataAccess.Concrete.DataBases.MongoDB;
-using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Text;
