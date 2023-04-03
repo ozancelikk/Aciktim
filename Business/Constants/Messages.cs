@@ -22,5 +22,6 @@ namespace Business.Constants
         internal static string SuccessfulLogin;
         internal static string AccessTokenCreated;
         internal static string CustomerRegistered;
+        internal static string AuthorizationDenied = "Erişim reddedildi";
     }
 }
