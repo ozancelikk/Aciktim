@@ -3,6 +3,7 @@ using Business.Constants;
 using Core.Entities.Concrete.DBEntities;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using Entities.DTOs;
 using System.Collections.Generic;
 
 namespace Business.Concrete
@@ -15,6 +16,13 @@ namespace Business.Concrete
         {
             _operationClaimDal = operationClaimDal;
         }
+
+        public IResult AddClaim(OperationClaimDto claim)
+        {
+            _operationClaimDal.Add(new OperationClaim { AuthorizationRate = claim.AuthorizationRate, Description = claim.Description, Name = claim.Name });
+            return new SuccessResult(Messages.Successful);
+        }
+
         public IDataResult<List<OperationClaim>> GetAll()
         {
             return new SuccessDataResult<List<OperationClaim>>(_operationClaimDal.GetAll(), Messages.Successful);
