@@ -17,5 +17,6 @@ namespace Business.Constants
         internal static string SuperUserCannotBeDeleted = "Super User silinemez";
         internal static string UserUpdated = "Kullanıcı Güncellendi";
         internal static string ThisOperationClaimAlreadyExists="Bu rol zaten mevcut";
+        internal static string AuthorizationDenied = "Erişim reddedildi";
     }
 }
