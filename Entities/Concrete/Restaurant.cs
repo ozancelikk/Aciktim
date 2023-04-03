@@ -19,5 +19,7 @@ namespace Entities.Concrete
         public string ClosingTime { get; set; }
         public string CategoryId { get; set; }
         public string? RestaurantImage { get; set; }
+        public byte[] PasswordSalt { get; set; }
+        public byte[] PasswordHash { get; set; }
     }
 }
