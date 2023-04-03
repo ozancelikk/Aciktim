@@ -17,11 +17,11 @@ namespace Business.Constants
         internal static string SuperUserCannotBeDeleted = "Super User silinemez";
         internal static string UserUpdated = "Kullanıcı Güncellendi";
         internal static string ThisOperationClaimAlreadyExists="Bu rol zaten mevcut";
-        internal static string UserRegistered;
+        internal static string UserRegistered ="Kullanıcı kayıtı başarılı.";
         internal static User MissingOrIncorrectEntry;
-        internal static string SuccessfulLogin;
-        internal static string AccessTokenCreated;
-        internal static string CustomerRegistered;
+        internal static string SuccessfulLogin="Giriş Başarılı";
+        internal static string AccessTokenCreated="Erişim tokeni oluşturuldu.";
+        internal static string CustomerRegistered = "Müşteri başarıyla kayıt oldu";
         internal static string AuthorizationDenied = "Erişim reddedildi";
     }
 }
