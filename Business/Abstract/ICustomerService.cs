@@ -1,4 +1,5 @@
-﻿using Core.Utilities.Results;
+﻿using Core.Entities.Concrete.DBEntities;
+using Core.Utilities.Results;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,9 @@ namespace Business.Abstract
 {
     public interface ICustomerService
     {
+        IDataResult<Customer> GetByMail(string mail);
+        IResult ChangeForgottenPassword(Customer customer);
+        IDataResult<List<OperationClaim>> GetClaims(Customer customer);
         IDataResult<List<Customer>> GetAll();
         IDataResult<Customer> GetById(string id);
         IResult Add(Customer customer);
