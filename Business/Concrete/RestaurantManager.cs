@@ -4,6 +4,8 @@ using Castle.Core.Resource;
 using Core.Entities.Concrete.DBEntities;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using Entities.Dtos;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 
@@ -43,9 +45,9 @@ namespace Business.Concrete
             return new ErrorResult(Messages.Unsuccessful);
         }
 
-        public IDataResult<List<Restaurant>> GetAll()
+        public IDataResult<List<RestaurantDto>> GetAll()
         {
-            return new SuccessDataResult<List<Restaurant>>(_restaurantDal.GetAll(), Messages.Successful);
+            return new SuccessDataResult<List<RestaurantDto>>(_restaurantDal.GetAllRestaurant(), Messages.Successful);
         }
 
         public IDataResult<Restaurant>GetById(string id)
@@ -61,6 +63,11 @@ namespace Business.Concrete
         public IDataResult<List<OperationClaim>> GetClaims(Restaurant restaurant)
         {
             return new SuccessDataResult<List<OperationClaim>>(_restaurantDal.GetClaims(restaurant), Messages.Successful);
+        }
+
+        public IDataResult<RestaurantDetailsDto> GetDetailsById(string id)
+        {
+            return new SuccessDataResult<RestaurantDetailsDto>(_restaurantDal.GetRestaurantById(id), Messages.Successful);  
         }
 
         public IResult Update(Restaurant restaurant)

@@ -1,5 +1,7 @@
 ﻿using Core.Entities.Concrete.DBEntities;
 using Core.Utilities.Results;
+using Entities.Dtos;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,8 +10,9 @@ namespace Business.Abstract
 {
     public interface IRestaurantService
     {
-        IDataResult<List<Restaurant>> GetAll();
+        IDataResult<List<RestaurantDto>> GetAll();
         IDataResult<Restaurant> GetById(string id);
+        IDataResult<RestaurantDetailsDto> GetDetailsById(string id);
         IResult Add(Restaurant restaurant);
         IResult Update(Restaurant restaurant);
         IResult Delete(string id);
