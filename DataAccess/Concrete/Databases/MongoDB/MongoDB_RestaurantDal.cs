@@ -1,4 +1,5 @@
-﻿using Castle.Core.Resource;
+﻿using AutoMapper;
+using Castle.Core.Resource;
 using Core.DataAccess.Databases.MongoDB;
 using Core.Entities.Concrete.DBEntities;
 using DataAccess.Abstract;
@@ -6,6 +7,8 @@ using DataAccess.Concrete.Databases.MongoDB.Collections;
 using DataAccess.Concrete.DataBases.MongoDB;
 using DataAccess.Concrete.DataBases.MongoDB.Collections;
 using Entities.Concrete.Simples;
+using Entities.Dtos;
+using Entities.DTOs;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -16,6 +19,13 @@ namespace DataAccess.Concrete.Databases.MongoDB
 {
     public class MongoDB_RestaurantDal : MongoDB_RepositoryBase<Restaurant, MongoDB_Context<Restaurant, MongoDB_RestaurantCollection>>, IRestaurantDal
     {
+        private readonly IMapper _mapper;
+
+        public MongoDB_RestaurantDal(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
+
         public void DeleteClaims(Restaurant restaurant)
         {
             List<OperationClaim> _operationClaims = new List<OperationClaim>();
@@ -25,6 +35,34 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 operationClaims.GetMongoDBCollection();
                 operationClaims.collection.DeleteMany(c => c.RestaurantId == restaurant.Id);
 
+            }
+        }
+
+        public List<RestaurantDto> GetAllRestaurant()
+        {
+            List<Restaurant> restaurants = new List<Restaurant>();
+            using (var restaurantContext=new MongoDB_Context<Restaurant,MongoDB_RestaurantCollection>())
+            {
+                restaurantContext.GetMongoDBCollection();
+                restaurants=restaurantContext.collection.Find<Restaurant>(document=>true).ToList();
+                var restaurantDtos=new List<RestaurantDto>();
+                foreach (var restaurant in restaurants)
+                {
+                    if (restaurant.Id!=null)
+                    {
+                        restaurantDtos.Add(new RestaurantDto
+                        {
+                            CategoryId = restaurant.CategoryId,
+                            ClosingTime = restaurant.ClosingTime,
+                            OpeningTime=restaurant.OpeningTime,
+                            RestaurantAddress=restaurant.RestaurantAddress,
+                            RestaurantImage=restaurant.RestaurantImage,
+                            RestaurantName=restaurant.RestaurantName,
+                            TaxNumber=restaurant.TaxNumber
+                        });
+                    }
+                }
+                return restaurantDtos;
             }
         }
 
@@ -84,6 +122,19 @@ namespace DataAccess.Concrete.Databases.MongoDB
             }
 
             return _currentRestaurantOperationClaims;
+        }
+
+        public RestaurantDetailsDto GetRestaurantById(string id)
+        {
+            using (var restaurantContext = new MongoDB_Context<Restaurant,MongoDB_RestaurantCollection>())
+            {
+                restaurantContext.GetMongoDBCollection();
+                var restaurants = restaurantContext.collection.Find<Restaurant>(document => true).ToList();
+                var temp = restaurants.Find(r => r.Id == id);
+
+                var real=_mapper.Map<RestaurantDetailsDto>(temp);
+                return real;
+            }
         }
 
         public RestaurantEvolved GetWithClaims(string restaurantId)

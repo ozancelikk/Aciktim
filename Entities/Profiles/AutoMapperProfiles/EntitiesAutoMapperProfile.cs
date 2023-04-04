@@ -20,6 +20,7 @@ namespace Entities.Profiles.AutoMapperProfiles
             CreateMap<OrderCommentDto,OrderComment>();
             CreateMap<RestaurantDto,Restaurant>();
             CreateMap<Customer, CustomerDetailsDto>();
+            CreateMap<Restaurant,RestaurantDetailsDto>();
 
         }
     }
