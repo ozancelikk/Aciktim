@@ -1,8 +1,10 @@
-﻿using Core.DataAccess.Databases.MongoDB;
+﻿using AutoMapper;
+using Core.DataAccess.Databases.MongoDB;
 using Core.Entities.Concrete.DBEntities;
 using DataAccess.Abstract;
 using DataAccess.Concrete.DataBases.MongoDB.Collections;
 using Entities.Concrete.Simples;
+using Entities.DTOs;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,12 @@ namespace DataAccess.Concrete.DataBases.MongoDB
 {
     public class MongoDB_UserDal : MongoDB_RepositoryBase<User, MongoDB_Context<User, MongoDB_UserCollection>>, IUserDal
     {
+        private readonly IMapper _mapper;
+
+        public MongoDB_UserDal(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
 
         public List<UserEvolved> GetAllWithClaims()
         {
@@ -116,6 +124,42 @@ namespace DataAccess.Concrete.DataBases.MongoDB
             }
         }
 
+        public List<UserDetailsDto> GetAllUser()
+        {
+            List<User> users=new List<User>();
+            using (var userContext = new MongoDB_Context<User, MongoDB_UserCollection>())
+            {
+                userContext.GetMongoDBCollection();
+                users=userContext.collection.Find<User>(document=>true).ToList();
+                var userDtos = new List<UserDetailsDto>();
+                foreach (var  user in users)
+                {
+                    if (user.Id!=null)
+                    {
+                        userDtos.Add(new UserDetailsDto
+                        {
+                            Email = user.Email,
+                            FirstName = user.FirstName,
+                            LastName = user.LastName,
+                            Status = user.Status,
+                        });
+                    }
+                }
+                return userDtos;
+            }
+        }
 
+        public UserDto GetUserById(string id)
+        {
+            using (var userContext = new MongoDB_Context<User,MongoDB_UserCollection>())
+            {
+                userContext.GetMongoDBCollection();
+                var users = userContext.collection.Find<User>(document=>true).ToList();
+                var tempt = users.Find(u => u.Id == id);
+
+                var real=_mapper.Map<UserDto>(tempt);
+                return real;
+            }
+        }
     }
 }

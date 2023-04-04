@@ -2,6 +2,7 @@
 using Core.Entities.Concrete.DBEntities;
 using Entities.Concrete;
 using Entities.Dtos;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,6 +19,8 @@ namespace Entities.Profiles.AutoMapperProfiles
             CreateMap<OrderDto,Order>();
             CreateMap<OrderCommentDto,OrderComment>();
             CreateMap<RestaurantDto,Restaurant>();
+            CreateMap<Customer, CustomerDetailsDto>();
+
         }
     }
 }

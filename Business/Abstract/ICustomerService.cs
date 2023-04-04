@@ -1,5 +1,7 @@
 ﻿using Core.Entities.Concrete.DBEntities;
 using Core.Utilities.Results;
+using Entities.Dtos;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,8 +13,9 @@ namespace Business.Abstract
         IDataResult<Customer> GetByMail(string mail);
         IResult ChangeForgottenPassword(Customer customer);
         IDataResult<List<OperationClaim>> GetClaims(Customer customer);
-        IDataResult<List<Customer>> GetAll();
+        IDataResult<List<CustomerDto>> GetAll();
         IDataResult<Customer> GetById(string id);
+        IDataResult<CustomerDetailsDto> GetDetailsById(string id);
         IResult Add(Customer customer);
         IResult Update(Customer customer);
         IResult Delete(string id);
