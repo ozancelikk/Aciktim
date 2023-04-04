@@ -4,8 +4,6 @@ using Business.Abstract;
 using Business.Concrete;
 using Castle.DynamicProxy;
 using Core.Utilities.Interceptors;
-using DataAccess.Abstract;
-using DataAccess.Concrete.Databases.MongoDB;
 
 namespace Business.DependencyResolvers.Autofac
 {
@@ -16,7 +14,13 @@ namespace Business.DependencyResolvers.Autofac
 
             ////Manager - Service
             builder.RegisterType<CustomerManager>().As<ICustomerService>();
-            builder.RegisterType<MongoDB_CustomerDal>().As<ICustomerDal>();
+
+
+            builder.RegisterType<RestaurantManager>().As<IRestaurantService>();
+
+
+            builder.RegisterType<UserManager>().As<IUserService>();
+
 
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();

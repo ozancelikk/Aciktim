@@ -1,14 +1,12 @@
-using AciktimRestoranWebAPI;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Business.DependencyResolvers.Autofac;
 using Core.DependencyResolvers;
 using Core.Extensions;
 using DataAccess.DependencyResolvers;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 
-namespace AciktimMusteriWebAPI
+
+namespace AciktimRestoranWebAPI
 {
     public class Program
     {

@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Castle.Core.Resource;
 using Core.Entities.Concrete.DBEntities;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -19,6 +20,12 @@ namespace Business.Concrete
         {
             _restaurantDal.Add(restaurant);
             return new SuccessResult(Messages.AddingSuccessful);
+        }
+
+        public IResult ChangeForgottenPassword(Restaurant restaurant)
+        {
+            _restaurantDal.Update(restaurant);
+            return new SuccessResult(Messages.Successful);
         }
 
         public IResult Delete(string id)
@@ -44,6 +51,16 @@ namespace Business.Concrete
         public IDataResult<Restaurant> GetById(string id)
         {
             return new SuccessDataResult<Restaurant>(_restaurantDal.Get(r => r.Id == id), Messages.Successful);
+        }
+
+        public IDataResult<Restaurant> GetByMail(string mail)
+        {
+            return new SuccessDataResult<Restaurant>(_restaurantDal.Get(c => c.MailAddress == mail), Messages.Successful);
+        }
+
+        public IDataResult<List<OperationClaim>> GetClaims(Restaurant restaurant)
+        {
+            return new SuccessDataResult<List<OperationClaim>>(_restaurantDal.GetClaims(restaurant), Messages.Successful);
         }
 
         public IResult Update(Restaurant restaurant)

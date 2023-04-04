@@ -1,6 +1,5 @@
 ﻿using Business.Abstract;
 using Entities.DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AciktimMusteriWebAPI.Controllers
@@ -16,13 +15,14 @@ namespace AciktimMusteriWebAPI.Controllers
         }
         [HttpPost("Register")]
         public IActionResult Register(CustomerForRegisterDto customerForRegisterDto)
-        {   
-            var result =_customerAuthService.Register(customerForRegisterDto);
+        {
+            var result = _customerAuthService.Register(customerForRegisterDto);
             if (result.Success)
             {
                 return Ok(result.Message);
             }
             return BadRequest(result.Message);
         }
+
     }
 }

@@ -1,7 +1,11 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Castle.Core.Resource;
 using Core.Entities.Concrete.DBEntities;
 using Core.Utilities.Results;
+using Core.Utilities.Security.Hashing;
 using Core.Utilities.Security.JWT;
+using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
@@ -12,34 +16,113 @@ namespace Business.Concrete
 {
     public class RestaurantAuthManager : IRestaurantAuthService
     {
+
+        private readonly IRestaurantService _restaurantService;
+        private readonly ITokenHelper _tokenHelper;
+        private readonly IRestaurantOperationClaimService _restaurantOperationClaimService;
+        private readonly IOperationClaimService _operationClaimService;
+        private readonly ILoginActivitiesService _loginActivitiesService;
+        private readonly IPasswordRecoveryService _passwordRecoveryService;
+
+        public RestaurantAuthManager(IRestaurantService restaurantService, ITokenHelper tokenHelper, IRestaurantOperationClaimService restaurantOperationClaimService, IOperationClaimService operationClaimService, ILoginActivitiesService loginActivitiesService, IPasswordRecoveryService passwordRecoveryService)
+        {
+            _restaurantService = restaurantService;
+            _tokenHelper = tokenHelper;
+            _restaurantOperationClaimService = restaurantOperationClaimService;
+            _operationClaimService = operationClaimService;
+            _loginActivitiesService = loginActivitiesService;
+            _passwordRecoveryService = passwordRecoveryService;
+        }
+
         public IResult ChangeForgottenPassword(ForgettenPasswordForRestaurant forgettenPasswordForRestaurant)
         {
-            throw new NotImplementedException();
+            var result = _passwordRecoveryService.GetByEMail(forgettenPasswordForRestaurant.Email);
+
+            if (result.Data != null)
+            {
+                if (result.Data.PrivateKey != forgettenPasswordForRestaurant.PrivateKey)
+                {
+                    return new ErrorResult("Yanlış aktivasyon kodu girdiniz.");
+                }
+                var user = _restaurantService.GetByMail(forgettenPasswordForRestaurant.Email);
+                HashingHelper.CreatePasswordHash(forgettenPasswordForRestaurant.NewPassword, out byte[] passwordHash, out byte[] passwordSalt);
+                user.Data.PasswordSalt = passwordSalt;
+                user.Data.PasswordHash = passwordHash;
+                _restaurantService.ChangeForgottenPassword(user.Data);
+                _passwordRecoveryService.Delete(user.Data.MailAddress);
+                return new SuccessResult(Messages.Successful);
+            }
+            return new ErrorResult(Messages.Unsuccessful);
         }
 
         public IDataResult<AccessToken> CreateAccessToken(Restaurant restaurant)
         {
-            throw new NotImplementedException();
+            var claims = _restaurantService.GetClaims(restaurant);
+            var accessToken = _tokenHelper.CreateTokenForRestaurant(restaurant, claims.Data);
+            return new SuccessDataResult<AccessToken>(accessToken, Messages.AccessTokenCreated);
         }
 
         public IResult ForgotPassword(string eMail)
         {
-            throw new NotImplementedException();
+            var result = _restaurantService.GetByMail(eMail);
+            if (result.Data != null)
+            {
+                return new SuccessResult(eMail + " mail adresine aktivasyon kodu gönderdik. Lüften mail adresinizi kontrol ederek gelen kodu aşağıdaki alana giriniz.");
+            }
+            return new ErrorResult("Eksik yada hatalı bir giriş yaptınız.");
         }
 
-        public IDataResult<User> Login(RestaurantForLoginDto restaurantForLoginDto)
+        public IDataResult<Restaurant> Login(RestaurantForLoginDto restaurantForLoginDto)
         {
-            throw new NotImplementedException();
+            var customerToCheck = _restaurantService.GetByMail(restaurantForLoginDto.Email);
+            if (customerToCheck.Data == null)
+            {
+                return new ErrorDataResult<Restaurant>("asdfasşlkfma");
+            }
+
+            if (!HashingHelper.VerifyPasswordHash(restaurantForLoginDto.Password, customerToCheck.Data.PasswordHash, customerToCheck.Data.PasswordSalt))
+            {
+                //_loginActivities.Add(new LoginActivities { DateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), User = userForLoginDto.Email, Type = "Login Failed" });
+                return new ErrorDataResult<Restaurant>("as,faösifşöa");
+            }
+            //_loginActivities.Add(new LoginActivities { DateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), User = userForLoginDto.Email, Type = "Login Success" });
+            return new SuccessDataResult<Restaurant>(customerToCheck.Data, Messages.SuccessfulLogin);
         }
 
         public IDataResult<Restaurant> Register(RestaurantForRegisterDto restaurantForRegisterDto)
         {
-            throw new NotImplementedException();
+            HashingHelper.CreatePasswordHash(restaurantForRegisterDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            var restaurant = new Restaurant
+            {
+                MailAddress = restaurantForRegisterDto.Email,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+            };
+
+            _restaurantService.Add(restaurant);
+            var restaurantForDefaultOperationClaim = _restaurantService.GetByMail(restaurant.MailAddress);
+            if (restaurantForDefaultOperationClaim.Success)
+            {
+                var defaultClaim = _operationClaimService.GetByClaimName("restaurant");
+
+                var restaurantOperationClaimDto = new RestaurantOperationClaimDto
+                {
+                    OperationClaimId = defaultClaim.Data.Id,
+                    RestaurantId = restaurantForDefaultOperationClaim.Data.Id
+                };
+
+                _restaurantOperationClaimService.Add(restaurantOperationClaimDto);
+            }
+            return new SuccessDataResult<Restaurant>(restaurant, Messages.CustomerRegistered);
         }
 
         public IResult UserExists(string email)
         {
-            throw new NotImplementedException();
+            if (_restaurantService.GetByMail(email).Data != null)
+            {
+                return new ErrorResult(Messages.UserAlreadyExists);
+            }
+            return new SuccessResult(Messages.Successful);
         }
     }
 }

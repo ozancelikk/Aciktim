@@ -6,7 +6,7 @@ using Core.DependencyResolvers;
 using Core.Extensions;
 using DataAccess.DependencyResolvers;
 
-namespace AciktimMusteriWebAPI
+namespace AciktimAdminWebAPI
 {
     public class Program
     {

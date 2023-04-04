@@ -13,5 +13,8 @@ namespace Business.Abstract
         IResult Add(Restaurant restaurant);
         IResult Update(Restaurant restaurant);
         IResult Delete(string id);
+        IDataResult<Restaurant> GetByMail(string mail);
+        IResult ChangeForgottenPassword(Restaurant restaurant);
+        IDataResult<List<OperationClaim>> GetClaims(Restaurant restaurant);
     }
 }
