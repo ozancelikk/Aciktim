@@ -18,6 +18,16 @@ namespace Business.Concrete
         private readonly ILoginActivitiesService _loginActivitiesService;
         private readonly IPasswordRecoveryService _passwordRecoveryService;
 
+        public AuthManager(IUserService userService, ITokenHelper tokenHelper, IUserOperationClaimService userOperationClaimService, IOperationClaimService operationClaimService, ILoginActivitiesService loginActivitiesService, IPasswordRecoveryService passwordRecoveryService)
+        {
+            _userService = userService;
+            _tokenHelper = tokenHelper;
+            _userOperationClaimService = userOperationClaimService;
+            _operationClaimService = operationClaimService;
+            _loginActivitiesService = loginActivitiesService;
+            _passwordRecoveryService = passwordRecoveryService;
+        }
+
         public IDataResult<User> Register(UserForRegisterDto userForRegisterDto)
         {
 

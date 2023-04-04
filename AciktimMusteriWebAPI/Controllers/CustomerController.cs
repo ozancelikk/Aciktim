@@ -64,7 +64,7 @@ namespace AciktimMusteriWebAPI.Controllers
         [HttpGet("GetById")]
         public IActionResult GetById(string id)
         {
-            var result = _customerService.GetById(id);
+            var result = _customerService.GetDetailsById(id);
             if (result.Success)
             {
                 return Ok(result);

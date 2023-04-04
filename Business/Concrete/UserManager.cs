@@ -83,9 +83,9 @@ namespace Business.Concrete
             return new ErrorResult(Messages.SuperUserCannotBeDeleted);
         }
 
-        public IDataResult<List<UserEvolved>> GetAll()
+        public IDataResult<List<UserDetailsDto>> GetAll()
         {
-            return new SuccessDataResult<List<UserEvolved>>(_userDal.GetAllWithClaims(), Messages.Successful);
+            return new SuccessDataResult<List<UserDetailsDto>>(_userDal.GetAllUser(), Messages.Successful);
         }
 
         public IDataResult<UserEvolved> GetById(string id)
@@ -101,6 +101,11 @@ namespace Business.Concrete
         public IDataResult<List<OperationClaim>> GetClaims(User user)
         {
             return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user), Messages.Successful);
+        }
+
+        public IDataResult<List<UserDto>> GetDetailsById()
+        {
+            throw new NotImplementedException();
         }
 
         public IDataResult<UserDto> Update(UserDto user)

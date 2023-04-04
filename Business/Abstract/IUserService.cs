@@ -9,7 +9,8 @@ namespace Business.Abstract
     public interface IUserService
     {
         IDataResult<List<OperationClaim>> GetClaims(User user);
-        IDataResult<List<UserEvolved>> GetAll();
+        IDataResult<List<UserDetailsDto>> GetAll();
+        IDataResult<List<UserDto>> GetDetailsById();
         IResult Add(User user);
         IResult Delete(User user);
         IDataResult<UserEvolved> GetById(string id);

@@ -3,6 +3,8 @@ using Business.Constants;
 using Core.Entities.Concrete.DBEntities;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using Entities.Dtos;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -43,9 +45,9 @@ namespace Business.Concrete
             return new ErrorResult(Messages.Unsuccessful);
         }
 
-        public IDataResult<List<Customer>> GetAll()
+        public IDataResult<List<CustomerDto>> GetAll()
         {
-            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(), Messages.Successful); 
+            return new SuccessDataResult<List<CustomerDto>>(_customerDal.GetAllCustomer(), Messages.Successful); 
         }
 
         public IDataResult<Customer> GetById(string id)
@@ -61,6 +63,11 @@ namespace Business.Concrete
         public IDataResult<List<OperationClaim>> GetClaims(Customer customer)
         {
             return new SuccessDataResult<List<OperationClaim>>(_customerDal.GetClaims(customer),Messages.Successful);
+        }
+
+        public IDataResult<CustomerDetailsDto> GetDetailsById(string id)
+        {
+            return new SuccessDataResult<CustomerDetailsDto>(_customerDal.GetCustomerById(id), Messages.Successful);
         }
 
         public IResult Update(Customer customer)
