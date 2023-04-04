@@ -14,6 +14,7 @@ namespace DataAccess.Abstract
         List<CustomerDto> GetAllCustomer();
         CustomerDetailsDto GetCustomerById(string id);
         List<CustomerEvolved> GetAllWithClaims();
+        CustomerDto GetCustomerByMail(string mail);
         List<OperationClaim> GetClaims(Customer customer);
         CustomerEvolved GetWithClaims(string customerId);
         void DeleteClaims(Customer customer);
