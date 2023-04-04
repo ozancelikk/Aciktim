@@ -48,7 +48,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Restaurant>>(_restaurantDal.GetAll(), Messages.Successful);
         }
 
-        public IDataResult<Restaurant> GetById(string id)
+        public IDataResult<Restaurant>GetById(string id)
         {
             return new SuccessDataResult<Restaurant>(_restaurantDal.Get(r => r.Id == id), Messages.Successful);
         }

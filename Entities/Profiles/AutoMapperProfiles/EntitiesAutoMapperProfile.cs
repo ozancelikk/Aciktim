@@ -14,6 +14,7 @@ namespace Entities.Profiles.AutoMapperProfiles
         public EntitiesAutoMapperProfile()
         {
             CreateMap<CustomerDto, Customer>();
+            CreateMap<Customer, CustomerDto>();
             CreateMap<CategoryDto,Category>();
             CreateMap<MenuDto,Menu>();
             CreateMap<OrderDto,Order>();

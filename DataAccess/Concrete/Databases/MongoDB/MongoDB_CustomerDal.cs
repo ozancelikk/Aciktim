@@ -139,6 +139,18 @@ namespace DataAccess.Concrete.Databases.MongoDB
             }
         }
 
+        public CustomerDto GetCustomerByMail(string mail)
+        {
+            using (var customerContext = new MongoDB_Context<Customer, MongoDB_CustomerCollection>())
+            {
+                customerContext.GetMongoDBCollection();
+                var customers = customerContext.collection.Find<Customer>(document => true).ToList();
+                var temp = customers.Find(x => x.MailAddress == mail);
+                var customer = _mapper.Map<CustomerDto>(temp);
+                return customer;
+            }
+        }
+
         public CustomerEvolved GetWithClaims(string customerId)
         {
             Customer customer = new Customer();

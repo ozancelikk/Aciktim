@@ -71,5 +71,16 @@ namespace AciktimMusteriWebAPI.Controllers
             }
             return BadRequest(result);
         }
+
+        [HttpGet("GetByMail")]
+        public IActionResult GetByMail(string mail)
+        {
+            var result = _customerService.GetCustomerDetailsByMail(mail);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
     }
 }
