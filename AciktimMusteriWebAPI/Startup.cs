@@ -75,7 +75,7 @@ namespace AciktimMusteriWebAPI
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
 
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ORIANA WEB API v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ACIKTIM CUSTOMER WEB API v1"));
             }
             var corsSettings = Configuration.GetSection("CorsSettings").Get<CorsSettings>();
             app.ConfigureCustomExceptionMiddleware();

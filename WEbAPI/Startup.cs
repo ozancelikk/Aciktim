@@ -8,15 +8,8 @@ using Core.Utilities.Security.JWT;
 using DataAccess.DependencyResolvers;
 using Entities.Profiles.AutoMapperProfiles;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System;
 
 namespace AciktimRestoranWebAPI
 {
@@ -37,7 +30,7 @@ namespace AciktimRestoranWebAPI
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ACIKTIM WEB API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ORIANA WEB API", Version = "v1" });
             });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
@@ -75,7 +68,7 @@ namespace AciktimRestoranWebAPI
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
 
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ACIKTIM WEB API v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ACIKTIM RESTAURANT WEB API v1"));
             }
             var corsSettings = Configuration.GetSection("CorsSettings").Get<CorsSettings>();
             app.ConfigureCustomExceptionMiddleware();

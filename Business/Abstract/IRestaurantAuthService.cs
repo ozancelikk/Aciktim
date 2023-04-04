@@ -12,7 +12,7 @@ namespace Business.Abstract
     public interface IRestaurantAuthService
     {
         IDataResult<Restaurant> Register(RestaurantForRegisterDto restaurantForRegisterDto);
-        IDataResult<User> Login(RestaurantForLoginDto restaurantForLoginDto);
+        IDataResult<Restaurant> Login(RestaurantForLoginDto restaurantForLoginDto);
         IResult UserExists(string email);
         IDataResult<AccessToken> CreateAccessToken(Restaurant restaurant);
         IResult ForgotPassword(string eMail);

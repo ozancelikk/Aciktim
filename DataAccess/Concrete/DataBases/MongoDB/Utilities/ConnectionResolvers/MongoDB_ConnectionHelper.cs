@@ -28,9 +28,6 @@ namespace DataAccess.Concrete.DataBases.MongoDB.Utilities.ConnectionResolvers
 
         public IDataResult<DatabaseConnectionSettings> CheckDatabaseConnection()
         {
-
-
-
             var result = HashingHelper.VerifyPasswordHash(Statistics, epsResultant.Stability, databaseConnectionSettings.CompressStandarts);
 
             if (result)
