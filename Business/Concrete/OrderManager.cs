@@ -3,6 +3,7 @@ using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -37,9 +38,9 @@ namespace Business.Concrete
             return new ErrorResult(Messages.Unsuccessful);
         }
 
-        public IDataResult<List<Order>> GetAll()
+        public IDataResult<List<OrderDto>> GetAll()
         {
-            return new SuccessDataResult<List<Order>>(_orderDal.GetAll(), Messages.Successful);
+            return new SuccessDataResult<List<OrderDto>>(_orderDal.GetAllOrders(), Messages.Successful);
         }
 
         public IDataResult<Order> GetById(string id)
