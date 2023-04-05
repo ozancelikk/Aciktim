@@ -10,12 +10,12 @@ namespace Business.Abstract
     {
         IDataResult<List<OperationClaim>> GetClaims(User user);
         IDataResult<List<UserDetailsDto>> GetAll();
-        IDataResult<List<UserDto>> GetDetailsById();
+        IDataResult<UserDto> GetDetailsById(string id); 
         IResult Add(User user);
-        IResult Delete(User user);
+        IResult Delete(User user); 
         IDataResult<UserEvolved> GetById(string id);
-        IDataResult<User> GetByMail(string email);
-        IDataResult<UserDto> Update(UserDto user);
+        IDataResult<User> GetByMail(string email); 
+        IDataResult<UserDto> Update(UserDto user);   
         IResult ChangePassword(UserForChangePasswordDto userForRegisterDto);
         IResult ChangeForgottenPassword(User user);
     }
