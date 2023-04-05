@@ -25,5 +25,31 @@ namespace AciktimAdminWebAPI.Controllers
             }
             return BadRequest(result.Message);
         }
+
+        [HttpGet("getall")]
+        
+        public IActionResult GetAll()
+        {
+            var result = _operationClaimService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
+        [HttpGet("getbyclaimname")]
+
+        public IActionResult GetByClaimName(string claimName)
+        {
+            var result = _operationClaimService.GetByClaimName(claimName);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
+
     }
 }
