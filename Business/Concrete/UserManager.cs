@@ -103,9 +103,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user), Messages.Successful);
         }
 
-        public IDataResult<List<UserDto>> GetDetailsById()
+        public IDataResult<UserDto> GetDetailsById(string id)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<UserDto>(_userDal.GetUserById(id), Messages.Successful);
         }
 
         public IDataResult<UserDto> Update(UserDto user)
