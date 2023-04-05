@@ -50,7 +50,6 @@ namespace DataAccess.Concrete.Databases.MongoDB
                         customerDtos.Add(new CustomerDto
                         {
                             BirthDay=customer.BirthDay,
-                            Address=customer.Address,
                             FirstName=customer.FirstName,
                             LastName=customer.LastName,
                             MailAddress=customer.MailAddress,
@@ -62,7 +61,6 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 return customerDtos;
             }
             
-        
             
         }
 

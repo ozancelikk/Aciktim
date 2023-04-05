@@ -12,6 +12,7 @@ namespace AciktimMusteriWebAPI.Controllers
     public class CustomerController : Controller
     {
         private readonly ICustomerService _customerService;
+
         private readonly IMapper _mapper;
         public CustomerController(ICustomerService customerService,IMapper mapper)
         {
