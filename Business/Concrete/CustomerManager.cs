@@ -70,6 +70,10 @@ namespace Business.Concrete
             return new SuccessDataResult<CustomerDto>(_customerDal.GetCustomerByMail(mail),Messages.Successful);
         }
 
+        public IDataResult<List<CustomerClaimsDetailsDto>> GetCustomersClaims(string id)
+        {
+           return new SuccessDataResult<List<CustomerClaimsDetailsDto>>(_customerDal.GetCustomerClaims(id),Messages.Successful);
+        }
         public IDataResult<CustomerDetailsDto> GetDetailsById(string id)
         {
             return new SuccessDataResult<CustomerDetailsDto>(_customerDal.GetCustomerById(id), Messages.Successful);

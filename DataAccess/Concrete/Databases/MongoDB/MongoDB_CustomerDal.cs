@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.DataAccess.Databases.MongoDB;
 using Core.Entities.Concrete.DBEntities;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.Databases.MongoDB.Collections;
 using DataAccess.Concrete.DataBases.MongoDB;
@@ -147,6 +148,48 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 var customer = _mapper.Map<CustomerDto>(temp);
                 return customer;
             }
+        }
+
+        public List<CustomerClaimsDetailsDto> GetCustomerClaims(string id)
+        {
+            List<Customer> customer = new List<Customer>();
+            List<CustomerOperationClaim> _customerOperationClaim = new List<CustomerOperationClaim>();
+            List<CustomerClaimsDetailsDto> dtos = new List<CustomerClaimsDetailsDto>();
+            
+            using (var customers = new MongoDB_Context<Customer, MongoDB_CustomerCollection>())
+            {
+                customers.GetMongoDBCollection();
+                customer = customers.collection.Find<Customer>(document => true).ToList();
+            }
+            List<OperationClaim> claims = new List<OperationClaim>();
+            using (var operationClaims = new MongoDB_Context<OperationClaim, MongoDB_OperationClaimCollection>())
+            {
+                operationClaims.GetMongoDBCollection();
+                claims = operationClaims.collection.Find<OperationClaim>(document => true).ToList();
+            }
+
+            List<OperationClaim> _currentUserOperationClaims = new List<OperationClaim>();
+
+            using (var operationClaims = new MongoDB_Context<CustomerOperationClaim, MongoDB_CustomerOperationClaimCollection>())
+            {
+                operationClaims.GetMongoDBCollection();
+                _customerOperationClaim = operationClaims.collection.Find<CustomerOperationClaim>(document => true).ToList();
+            }
+            var customerOperationClaims = _customerOperationClaim.Where(u => u.CustomerId == id).ToList();   // kullanıcının rollerini tutuyor
+
+
+            foreach (var userOperationClaim in customerOperationClaims)
+            {
+                var temp = customer.Find(x => x.Id == userOperationClaim.CustomerId);       // current customer
+                var claimName = claims.Find(x=>x.Id == userOperationClaim.OperationClaimId);
+                
+                var result = _mapper.Map<CustomerClaimsDetailsDto>(temp);
+                result.FirstName = temp.FirstName;
+                result.LastName = temp.LastName;
+                result.ClaimName = claimName.Name;
+                dtos.Add(result);
+            }
+            return dtos;
         }
 
         public CustomerEvolved GetWithClaims(string customerId)

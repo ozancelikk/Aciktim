@@ -17,6 +17,5 @@ namespace Business.Abstract
         IDataResult<AccessToken> CreateAccessToken(Customer customer);
         IResult ForgotPassword(string eMail);
         IResult ChangeForgottenPassword(ForgettenPasswordForCustomer forgettenPasswordForCustomer);
-		object Login(UserForLoginDto userForLoginDto);
 	}
 }

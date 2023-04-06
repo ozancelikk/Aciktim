@@ -3,14 +3,12 @@ using Core.Entities.Concrete.DBEntities;
 using DataAccess.Abstract;
 using DataAccess.Concrete.Databases.MongoDB.Collections;
 using DataAccess.Concrete.DataBases.MongoDB;
+using DataAccess.Concrete.DataBases.MongoDB.Collections;
 using Entities.Concrete;
 using Entities.Dtos;
-using Entities.DTOs;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DataAccess.Concrete.Databases.MongoDB
 {
@@ -19,23 +17,31 @@ namespace DataAccess.Concrete.Databases.MongoDB
         public List<OrderDto> GetAllOrders()
         {
             List<Order> orders = new List<Order>();
-            using (var orderContext = new MongoDB_Context<Order,MongoDB_OrderCollection>())
+            List<Customer> customers = new List<Customer>();
+            List<Restaurant> restaurants = new List<Restaurant>();
+            List<CustomerAddresses> addresses = new List<CustomerAddresses>();
+
+            using (var addressContext = new MongoDB_Context<CustomerAddresses, MongoDB_CustomerAddressesCollection>())
+            {
+                addressContext.GetMongoDBCollection();
+                addresses = addressContext.collection.Find<CustomerAddresses>(document => true).ToList();
+            }
+
+            using (var orderContext = new MongoDB_Context<Order, MongoDB_OrderCollection>())
             {
                 orderContext.GetMongoDBCollection();
                 orders = orderContext.collection.Find<Order>(document => true).ToList();
             }
-            List<Customer>customers = new List<Customer>();
-            using (var customer=new MongoDB_Context<Customer,MongoDB_CustomerCollection>())
+
+            using (var customer = new MongoDB_Context<Customer, MongoDB_CustomerCollection>())
             {
                 customer.GetMongoDBCollection();
                 customers = customer.collection.Find<Customer>(document => true).ToList();
 
             }
+            var orderdto = new List<OrderDto>();   //restaurant-customer
 
 
-            var orderdto = new List<OrderDto>();
-
-            List<Restaurant> restaurants = new List<Restaurant>();
             using (var restaurant = new MongoDB_Context<Restaurant, MongoDB_RestaurantCollection>())
             {
                 restaurant.GetMongoDBCollection();
@@ -44,24 +50,26 @@ namespace DataAccess.Concrete.Databases.MongoDB
 
             foreach (var item in orders)
             {
-                var currentCustomer= orderdto.Where(e => e.Customer.Id == item.CustomerId).FirstOrDefault();
-                var currentRestaurant = orderdto.Where(e => e.Restaurant.Id==item.RestaurantId).FirstOrDefault();
+                var currentCustomer = customers.Where(e => e.Id == item.CustomerId).FirstOrDefault();
+                var currentRestaurant = restaurants.Where(e => e.Id == item.RestaurantId).FirstOrDefault();
+                var currentAddress = addresses.Where(c => c.CustomerId == item.CustomerId).FirstOrDefault();
+
                 var dto = new OrderDto
                 {
-                    Id = item.Id,
-                    Customer = currentCustomer.Customer,
-                    EstimatedTime = currentRestaurant.EstimatedTime,
-                    OrderDescription = currentCustomer.OrderDescription,
-                    OrderPrice = currentCustomer.OrderPrice,
-                    OrderStatus = currentCustomer.OrderStatus,
-                    Restaurant = currentRestaurant.Restaurant
+                    FirstName = currentCustomer.FirstName,
+                    RestaurantName = currentRestaurant.RestaurantName,
+                    OrderDescription = item.OrderDescription,
+                    EstimatedTime = item.EstimatedTime,
+                    OrderPrice = item.OrderPrice,
+                    OrderStatus = item.OrderStatus,
+                    LastName = currentCustomer.LastName,
+                    Address = currentAddress.Address,
+                    PhoneNumber = currentCustomer.Phonenumber
                 };
                 orderdto.Add(dto);
             }
-
-         
             return orderdto;
-        }
 
+        }
     }
 }

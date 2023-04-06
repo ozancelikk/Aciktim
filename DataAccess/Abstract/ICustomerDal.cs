@@ -1,5 +1,6 @@
 ﻿using Core.DataAccess.Databases;
 using Core.Entities.Concrete.DBEntities;
+using Core.Utilities.Results;
 using Entities.Concrete.Simples;
 using Entities.Dtos;
 using Entities.DTOs;
@@ -18,5 +19,6 @@ namespace DataAccess.Abstract
         List<OperationClaim> GetClaims(Customer customer);
         CustomerEvolved GetWithClaims(string customerId);
         void DeleteClaims(Customer customer);
+        List<CustomerClaimsDetailsDto> GetCustomerClaims(string id);
     }
 }

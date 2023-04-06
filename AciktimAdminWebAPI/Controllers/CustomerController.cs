@@ -41,11 +41,11 @@ namespace AciktimAdminWebAPI.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpGet("getclaims")]
+        [HttpGet("GetCustomerClaims")]
 
-        public IActionResult GetClaims(Customer customer)
+        public IActionResult GetClaims(string id)
         {
-            var result = _customerService.GetClaims(customer);
+            var result = _customerService.GetCustomersClaims(id);
             if (result.Success)
             {
                 return Ok(result);
