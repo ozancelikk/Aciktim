@@ -42,17 +42,6 @@ namespace AciktimRestoranWebAPI.Controllers
             return BadRequest(result.Message);
 
         }
-        [HttpGet("GetById")]
-        public IActionResult GetById(string id)
-        {
-            var result = _restaurantService.GetById(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result.Message);
-
-        }
         [HttpGet("GetDetailsById")]
         public IActionResult GetDetailsById(string id)
         {
