@@ -20,17 +20,21 @@ namespace AciktimAdminWebAPI.Controllers
         [HttpPost("register")]
         public IActionResult Register(UserForRegisterDto user)
         {
-            var result = _authService.Register(user);
-            if (!result.Success)
+            var exists = _authService.UserExists(user.Email);
+          
+            if (!exists.Success)
             {
-                return BadRequest(result.Message);
+                return BadRequest(exists.Message);
             }
-            var result2 = _authService.CreateAccessToken(result.Data);
-            if (result2.Success)
+
+            var register = _authService.Register(user);
+            var check = _authService.CreateAccessToken(register.Data);
+
+            if (!check.Success)
             {
-                return Ok(result2);
+                return BadRequest(check.Message);
             }
-            return BadRequest(result2.Message);
+            return Ok(check);
         }
 
         [HttpPost("login")]

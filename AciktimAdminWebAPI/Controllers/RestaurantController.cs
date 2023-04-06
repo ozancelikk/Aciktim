@@ -28,35 +28,11 @@ namespace AciktimAdminWebAPI.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpGet("getbyid")]
-
-        public IActionResult GetById(string id)
-        {
-            var result = _restaurantService.GetById(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result.Message);
-        }
-
         [HttpGet("getdetailsbyid")]
 
         public IActionResult GetDetailsById(string id)
         {
             var result = _restaurantService.GetDetailsById(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result.Message);
-        }
-
-        [HttpGet("getbymail")]
-
-        public IActionResult GetByMail(string mail)
-        {
-            var result = _restaurantService.GetByMail(mail);
             if (result.Success)
             {
                 return Ok(result);

@@ -20,28 +20,32 @@ namespace AciktimRestoranWebAPI.Controllers
         [HttpPost("Register")]
         public IActionResult Register(RestaurantForRegisterDto restaurantForRegisterDto)
         {
-            var result = _restaurantAuthService.Register(restaurantForRegisterDto);
-            restaurantForRegisterDto.Status = true;
+            var exists = _restaurantAuthService.UserExists(restaurantForRegisterDto.Email);
 
-            if(result.Success)
+            if (!exists.Success)
             {
-                return Ok(result.Message);
+                return BadRequest(exists.Message);
             }
-            return BadRequest(result.Message);
+
+            var register = _restaurantAuthService.Register(restaurantForRegisterDto);
+            var check = _restaurantAuthService.CreateAccessToken(register.Data);
+
+            if (!check.Success)
+            {
+                return BadRequest(check.Message);
+            }
+            return Ok(check);
         }
 
         [HttpPost("login")]
         public ActionResult Login(RestaurantForLoginDto restaurantForLoginDto)
         {
-            var restaurantToLogin = _restaurantAuthService.Login(restaurantForLoginDto);
-
-            if (!restaurantToLogin.Success)
+            var userToLogin = _restaurantAuthService.Login(restaurantForLoginDto);
+            if (!userToLogin.Success)
             {
-                return BadRequest(restaurantToLogin.Message);
+                return BadRequest(userToLogin.Message);
             }
-
-            var result = _restaurantAuthService.CreateAccessToken(restaurantToLogin.Data);
-
+            var result = _restaurantAuthService.CreateAccessToken(userToLogin.Data);
             if (result.Success)
             {
                 return Ok(result);
