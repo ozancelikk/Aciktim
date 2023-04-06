@@ -24,6 +24,12 @@ namespace Entities.Profiles.AutoMapperProfiles
             CreateMap<Restaurant,RestaurantDetailsDto>();
             CreateMap<CustomerAddresses,CustomerAddressesDto>();
             CreateMap<CustomerAddressesDto, CustomerAddresses>();
+            CreateMap<CustomerOperationClaim,CustomerOperationClaimDto>();
+            CreateMap<CustomerOperationClaimDto, CustomerOperationClaim>();
+            CreateMap<CustomerClaimsDetailsDto, Customer>();
+            CreateMap<Customer, CustomerClaimsDetailsDto>();
+            CreateMap<Order, OrderDetailsDto>();
+            CreateMap<OrderDetailsDto, Order>();
 
         }
     }
