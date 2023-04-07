@@ -13,8 +13,10 @@ namespace Entities.Concrete
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public string OrderId { get; set; }
+        public string RestaurantName { get; set; }
+        public string CustomerMail { get; set; }
         public string? Content { get; set; }
         public int? OrderStar { get; set; }
-        public string OrderDate { get; set; }
+        public string OrderCommentDate { get; set; }
     }
 }

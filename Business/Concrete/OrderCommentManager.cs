@@ -3,6 +3,7 @@ using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -46,6 +47,11 @@ namespace Business.Concrete
         public IDataResult<OrderComment> GetById(string id)
         {
             return new SuccessDataResult<OrderComment>(_orderCommentDal.Get(o=>o.Id==id), Messages.Successful);
+        }
+
+        public IDataResult<List<OrderCommentDto>> GetByRestaurantId(string id)
+        {
+            return new SuccessDataResult<List<OrderCommentDto>>(_orderCommentDal.GetOrderCommentsByRestaurantId(id), Messages.Successful);
         }
 
         public IResult Update(OrderComment orderCommet)
