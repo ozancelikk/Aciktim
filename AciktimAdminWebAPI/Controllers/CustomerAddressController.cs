@@ -1,5 +1,7 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,16 +12,19 @@ namespace AciktimAdminWebAPI.Controllers
     public class CustomerAddressController : ControllerBase
     {
         private readonly ICustomerAddressService _customerAddressService;
+        private readonly IMapper _mapper;
 
-        public CustomerAddressController(ICustomerAddressService customerAddressService)
+        public CustomerAddressController(ICustomerAddressService customerAddressService, IMapper mapper)
         {
             _customerAddressService = customerAddressService;
+            _mapper = mapper;
         }
 
         [HttpPost("add")]
-        public IActionResult Add(CustomerAddresses customerAddresses)
+        public IActionResult Add(CustomerAddressesDto customerAddresses)
         {
-            var result = _customerAddressService.Add(customerAddresses);
+            var map = _mapper.Map<CustomerAddresses>(customerAddresses);
+            var result = _customerAddressService.Add(map);
             if (result.Success)
             {
                 return Ok(result);

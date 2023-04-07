@@ -1,5 +1,7 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Core.Entities.Concrete.DBEntities;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,24 +12,14 @@ namespace AciktimAdminWebAPI.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;
+        private readonly IMapper _mapper;
 
-        public CustomerController(ICustomerService customerService)
+        public CustomerController(ICustomerService customerService, IMapper mapper)
         {
             _customerService = customerService;
+            _mapper = mapper;
         }
 
-        [HttpGet("getbymail")]
-
-        public IActionResult GetByMail(string mail) 
-        {
-            var result = _customerService.GetByMail(mail);
-            if (result.Success)
-            {
-                return Ok(result);
-
-            }
-            return BadRequest(result.Message);
-        }
 
         [HttpPost("changeforgottenpassword")]
 
@@ -40,19 +32,6 @@ namespace AciktimAdminWebAPI.Controllers
             }
             return BadRequest(result.Message);
         }
-
-        [HttpGet("GetCustomerClaims")]
-
-        public IActionResult GetClaims(string id)
-        {
-            var result = _customerService.GetCustomersClaims(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result.Message);
-        }
-
         [HttpGet("getall")]
 
         public IActionResult GetAll()
@@ -65,17 +44,6 @@ namespace AciktimAdminWebAPI.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpGet("getbyid")]
-
-        public IActionResult GetById(string id)
-        {
-            var result = _customerService.GetById(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result.Message);
-        }
 
         [HttpGet("getdetailsbyid")]
 
@@ -103,9 +71,10 @@ namespace AciktimAdminWebAPI.Controllers
 
         [HttpPost("add")]
 
-        public IActionResult Add(Customer customer) 
+        public IActionResult Add(CustomerDto customer) 
         {
-            var result = _customerService.Add(customer);
+            var map = _mapper.Map<Customer>(customer);
+            var result = _customerService.Add(map);
             if (result.Success)
             {
                 return Ok(result);

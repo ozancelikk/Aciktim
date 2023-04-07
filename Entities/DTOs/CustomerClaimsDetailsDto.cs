@@ -9,8 +9,7 @@ namespace Entities.DTOs
 {
     public class CustomerClaimsDetailsDto : IDto
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string Mail { get; set; }
         public string ClaimName { get; set; }
     }
 }

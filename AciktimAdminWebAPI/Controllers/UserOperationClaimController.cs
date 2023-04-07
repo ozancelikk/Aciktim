@@ -8,32 +8,33 @@ namespace AciktimAdminWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RestaurantOperationClaimController : ControllerBase
+    public class UserOperationClaimController : ControllerBase
     {
-        private readonly IRestaurantOperationClaimService _restaurantOperationClaimService;
+        private readonly IUserOperationClaimService _userOperationClaimService;
 
-        public RestaurantOperationClaimController(IRestaurantOperationClaimService restaurantOperationClaimService)
+        public UserOperationClaimController(IUserOperationClaimService userOperationClaimService)
         {
-            _restaurantOperationClaimService = restaurantOperationClaimService;
+            _userOperationClaimService = userOperationClaimService;
         }
 
         [HttpGet("getbyid")]
 
-        public IActionResult GetById(string id) 
+        public IActionResult GetById(string id)
         {
-            var result = _restaurantOperationClaimService.GetById(id);
+            var result = _userOperationClaimService.GetById(id);
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result.Message);
         }
+
 
         [HttpGet("GetClaimDetails")]
 
         public IActionResult GetClaimDetails()
         {
-            var result = _restaurantOperationClaimService.GetClaimDetails();
+            var result = _userOperationClaimService.GetClaimDetails();
             if (result.Success)
             {
                 return Ok(result);
@@ -41,13 +42,11 @@ namespace AciktimAdminWebAPI.Controllers
             return BadRequest(result.Message);
         }
 
-
-
         [HttpGet("getall")]
 
         public IActionResult GetAll()
         {
-            var result = _restaurantOperationClaimService.GetAll();
+            var result = _userOperationClaimService.GetAll();
             if (result.Success)
             {
                 return Ok(result);
@@ -57,9 +56,9 @@ namespace AciktimAdminWebAPI.Controllers
 
         [HttpPost("add")]
 
-        public IActionResult Add(RestaurantOperationClaimDto restaurantOperationClaimDto)
+        public IActionResult Add(UserOperationClaimDto userOperationClaimDto)
         {
-            var result = _restaurantOperationClaimService.Add(restaurantOperationClaimDto);
+            var result = _userOperationClaimService.Add(userOperationClaimDto);
             if (result.Success)
             {
                 return Ok(result);
@@ -67,11 +66,12 @@ namespace AciktimAdminWebAPI.Controllers
             return BadRequest(result.Message);
         }
 
+
         [HttpPost("update")]
 
-        public IActionResult Update(RestaurantOperationClaim restaurantOperationClaim)
+        public IActionResult Update(UserOperationClaim userOperationClaim)
         {
-            var result = _restaurantOperationClaimService.Update(restaurantOperationClaim);
+            var result = _userOperationClaimService.Update(userOperationClaim);
             if (result.Success)
             {
                 return Ok(result);
@@ -81,14 +81,15 @@ namespace AciktimAdminWebAPI.Controllers
 
         [HttpPost("delete")]
 
-        public IActionResult Delete(RestaurantOperationClaim restaurantOperationClaim) 
+        public IActionResult Delete(UserOperationClaim userOperationClaim)
         {
-            var result = _restaurantOperationClaimService.Delete(restaurantOperationClaim);
+            var result = _userOperationClaimService.Delete(userOperationClaim);
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result.Message);
         }
+
     }
 }

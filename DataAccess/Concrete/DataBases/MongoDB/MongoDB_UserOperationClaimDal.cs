@@ -1,8 +1,10 @@
 ﻿using Core.DataAccess.Databases.MongoDB;
 using Core.Entities.Concrete.DBEntities;
 using DataAccess.Abstract;
+using DataAccess.Concrete.Databases.MongoDB.Collections;
 using DataAccess.Concrete.DataBases.MongoDB.Collections;
 using Entities.Concrete.Simples;
+using Entities.DTOs;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +49,47 @@ namespace DataAccess.Concrete.DataBases.MongoDB
 
             }
             return _userOperationClaimsEvolved;
+        }
+
+        public List<UserClaimDetailsDto> GetClaimDetails()
+        {
+            List<User> user = new List<User>();
+            List<UserOperationClaim> _usertOperationClaim = new List<UserOperationClaim>();
+            List<UserClaimDetailsDto> dtos = new List<UserClaimDetailsDto>();
+
+            using (var customers = new MongoDB_Context<User, MongoDB_UserCollection>())
+            {
+                customers.GetMongoDBCollection();
+                user = customers.collection.Find<User>(document => true).ToList();
+            }
+            List<OperationClaim> claims = new List<OperationClaim>();
+            using (var operationClaims = new MongoDB_Context<OperationClaim, MongoDB_OperationClaimCollection>())
+            {
+                operationClaims.GetMongoDBCollection();
+                claims = operationClaims.collection.Find<OperationClaim>(document => true).ToList();
+            }
+
+            List<OperationClaim> _currentUserOperationClaims = new List<OperationClaim>();
+
+            using (var operationClaims = new MongoDB_Context<UserOperationClaim, MongoDB_UserOperationClaimCollection>())
+            {
+                operationClaims.GetMongoDBCollection();
+                _usertOperationClaim = operationClaims.collection.Find<UserOperationClaim>(document => true).ToList();
+            }
+            var userOperationClaims = _usertOperationClaim.Where(u => true).ToList();   // restaurantların claimlerini tutuyor
+
+
+            foreach (var userOperationClaim in userOperationClaims)
+            {
+                var currentUser = user.Find(x => x.Id == userOperationClaim.UserId);       // current restaurant
+                var claimName = claims.Find(x => x.Id == userOperationClaim.OperationClaimId);
+                dtos.Add(new UserClaimDetailsDto
+                {
+                    OperationClaimName = claimName.Name,
+                    UserName = currentUser.Email
+                });
+            }
+            return dtos;
         }
     }
 

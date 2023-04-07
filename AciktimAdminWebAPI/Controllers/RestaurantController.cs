@@ -1,5 +1,7 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Core.Entities.Concrete.DBEntities;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +12,12 @@ namespace AciktimAdminWebAPI.Controllers
     public class RestaurantController : ControllerBase
     {
         private readonly IRestaurantService _restaurantService;
+        private readonly IMapper _mapper;
 
-        public RestaurantController(IRestaurantService restaurantService)
+        public RestaurantController(IRestaurantService restaurantService, IMapper mapper)
         {
             _restaurantService = restaurantService;
+            _mapper = mapper;
         }
 
         [HttpGet("getall")]
@@ -40,23 +44,13 @@ namespace AciktimAdminWebAPI.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpGet("getclaims")]
-
-        public IActionResult GetClaims(Restaurant restaurant) 
-        {
-            var result = _restaurantService.GetClaims(restaurant);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result.Message);
-        }
 
         [HttpPost("add")]
 
-        public IActionResult Add(Restaurant restaurant)
+        public IActionResult Add(RestaurantDto restaurant)
         {
-            var result = _restaurantService.Add(restaurant);
+            var map = _mapper.Map<Restaurant>(restaurant);
+            var result = _restaurantService.Add(map);
             if (result.Success)
             {
                 return Ok(result);

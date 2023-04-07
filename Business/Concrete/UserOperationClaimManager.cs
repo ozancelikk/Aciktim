@@ -60,6 +60,11 @@ namespace Business.Concrete
             return new SuccessDataResult<UserOperationClaim>(_userOperationClaimDal.Get(p => p.Id == id), Messages.Successful);
         }
 
+        public IDataResult<List<UserClaimDetailsDto>> GetClaimDetails()
+        {
+            return new SuccessDataResult<List<UserClaimDetailsDto>>(_userOperationClaimDal.GetClaimDetails(), Messages.Successful);
+        }
+
         public IResult Update(UserOperationClaim userOperationClaim)
         {
             var result = _userOperationClaimDal.Update(userOperationClaim);

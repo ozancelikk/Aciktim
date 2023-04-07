@@ -67,13 +67,13 @@ namespace Business.Concrete
             var customerToCheck = _customerservice.GetByMail(customerForLoginDto.Email);
             if (customerToCheck.Data == null)
             {
-                return new ErrorDataResult<Customer>("asdfasşlkfma");
+                return new ErrorDataResult<Customer>(Messages.UserNotFound);
             }
 
             if (!HashingHelper.VerifyPasswordHash(customerForLoginDto.Password, customerToCheck.Data.PasswordHash, customerToCheck.Data.PasswordSalt))
             {
                 //_loginActivities.Add(new LoginActivities { DateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), User = userForLoginDto.Email, Type = "Login Failed" });
-                return new ErrorDataResult<Customer>("as,faösifşöa");
+                return new ErrorDataResult<Customer>(Messages.PasswordError);
             }
             //_loginActivities.Add(new LoginActivities { DateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), User = userForLoginDto.Email, Type = "Login Success" });
             return new SuccessDataResult<Customer>(customerToCheck.Data, Messages.SuccessfulLogin);

@@ -13,6 +13,7 @@ namespace Business.Abstract
         IDataResult<RestaurantOperationClaim> GetById(string id);
         IDataResult<List<RestaurantOperationClaimsEvolved>> GetAllClaims();
         IDataResult<List<RestaurantOperationClaim>> GetAll();
+        IDataResult<List<RestaurantClaimDetailsDto>> GetClaimDetails();
         IResult Add(RestaurantOperationClaimDto restaurantOperationClaimSimple);
         IResult Delete(RestaurantOperationClaim restaurantOperationClaimSimple);
         IResult Update(RestaurantOperationClaim restaurantOperationClaimSimple);

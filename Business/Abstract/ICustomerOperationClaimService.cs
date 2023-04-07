@@ -16,5 +16,6 @@ namespace Business.Abstract
         IResult Add(CustomerOperationClaimDto CustomerOperationClaimSimple);
         IResult Delete(CustomerOperationClaim CustomerOperationClaim);
         IResult Update(CustomerOperationClaim CustomerOperationClaim);
+        IDataResult<List<CustomerClaimsDetailsDto>> GetCustomersClaims(string id);
     }
 }

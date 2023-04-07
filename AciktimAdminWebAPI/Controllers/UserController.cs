@@ -1,5 +1,7 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Core.Entities.Concrete.DBEntities;
+using Entities.Concrete;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,57 +13,29 @@ namespace AciktimAdminWebAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
-        [HttpGet("getalluserdetails")]
-        public IActionResult GetAllUserDetails() 
+
+        [HttpGet("getall")]
+
+        public IActionResult GetAll()
         {
             var result = _userService.GetAll();
-            if(result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result.Message);  
-        }
-
-        [HttpPost("add")]
-        public IActionResult Add(User user)
-        {
-            var result = _userService.Add(user);
-            if(result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result.Message);
-        }
-
-        [HttpPost("delete")]
-        public IActionResult Delete(User user)
-        {
-            var result = _userService.Delete(user);
             if (result.Success)
             {
                 return Ok(result);
             }
-            return BadRequest(result.Message);
-        }
-
-        [HttpPost("update")]
-        public IActionResult Update(UserDto user)
-        {
-            var result = _userService.Update(user);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result.Message);
+            return BadRequest();
         }
 
         [HttpGet("getbyid")]
+
         public IActionResult GetById(string id)
         {
             var result = _userService.GetById(id);
@@ -69,41 +43,44 @@ namespace AciktimAdminWebAPI.Controllers
             {
                 return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest();
         }
 
-        [HttpGet("getdetailsbyid")]
-        public IActionResult GetDetailsById(string id)
+        [HttpPost("add")]
+
+        public IActionResult Add(UserDetailsDto userDto)
         {
-            var result = _userService.GetDetailsById(id);
+            var map = _mapper.Map<User>(userDto);
+            var result = _userService.Add(map);
             if (result.Success)
             {
                 return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest();
         }
 
-        [HttpGet("getbymail")]
-        public IActionResult GetByMail(string mail)
+        [HttpPost("update")]
+
+        public IActionResult Update(UserDto user)
         {
-            var result = _userService.GetByMail(mail);
+            var result = _userService.Update(user);
             if (result.Success)
             {
                 return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest();
         }
 
-        [HttpGet("getclaims")]
-        public IActionResult GetClaims(User user)
+        [HttpPost("delete")]
+
+        public IActionResult Delete(User user)
         {
-            var result = _userService.GetClaims(user);
+            var result = _userService.Delete(user);
             if (result.Success)
             {
                 return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest();
         }
-
     }
 }
