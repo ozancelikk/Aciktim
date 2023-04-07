@@ -1,4 +1,5 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,12 @@ namespace AciktimAdminWebAPI.Controllers
     public class MenuController : ControllerBase
     {
         private readonly IMenuService _menuService;
+        private readonly IMapper _mapper;
+
+        public MenuController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
 
         public MenuController(IMenuService menuService)
         {
@@ -44,7 +51,8 @@ namespace AciktimAdminWebAPI.Controllers
 
         public IActionResult Add(Menu menu)
         {
-            var result = _menuService.Add(menu);
+            var map = _mapper.Map<Menu>(menu);
+            var result = _menuService.Add(map);
             if (result.Success)
             {
                 return Ok(result);

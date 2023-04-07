@@ -62,6 +62,11 @@ namespace Business.Concrete
             return new SuccessDataResult<RestaurantOperationClaim>(_restaurantOperationClaimDal.Get(p => p.Id == id), Messages.Successful);
         }
 
+        public IDataResult<List<RestaurantClaimDetailsDto>> GetClaimDetails()
+        {
+            return new SuccessDataResult<List<RestaurantClaimDetailsDto>>(_restaurantOperationClaimDal.GetClaimDetails(), Messages.Successful); 
+        }
+
         public IResult Update(RestaurantOperationClaim restaurantOperationClaimSimple)
         {
             var result = _restaurantOperationClaimDal.Update(restaurantOperationClaimSimple);

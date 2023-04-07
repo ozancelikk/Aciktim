@@ -70,6 +70,12 @@ namespace Business.Concrete
             }
             throw new FormatException(Messages.AnErrorOccurredDuringTheUpdateProcess);
         }
+
+        public IDataResult<List<CustomerClaimsDetailsDto>> GetCustomersClaims(string id)
+        {
+            return new SuccessDataResult<List<CustomerClaimsDetailsDto>>(_customerOperationClaimdal.GetCustomerClaims(id), Messages.Successful);
+        }
+
         //Busines Rules
 
         private IResult CheckIfUserOperationClaimExists(CustomerOperationClaimDto customerOperationClaimSimple)

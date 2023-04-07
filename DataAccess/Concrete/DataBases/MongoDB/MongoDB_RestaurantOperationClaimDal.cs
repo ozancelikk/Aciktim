@@ -4,6 +4,7 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.Databases.MongoDB.Collections;
 using DataAccess.Concrete.DataBases.MongoDB.Collections;
 using Entities.Concrete.Simples;
+using Entities.DTOs;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +54,50 @@ namespace DataAccess.Concrete.DataBases.MongoDB
 
             }
             return _restaurantOperationClaimsEvolved;
+        }
+
+        public List<RestaurantClaimDetailsDto> GetClaimDetails()
+        {
+            List<Restaurant> restaurant = new List<Restaurant>();
+            List<RestaurantOperationClaim> _restaurantOperationClaim = new List<RestaurantOperationClaim>();
+            List<RestaurantClaimDetailsDto> dtos = new List<RestaurantClaimDetailsDto>();
+
+            using (var customers = new MongoDB_Context<Restaurant, MongoDB_RestaurantCollection>())
+            {
+                customers.GetMongoDBCollection();
+                restaurant = customers.collection.Find<Restaurant>(document => true).ToList();
+            }
+            List<OperationClaim> claims = new List<OperationClaim>();
+            using (var operationClaims = new MongoDB_Context<OperationClaim, MongoDB_OperationClaimCollection>())
+            {
+                operationClaims.GetMongoDBCollection();
+                claims = operationClaims.collection.Find<OperationClaim>(document => true).ToList();
+            }
+
+            List<OperationClaim> _currentUserOperationClaims = new List<OperationClaim>();
+
+            using (var operationClaims = new MongoDB_Context<RestaurantOperationClaim, MongoDB_RestaurantOperationClaimCollection>())
+            {
+                operationClaims.GetMongoDBCollection();
+                _restaurantOperationClaim = operationClaims.collection.Find<RestaurantOperationClaim>(document => true).ToList();
+            }
+            var restaurantOperationClaims = _restaurantOperationClaim.Where(u => true).ToList();   // restaurantların claimlerini tutuyor
+
+
+            foreach (var restaurantOperationClaim in restaurantOperationClaims)
+            {
+                var currentRestaurant = restaurant.Find(x => x.Id == restaurantOperationClaim.RestaurantId);       // current restaurant
+                var claimName = claims.Find(x => x.Id == restaurantOperationClaim.OperationClaimId);
+
+                //var result = _mapper.Map<CustomerClaimsDetailsDto>(temp);
+
+                dtos.Add(new RestaurantClaimDetailsDto
+                {
+                    OperationClaimName = claimName.Name,
+                    RestaurantName = currentRestaurant.RestaurantName
+                });
+            }
+            return dtos;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.Entities.Concrete.DBEntities;
 using Entities.Concrete;
+using Entities.Concrete.Simples;
 using Entities.Dtos;
 using Entities.DTOs;
 using System;
@@ -30,6 +31,11 @@ namespace Entities.Profiles.AutoMapperProfiles
             CreateMap<Customer, CustomerClaimsDetailsDto>();
             CreateMap<Order, OrderDetailsDto>();
             CreateMap<OrderDetailsDto, Order>();
+            CreateMap<RestaurantClaimDetailsDto, RestaurantOperationClaim>();
+            CreateMap<RestaurantOperationClaim, RestaurantClaimDetailsDto>();
+            CreateMap<User, UserDetailsDto>();
+            CreateMap<UserDetailsDto, User>();
+
 
         }
     }

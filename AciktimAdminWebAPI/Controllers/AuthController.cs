@@ -28,6 +28,7 @@ namespace AciktimAdminWebAPI.Controllers
             }
 
             var register = _authService.Register(user);
+            user.Status = true;
             var check = _authService.CreateAccessToken(register.Data);
 
             if (!check.Success)
@@ -52,17 +53,6 @@ namespace AciktimAdminWebAPI.Controllers
                 return Ok(result2);
             }
             return BadRequest(result2.Message);
-        }
-
-        [HttpGet("userexists")]
-        public IActionResult UserExists(string email) 
-        {
-            var result = _authService.UserExists(email);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result.Message);
         }
 
         [HttpPost("forgotpassword")]

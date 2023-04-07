@@ -19,6 +19,6 @@ namespace DataAccess.Abstract
         List<OperationClaim> GetClaims(Customer customer);
         CustomerEvolved GetWithClaims(string customerId);
         void DeleteClaims(Customer customer);
-        List<CustomerClaimsDetailsDto> GetCustomerClaims(string id);
+        
     }
 }

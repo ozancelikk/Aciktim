@@ -29,6 +29,18 @@ namespace AciktimAdminWebAPI.Controllers
             return BadRequest();
         }
 
+        [HttpGet("GetCustomerClaims")]
+
+        public IActionResult GetClaims(string id)
+        {
+            var result = _customerOperationClaimService.GetCustomersClaims(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
         [HttpGet("getallclaims")]
 
         public IActionResult GetAllClaims()
