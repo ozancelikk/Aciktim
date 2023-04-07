@@ -19,37 +19,6 @@ namespace AciktimMusteriWebAPI.Controllers
 			_restaurantService = restaurantService;
 			_mapper = mapper;
 		}
-		[HttpPost("Add")]
-		public IActionResult Add(RestaurantDto restaurantDto)
-		{
-			var restaurant = _mapper.Map<Restaurant>(restaurantDto);
-			var result = _restaurantService.Add(restaurant);
-			if (result.Success)
-			{
-				return Ok(result);
-			}
-			return BadRequest(result);
-		}
-		[HttpPost("Update")]
-		public IActionResult Update(Restaurant restaurant)
-		{
-			var result = _restaurantService.Update(restaurant);
-			if (result.Success)
-			{
-				return Ok(result);
-			}
-			return BadRequest(result);
-		}
-		[HttpGet("Delete")]
-		public IActionResult Delete(string id)
-		{
-			var result = _restaurantService.Delete(id);
-			if (result.Success)
-			{
-				return Ok(result);
-			}
-			return BadRequest(result);
-		}
 		[HttpGet("GetAll")]
 		public IActionResult GetAll()
 		{
@@ -94,17 +63,6 @@ namespace AciktimMusteriWebAPI.Controllers
 		public IActionResult GetByMail(string mail)
 		{
 			var result = _restaurantService.GetByMail(mail);
-			if (result.Success)
-			{
-				return Ok(result);
-			}
-			return BadRequest(result.Message);
-		}
-		[HttpPost("changeforgottenpassword")]
-
-		public IActionResult ChangeForgottenPassword(ForgottenPassword forgottenPassword)
-		{
-			var result = _restaurantService.ChangeForgottenPassword(forgottenPassword);
 			if (result.Success)
 			{
 				return Ok(result);

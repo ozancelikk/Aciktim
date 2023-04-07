@@ -20,37 +20,6 @@ namespace AciktimMusteriWebAPI.Controllers
 			_menuService = menuService;
 			_mapper = mapper;
 		}
-		[HttpPost("Add")]
-		public IActionResult Add(MenuDto menuDto)
-		{
-			var menu = _mapper.Map<Menu>(menuDto);
-			var result = _menuService.Add(menu);
-			if (result.Success)
-			{
-				return Ok(result);
-			}
-			return BadRequest(result);
-		}
-		[HttpPost("Update")]
-		public IActionResult Update(Menu menu)
-		{
-			var result = _menuService.Update(menu);
-			if (result.Success)
-			{
-				return Ok(result);
-			}
-			return BadRequest(result);
-		}
-		[HttpGet("Delete")]
-		public IActionResult Delete(string id)
-		{
-			var result = _menuService.Delete(id);
-			if (result.Success)
-			{
-				return Ok(result);
-			}
-			return BadRequest(result);
-		}
 		[HttpGet("GetAll")]
 		public IActionResult GetAll()
 		{
