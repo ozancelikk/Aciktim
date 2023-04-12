@@ -36,7 +36,10 @@ namespace Entities.Profiles.AutoMapperProfiles
             CreateMap<RestaurantOperationClaim, RestaurantClaimDetailsDto>();
             CreateMap<User, UserDetailsDto>();
             CreateMap<UserDetailsDto, User>();
-
+            CreateMap<FavoriteRestaurantDto ,FavoriteRestaurant>();
+            CreateMap<FavoriteRestaurant, FavoriteRestaurantDto>();
+            CreateMap<FavoriteRestaurantDetailsDto, FavoriteRestaurant>();
+            CreateMap<FavoriteRestaurant, FavoriteRestaurantDetailsDto>();
 
         }
     }
