@@ -38,16 +38,17 @@ namespace AciktimMusteriWebAPI.Controllers
         [HttpPost("login")]
         public ActionResult Login(CustomerForLoginDto customerForLoginDto)
         {
-            var userToLogin = _customerAuthService.Login(customerForLoginDto);
-            if (!userToLogin.Success)
+            var customerToLogin = _customerAuthService.Login(customerForLoginDto);
+            if (!customerToLogin.Success)
             {
-                return BadRequest(userToLogin.Message);
+                return BadRequest(customerToLogin.Message);
             }
-            var result = _customerAuthService.CreateAccessToken(userToLogin.Data);
+            var result = _customerAuthService.CreateAccessToken(customerToLogin.Data);
             if (result.Success)
             {
                 return Ok(result);
             }
+            result.Data.CustomerId = customerToLogin.Data.Id;
             return BadRequest(result);
         }
 

@@ -85,7 +85,7 @@ namespace AciktimMusteriWebAPI
 
             //app.UseHttpsRedirection();
 
-
+           
             app.UseRouting();
 
             app.UseAuthentication();
