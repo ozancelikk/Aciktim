@@ -40,6 +40,8 @@ namespace Entities.Profiles.AutoMapperProfiles
             CreateMap<FavoriteRestaurant, FavoriteRestaurantDto>();
             CreateMap<FavoriteRestaurantDetailsDto, FavoriteRestaurant>();
             CreateMap<FavoriteRestaurant, FavoriteRestaurantDetailsDto>();
+            CreateMap<RestaurantImage, RestaurantImageDto>();
+            CreateMap<RestaurantImageDto, RestaurantImage>();
 
         }
     }
