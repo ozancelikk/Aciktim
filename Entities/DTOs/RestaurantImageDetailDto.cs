@@ -14,6 +14,8 @@ namespace Entities.DTOs
         public string OpeningTime { get; set; }
         public string ClosingTime { get; set; }
         public string CategoryId { get; set; }
+        public double RestaurantRate { get; set; }
+        public double MinCartPrice { get; set; }
         public string ImagePath { get; set; }
     }
 }
