@@ -79,5 +79,5 @@ namespace AciktimMusteriWebAPI.Controllers
 			}
 			return BadRequest(result.Message);
 		}
-	}
+    }
 }
