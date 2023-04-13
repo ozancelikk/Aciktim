@@ -12,6 +12,7 @@ namespace Business.Abstract
     {
         IDataResult<List<RestaurantDto>> GetAll();
         IDataResult<List<RestaurantImageDetailDto>> GetAllWithImages();
+        IDataResult<RestaurantImageDetailDto> GetRestaurantDetailByRestaurantId(string restaurantId);
         IDataResult<Restaurant> GetById(string id);
         IDataResult<RestaurantDetailsDto> GetDetailsById(string id);
         IResult Add(Restaurant restaurant);
