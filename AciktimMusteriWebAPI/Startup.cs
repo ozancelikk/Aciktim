@@ -87,6 +87,7 @@ namespace AciktimMusteriWebAPI
 
            
             app.UseRouting();
+            app.UseStaticFiles();
 
             app.UseAuthentication();
 
