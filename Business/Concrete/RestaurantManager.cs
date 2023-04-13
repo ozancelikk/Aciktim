@@ -50,6 +50,11 @@ namespace Business.Concrete
             return new SuccessDataResult<List<RestaurantDto>>(_restaurantDal.GetAllRestaurant(), Messages.Successful);
         }
 
+        public IDataResult<List<RestaurantImageDetailDto>> GetAllWithImages()
+        {
+            return new SuccessDataResult<List<RestaurantImageDetailDto>>(_restaurantDal.GetAllRestaurantWithImages(), Messages.Successful);
+        }
+
         public IDataResult<Restaurant>GetById(string id)
         {
             return new SuccessDataResult<Restaurant>(_restaurantDal.Get(r => r.Id == id), Messages.Successful);

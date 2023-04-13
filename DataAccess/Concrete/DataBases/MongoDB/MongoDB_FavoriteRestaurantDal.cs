@@ -47,7 +47,6 @@ namespace DataAccess.Concrete.DataBases.MongoDB
                    CustomerId=item.CustomerId,
                    OpeningTime=currentRestaurant.OpeningTime,
                    RestaurantAddress = currentRestaurant.RestaurantAddress,
-                   RestaurantImage = currentRestaurant.RestaurantImage,
                    RestaurantName = currentRestaurant.RestaurantName,
                    Status = true      
                 });
