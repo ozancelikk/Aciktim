@@ -58,7 +58,9 @@ namespace DataAccess.Concrete.Databases.MongoDB
                             OpeningTime=restaurant.OpeningTime,
                             RestaurantAddress=restaurant.RestaurantAddress,
                             RestaurantName=restaurant.RestaurantName,
-                            TaxNumber=restaurant.TaxNumber
+                            MinCartPrice = restaurant.MinCartPrice,
+                            RestaurantRate = restaurant.RestaurantRate,
+                            TaxNumber =restaurant.TaxNumber
                         });
                     }
                 }
@@ -93,6 +95,8 @@ namespace DataAccess.Concrete.Databases.MongoDB
                     OpeningTime = item.OpeningTime,
                     RestaurantAddress = item.RestaurantAddress,
                     RestaurantName = item.RestaurantName,
+                    MinCartPrice = item.MinCartPrice,
+                    RestaurantRate =item.RestaurantRate,
                     ImagePath=temp.ImagePath
                     
                 });
