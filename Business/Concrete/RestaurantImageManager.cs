@@ -22,21 +22,21 @@ namespace Business.Concrete
 
         public IResult Add(IFormFile file, RestaurantImage restaurantImage)
         {
-            restaurantImage.ImagePath = _fileHelper.Upload(file, PathConstant.ImagesPath + restaurantImage.RestaurantId + "\\");
+            restaurantImage.ImagePath = _fileHelper.Upload(file, PathConstant.RestaurantImagesPath + restaurantImage.RestaurantId + "\\");
             _restaurantImageDal.Add(restaurantImage);
             return new SuccessResult(Messages.Successful);
         }
 
         public IResult Update(IFormFile file, RestaurantImage restaurantImage)
         {
-            restaurantImage.ImagePath = _fileHelper.Update(file, PathConstant.ImagesPath  + restaurantImage.RestaurantId + "\\" + restaurantImage.ImagePath, PathConstant.ImagesPath  + restaurantImage.RestaurantId + "\\");
+            restaurantImage.ImagePath = _fileHelper.Update(file, PathConstant.RestaurantImagesPath + restaurantImage.RestaurantId + "\\" + restaurantImage.ImagePath, PathConstant.RestaurantImagesPath + restaurantImage.RestaurantId + "\\");
             _restaurantImageDal.Update(restaurantImage);
             return new SuccessResult();
         }
 
         public IResult Delete(RestaurantImage restaurantImage)
         {
-            _fileHelper.Delete(PathConstant.ImagesPath +  restaurantImage.RestaurantId + "\\" + restaurantImage.ImagePath);
+            _fileHelper.Delete(PathConstant.RestaurantImagesPath +  restaurantImage.RestaurantId + "\\" + restaurantImage.ImagePath);
             _restaurantImageDal.Delete(restaurantImage);
             return new SuccessResult();
         }

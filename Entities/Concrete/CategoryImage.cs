@@ -7,11 +7,12 @@ using System.Text;
 
 namespace Entities.Concrete
 {
-    public class Category:IEntity
+    public class CategoryImage : IEntity
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        public string CategoryName { get; set; }
+        public string CategoryId { get; set; }
+        public string? ImagePath { get; set; }
     }
 }
