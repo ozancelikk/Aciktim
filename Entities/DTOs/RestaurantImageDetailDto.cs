@@ -12,6 +12,7 @@ namespace Entities.DTOs
         public string MailAddress { get; set; }
         public string RestaurantAddress { get; set; }
         public string OpeningTime { get; set; }
+        public string PhoneNumber { get; set; }
         public string ClosingTime { get; set; }
         public string CategoryId { get; set; }
         public double RestaurantRate { get; set; }

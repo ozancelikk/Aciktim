@@ -60,7 +60,8 @@ namespace DataAccess.Concrete.Databases.MongoDB
                             RestaurantName=restaurant.RestaurantName,
                             MinCartPrice = restaurant.MinCartPrice,
                             RestaurantRate = restaurant.RestaurantRate,
-                            TaxNumber =restaurant.TaxNumber
+                            TaxNumber =restaurant.TaxNumber,
+                            PhoneNumber =restaurant.PhoneNumber
                         });
                     }
                 }
@@ -99,7 +100,8 @@ namespace DataAccess.Concrete.Databases.MongoDB
                         RestaurantName = item.RestaurantName,
                         MinCartPrice = item.MinCartPrice,
                         RestaurantRate = item.RestaurantRate,
-                        ImagePath = item.Id + "/" + temp.ImagePath
+                        ImagePath = item.Id + "/" + temp.ImagePath,
+                        PhoneNumber = item.PhoneNumber
 
                     });
                 }
@@ -107,6 +109,40 @@ namespace DataAccess.Concrete.Databases.MongoDB
             }
             return list;
         }
+
+        public RestaurantImageDetailDto GetRestaurantDetailImagesById(string restaurantId)
+        {
+            List<Restaurant> restaurant = new List<Restaurant>();
+            using (var restaurants = new MongoDB_Context<Restaurant, MongoDB_RestaurantCollection>())
+            {
+                restaurants.GetMongoDBCollection();
+                restaurant = restaurants.collection.Find<Restaurant>(document => document.Id == restaurantId).ToList();
+            }
+            var list = new List<RestaurantImageDetailDto>();
+            List<RestaurantImage> restaurantImage = new List<RestaurantImage>();
+            using (var restaurantImages = new MongoDB_Context<RestaurantImage, MongoDB_RestaurantImageCollection>())
+            {
+                restaurantImages.GetMongoDBCollection();
+                restaurantImage = restaurantImages.collection.Find<RestaurantImage>(document => document.RestaurantId == restaurantId).ToList();
+            }
+
+            var temp = new RestaurantImageDetailDto
+            { 
+                CategoryId = restaurant[0].CategoryId,
+                ClosingTime = restaurant[0].ClosingTime,
+                Id = restaurant[0].Id,
+                ImagePath = restaurantImage[0].ImagePath,
+                MailAddress = restaurant[0].MailAddress,
+                MinCartPrice = restaurant[0].MinCartPrice,
+                OpeningTime = restaurant[0].OpeningTime,
+                RestaurantAddress = restaurant[0].RestaurantAddress,
+                RestaurantName = restaurant[0].RestaurantName,
+                RestaurantRate = restaurant[0].RestaurantRate,
+                PhoneNumber = restaurant[0].PhoneNumber
+            };
+            return temp;
+        }
+
 
         public List<RestaurantEvolved> GetAllWithClaims()
         {
@@ -179,6 +215,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
             }
         }
 
+      
         public RestaurantEvolved GetWithClaims(string restaurantId)
         {
             Restaurant restaurant = new Restaurant();
@@ -193,7 +230,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 Id = restaurant.Id,
                 Email = restaurant.MailAddress,
                 RestaurantName = restaurant.RestaurantName,
-                OperationClaims = GetClaims(restaurant),
+                OperationClaims = GetClaims(restaurant)
             };
             return restaurantEvolved;
         }
