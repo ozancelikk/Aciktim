@@ -6,6 +6,7 @@ namespace Business.Constants
 {
     public class PathConstant
     {
-        public static string ImagesPath = "wwwroot\\Uploads\\Images\\";
+        public static string RestaurantImagesPath = "wwwroot\\Uploads\\Images\\Restaurant\\";
+        public static string CategoryImagesPath = "wwwroot\\Uploads\\Images\\Category\\";
     }
 }

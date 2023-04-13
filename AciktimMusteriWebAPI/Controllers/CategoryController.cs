@@ -34,5 +34,16 @@ namespace AciktimMusteriWebAPI.Controllers
             }
             return BadRequest(result.Message);
         }
+
+        [HttpGet("GetAllWithImage")]
+        public IActionResult GetAllWithImage()
+        {
+            var result = _categoryService.GetAllWithImages();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
     }
 }

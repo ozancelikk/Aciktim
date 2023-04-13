@@ -7,8 +7,8 @@ using System.Text;
 
 namespace DataAccess.Abstract
 {
-    public interface ICategoryDal:IEntityRepository<Category>
+    public interface ICategoryImageDal : IEntityRepository<CategoryImage>
     {
-        List<CategoryImageDto> GetAllCategoriesWithImages();
+        
     }
 }

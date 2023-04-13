@@ -3,6 +3,7 @@ using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -40,6 +41,11 @@ namespace Business.Concrete
         public IDataResult<List<Category>> GetAll()
         {
             return new SuccessDataResult<List<Category>>(_categoryDal.GetAll(),Messages.Successful);
+        }
+
+        public IDataResult<List<CategoryImageDto>> GetAllWithImages()
+        {
+            return new SuccessDataResult<List<CategoryImageDto>>(_categoryDal.GetAllCategoriesWithImages(), Messages.Successful);
         }
 
         public IDataResult<Category> GetById(string id)

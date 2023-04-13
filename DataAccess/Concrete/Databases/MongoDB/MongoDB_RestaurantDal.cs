@@ -86,20 +86,24 @@ namespace DataAccess.Concrete.Databases.MongoDB
             foreach (var item in restaurant)
             {
                 var temp = restaurantImage.Find(x => x.RestaurantId == item.Id);
-                list.Add(new RestaurantImageDetailDto
+                if(temp != null)
                 {
-                    Id = item.Id,
-                    CategoryId = item.CategoryId,
-                    ClosingTime = item.ClosingTime,
-                    MailAddress = item.MailAddress,
-                    OpeningTime = item.OpeningTime,
-                    RestaurantAddress = item.RestaurantAddress,
-                    RestaurantName = item.RestaurantName,
-                    MinCartPrice = item.MinCartPrice,
-                    RestaurantRate =item.RestaurantRate,
-                    ImagePath=item.Id + "/"+ temp.ImagePath
-                    
-                });
+                    list.Add(new RestaurantImageDetailDto
+                    {
+                        Id = item.Id,
+                        CategoryId = item.CategoryId,
+                        ClosingTime = item.ClosingTime,
+                        MailAddress = item.MailAddress,
+                        OpeningTime = item.OpeningTime,
+                        RestaurantAddress = item.RestaurantAddress,
+                        RestaurantName = item.RestaurantName,
+                        MinCartPrice = item.MinCartPrice,
+                        RestaurantRate = item.RestaurantRate,
+                        ImagePath = item.Id + "/" + temp.ImagePath
+
+                    });
+                }
+               
             }
             return list;
         }
