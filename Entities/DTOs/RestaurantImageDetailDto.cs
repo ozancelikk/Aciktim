@@ -1,25 +1,19 @@
 ﻿using Core.Entities.Abstract;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Entities.Concrete.DBEntities
+namespace Entities.DTOs
 {
-    public class Restaurant : IEntity
+    public class RestaurantImageDetailDto:IDto
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public string RestaurantName { get; set; }
         public string MailAddress { get; set; }
         public string RestaurantAddress { get; set; }
-        public string TaxNumber { get; set; }
         public string OpeningTime { get; set; }
         public string ClosingTime { get; set; }
         public string CategoryId { get; set; }
-        public byte[] PasswordSalt { get; set; }
-        public byte[] PasswordHash { get; set; }
+        public string ImagePath { get; set; }
     }
 }

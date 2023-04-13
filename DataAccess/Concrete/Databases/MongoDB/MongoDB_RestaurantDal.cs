@@ -6,6 +6,7 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.Databases.MongoDB.Collections;
 using DataAccess.Concrete.DataBases.MongoDB;
 using DataAccess.Concrete.DataBases.MongoDB.Collections;
+using Entities.Concrete;
 using Entities.Concrete.Simples;
 using Entities.Dtos;
 using Entities.DTOs;
@@ -56,7 +57,6 @@ namespace DataAccess.Concrete.Databases.MongoDB
                             ClosingTime = restaurant.ClosingTime,
                             OpeningTime=restaurant.OpeningTime,
                             RestaurantAddress=restaurant.RestaurantAddress,
-                            RestaurantImage=restaurant.RestaurantImage,
                             RestaurantName=restaurant.RestaurantName,
                             TaxNumber=restaurant.TaxNumber
                         });
@@ -64,6 +64,40 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 }
                 return restaurantDtos;
             }
+        }
+
+        public List<RestaurantImageDetailDto> GetAllRestaurantWithImages()
+        {
+            List<Restaurant> restaurant = new List<Restaurant>();
+            using (var restaurants = new MongoDB_Context<Restaurant, MongoDB_RestaurantCollection>())
+            {
+                restaurants.GetMongoDBCollection();
+                restaurant = restaurants.collection.Find<Restaurant>(document => true).ToList();
+            }
+            var list=new List<RestaurantImageDetailDto>();
+            List<RestaurantImage> restaurantImage = new List<RestaurantImage>();
+            using (var restaurantImages = new MongoDB_Context<RestaurantImage, MongoDB_RestaurantImageCollection>())
+            {
+                restaurantImages.GetMongoDBCollection();
+                restaurantImage = restaurantImages.collection.Find<RestaurantImage>(document => true).ToList();
+            }
+            foreach (var item in restaurant)
+            {
+                var temp = restaurantImage.Find(x => x.RestaurantId == item.Id);
+                list.Add(new RestaurantImageDetailDto
+                {
+                    Id = item.Id,
+                    CategoryId = item.CategoryId,
+                    ClosingTime = item.ClosingTime,
+                    MailAddress = item.MailAddress,
+                    OpeningTime = item.OpeningTime,
+                    RestaurantAddress = item.RestaurantAddress,
+                    RestaurantName = item.RestaurantName,
+                    ImagePath=temp.ImagePath
+                    
+                });
+            }
+            return list;
         }
 
         public List<RestaurantEvolved> GetAllWithClaims()

@@ -11,6 +11,7 @@ namespace Business.Abstract
     public interface IRestaurantService
     {
         IDataResult<List<RestaurantDto>> GetAll();
+        IDataResult<List<RestaurantImageDetailDto>> GetAllWithImages();
         IDataResult<Restaurant> GetById(string id);
         IDataResult<RestaurantDetailsDto> GetDetailsById(string id);
         IResult Add(Restaurant restaurant);

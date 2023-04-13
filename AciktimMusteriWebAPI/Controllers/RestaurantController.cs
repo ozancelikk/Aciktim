@@ -29,7 +29,17 @@ namespace AciktimMusteriWebAPI.Controllers
 			}
 			return BadRequest(result);
 		}
-		[HttpGet("GetById")]
+        [HttpGet("GetAllWithImage")]
+        public IActionResult GetAllWithImage()
+        {
+            var result = _restaurantService.GetAllWithImages();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        [HttpGet("GetById")]
 		public IActionResult GetById(string id)
 		{
 			var result = _restaurantService.GetById(id);
