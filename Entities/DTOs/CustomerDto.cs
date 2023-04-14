@@ -8,7 +8,7 @@ namespace Entities.Dtos
         public string LastName { get; set; }
         public string NationalityId { get; set; }
         public string BirthDay { get; set; }
-        public string Phonenumber { get; set; }
+        public string PhoneNumber { get; set; }
         public string MailAddress { get; set; }
     }
 }
