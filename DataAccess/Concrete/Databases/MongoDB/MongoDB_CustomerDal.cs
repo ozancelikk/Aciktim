@@ -55,7 +55,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                             LastName=customer.LastName,
                             MailAddress=customer.MailAddress,
                             NationalityId=customer.NationalityId,
-                            Phonenumber=customer.Phonenumber
+                            PhoneNumber=customer.PhoneNumber
                         });
                     }
                 }

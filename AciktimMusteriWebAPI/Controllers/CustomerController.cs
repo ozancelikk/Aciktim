@@ -2,6 +2,7 @@
 using Business.Abstract;
 using Core.Entities.Concrete.DBEntities;
 using Entities.Dtos;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,10 +31,18 @@ namespace AciktimMusteriWebAPI.Controllers
             }
             return BadRequest(result);
         }
+
         [HttpPost("Update")]
-        public IActionResult update(Customer customer)
+        public IActionResult Update2(CustomerDetailsDto customer)
         {
-            var result = _customerService.Update(customer);
+            var map = _mapper.Map<Customer>(customer);
+            var oldCustomer = _customerService.GetById(map.Id);
+            if (oldCustomer != null)
+            {
+                map.PasswordHash = oldCustomer.Data.PasswordHash; 
+                map.PasswordSalt = oldCustomer.Data.PasswordSalt; 
+            }
+            var result = _customerService.Update(map);
             if (result.Success)
             {
                 return Ok(result);

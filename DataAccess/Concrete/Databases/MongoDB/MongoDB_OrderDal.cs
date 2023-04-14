@@ -64,7 +64,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                     OrderStatus = item.OrderStatus,
                     LastName = currentCustomer.LastName,
                     Address = currentAddress.Address,
-                    PhoneNumber = currentCustomer.Phonenumber
+                    PhoneNumber = currentCustomer.PhoneNumber
                 };
                 orderdto.Add(dto);
             }
