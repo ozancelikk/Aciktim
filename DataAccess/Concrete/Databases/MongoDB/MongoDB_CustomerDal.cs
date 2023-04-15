@@ -55,7 +55,8 @@ namespace DataAccess.Concrete.Databases.MongoDB
                             LastName=customer.LastName,
                             MailAddress=customer.MailAddress,
                             NationalityId=customer.NationalityId,
-                            PhoneNumber=customer.PhoneNumber
+                            PhoneNumber=customer.PhoneNumber,
+                            RegisterDate = customer.RegisterDate,
                         });
                     }
                 }
@@ -168,6 +169,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
                 OperationClaims = GetClaims(customer),
+                
 
             };
             return customerEvolved;
