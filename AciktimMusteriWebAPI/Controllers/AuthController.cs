@@ -2,6 +2,7 @@
 using Core.Entities.Concrete.DBEntities;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace AciktimMusteriWebAPI.Controllers
 {
@@ -23,6 +24,7 @@ namespace AciktimMusteriWebAPI.Controllers
             {
                 return BadRequest(exists.Message);
             }
+            customerForRegisterDto.RegisterDate = DateTime.Now.ToShortDateString();
 
             var register = _customerAuthService.Register(customerForRegisterDto);
             var check = _customerAuthService.CreateAccessToken(register.Data);
