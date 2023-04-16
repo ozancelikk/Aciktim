@@ -3,14 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Entities.Dtos
+namespace Entities.DTOs
 {
-    public class MenuDto:IDto
+    public class MenuDetailsDto : IDto
     {
-        public string RestaurantId { get; set; }
+        public string Id { get; set; }
+        public string? MenuImage { get; set; }
         public string MenuTitle { get; set; }
         public string MenuDescription { get; set; }
         public double MenuPrice { get; set; }
-        public List<string> MenuProperties { get; set; }
     }
 }

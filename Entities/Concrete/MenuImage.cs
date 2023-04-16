@@ -7,16 +7,12 @@ using System.Text;
 
 namespace Entities.Concrete
 {
-    public class Menu:IEntity
+    public class MenuImage : IEntity
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        public string RestaurantId { get; set; }
-        public string MenuTitle { get; set; }
-        public string MenuDescription { get; set; }
-        public double MenuPrice { get; set; }
-        public List<string>? MenuProperties { get; set; }
-
+        public string MenuId { get; set; }
+        public string? ImagePath { get; set; }
     }
 }

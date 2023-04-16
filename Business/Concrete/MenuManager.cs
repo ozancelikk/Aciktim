@@ -3,6 +3,7 @@ using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -45,6 +46,11 @@ namespace Business.Concrete
         public IDataResult<Menu> GetById(string id)
         {
             return new SuccessDataResult<Menu>(_menuDal.Get(m=>m.Id==id), Messages.Successful);
+        }
+
+        public IDataResult<List<MenuDetailsDto>> GetMenusDetailsByRestaurantId(string restaurantId)
+        {
+            return new SuccessDataResult<List<MenuDetailsDto>>(_menuDal.GetMenusByRestaurantId(restaurantId), Messages.Successful);
         }
 
         public IResult Update(Menu menu)

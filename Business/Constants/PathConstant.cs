@@ -8,5 +8,6 @@ namespace Business.Constants
     {
         public static string RestaurantImagesPath = "C:\\Images\\Restaurant\\";
         public static string CategoryImagesPath = "C:\\Images\\Category\\";
+        public static string MenuImagesPath = "C:\\Images\\Menu\\";
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Core.Utilities.Results;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,5 +14,6 @@ namespace Business.Abstract
         IResult Add(Menu menu);
         IResult Update(Menu menu);
         IResult Delete(string id);
+        IDataResult<List<MenuDetailsDto>> GetMenusDetailsByRestaurantId(string restaurantId);
     }
 }
