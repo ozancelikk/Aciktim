@@ -42,7 +42,8 @@ namespace DataAccess.Concrete.Databases.MongoDB
                             MenuDescription = item.MenuDescription,
                             MenuImage = menuImage.ImagePath,
                             MenuPrice = item.MenuPrice,
-                            MenuTitle = item.MenuTitle
+                            MenuTitle = item.MenuTitle,
+                            Id = item.Id,
                         });
                     }
                 }
