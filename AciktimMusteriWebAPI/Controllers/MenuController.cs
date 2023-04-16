@@ -40,5 +40,16 @@ namespace AciktimMusteriWebAPI.Controllers
 			}
 			return BadRequest(result);
 		}
-	}
+
+        [HttpGet("GetMenuDetailsByRestaurantId")]
+        public IActionResult GetMenuDetailsByRestaurantId(string restaurantId)
+        {
+            var result = _menuService.GetMenusDetailsByRestaurantId(restaurantId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+    }
 }
