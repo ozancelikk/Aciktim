@@ -54,5 +54,16 @@ namespace AciktimMusteriWebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpPost("ChangePassword")]
+        public ActionResult ChangePassword(CustomerChangePasswordDto customerChangePasswordDto)
+        {
+            var result = _customerAuthService.ChangePassword(customerChangePasswordDto);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
     }
 }
