@@ -79,7 +79,7 @@ namespace Business.Concrete
             //_loginActivities.Add(new LoginActivities { DateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), User = userForLoginDto.Email, Type = "Login Success" });
             return new SuccessDataResult<Customer>(customerToCheck.Data, Messages.SuccessfulLogin);
         }
-
+        
         //[BusinessForgotPasswordAspect]
         public IResult ForgotPassword(string eMail)
         {
@@ -88,7 +88,7 @@ namespace Business.Concrete
             {
                 return new SuccessResult(eMail + " mail adresine aktivasyon kodu gönderdik. Lüften mail adresinizi kontrol ederek gelen kodu aşağıdaki alana giriniz.");
             }
-            return new ErrorResult("Eksik yada hatalı bir giriş yaptınız.");
+            return new ErrorResult("Eksik ya da hatalı bir giriş yaptınız.");
         }
 
         public IResult ChangeForgottenPassword(ForgettenPasswordForCustomer forgettenPasswordForCustomer)
@@ -126,6 +126,27 @@ namespace Business.Concrete
             var claims = _customerservice.GetClaims(customer);
             var accessToken = _tokenHelper.CreateTokenForCustomer(customer, claims.Data);
             return new SuccessDataResult<AccessToken>(accessToken, Messages.AccessTokenCreated);
+        }
+
+        public IResult ChangePassword(CustomerChangePasswordDto customerChangePasswordDto)
+        {
+            var result = _customerservice.GetByMail(customerChangePasswordDto.EMail);
+            if (result.Data != null)
+            {
+                byte[] passwordHash, passwordSalt;
+                HashingHelper.CreatePasswordHash(customerChangePasswordDto.OldPassword,out passwordHash,out passwordSalt);
+                if (!HashingHelper.VerifyPasswordHash(customerChangePasswordDto.OldPassword, result.Data.PasswordHash, result.Data.PasswordSalt))
+                {
+                    return new ErrorResult(Messages.PasswordError);
+                }
+               
+                HashingHelper.CreatePasswordHash(customerChangePasswordDto.NewPassword, out byte[] newPasswordHash, out byte[] newPasswordSalt);
+                result.Data.PasswordSalt = newPasswordSalt;
+                result.Data.PasswordHash = newPasswordHash;
+                _customerservice.Update(result.Data);
+                return new SuccessResult(Messages.Successful);
+            }
+            return new ErrorResult(Messages.Unsuccessful);
         }
     }
 }
