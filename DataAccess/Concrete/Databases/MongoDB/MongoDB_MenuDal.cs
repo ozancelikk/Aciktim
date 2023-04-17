@@ -1,4 +1,5 @@
 ﻿using Core.DataAccess.Databases.MongoDB;
+using Core.Entities.Concrete.DBEntities;
 using DataAccess.Abstract;
 using DataAccess.Concrete.Databases.MongoDB.Collections;
 using DataAccess.Concrete.DataBases.MongoDB;
@@ -28,12 +29,18 @@ namespace DataAccess.Concrete.Databases.MongoDB
             menuContext.GetMongoDBCollection();
             menus = menuContext.collection.Find<Menu>(document => true).ToList();
 
+            List<Restaurant> restaurants = new List<Restaurant>();
+            using var restaurantContext = new MongoDB_Context<Restaurant, MongoDB_RestaurantCollection>();
+            restaurantContext.GetMongoDBCollection();
+            restaurants = restaurantContext.collection.Find<Restaurant>(document => true).ToList();
+
 
             foreach (var item in menus)
             {
                 if (item.RestaurantId == restaurantId)
                 {
                     var menuImage = menuImages.Find(x => x.MenuId == item.Id); //menüımage
+                    var restaurant = restaurants.Find(x => x.Id == item.RestaurantId); //menüımage
 
                     if (menuImage!= null)
                     {
@@ -44,6 +51,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                             MenuPrice = item.MenuPrice,
                             MenuTitle = item.MenuTitle,
                             Id = item.Id,
+                            RestaurantName = restaurant.RestaurantName
                         });
                     }
                 }

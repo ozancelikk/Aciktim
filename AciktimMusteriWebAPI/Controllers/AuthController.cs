@@ -60,7 +60,7 @@ namespace AciktimMusteriWebAPI.Controllers
             var result = _customerAuthService.ChangePassword(customerChangePasswordDto);
             if(result.Success)
             {
-                return Ok(result.Message);
+                return Ok(result);
             }
             return BadRequest(result.Message);
         }
