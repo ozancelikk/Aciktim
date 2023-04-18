@@ -57,14 +57,14 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 var dto = new OrderDto
                 {
                     FirstName = currentCustomer.FirstName,
-                    RestaurantName = currentRestaurant.RestaurantName,
+                    RestaurantId = currentRestaurant.RestaurantName,
                     OrderDescription = item.OrderDescription,
                     EstimatedTime = item.EstimatedTime,
-                    OrderPrice = item.OrderPrice,
                     OrderStatus = item.OrderStatus,
                     LastName = currentCustomer.LastName,
                     Address = currentAddress.Address,
-                    PhoneNumber = currentCustomer.PhoneNumber
+                    PhoneNumber = currentCustomer.PhoneNumber,
+                    CustomerId=currentCustomer.Id,
                 };
                 orderdto.Add(dto);
             }
