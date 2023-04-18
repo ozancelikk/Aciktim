@@ -19,6 +19,7 @@ namespace Entities.Profiles.AutoMapperProfiles
             CreateMap<CategoryDto,Category>();
             CreateMap<MenuDto,Menu>();
             CreateMap<OrderDto,Order>();
+            CreateMap<Order, OrderDto>();
             CreateMap<OrderCommentDto,OrderComment>();
             CreateMap<OrderComment, OrderCommentDto>();
             CreateMap<RestaurantDto,Restaurant>();
