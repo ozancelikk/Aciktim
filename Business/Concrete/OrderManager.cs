@@ -38,14 +38,19 @@ namespace Business.Concrete
             return new ErrorResult(Messages.Unsuccessful);
         }
 
-        public IDataResult<List<OrderDto>> GetAll()
+        public IDataResult<List<Order>> GetAll()
         {
-            return new SuccessDataResult<List<OrderDto>>(_orderDal.GetAllOrders(), Messages.Successful);
+            return new SuccessDataResult<List<Order>>(_orderDal.GetAll(), Messages.Successful);
         }
 
         public IDataResult<Order> GetById(string id)
         {
             return new SuccessDataResult<Order>(_orderDal.Get(o => o.Id == id), Messages.Successful);
+        }
+
+        public IDataResult<List<Order>> GetOrderDetailsByCustomerId(string customerId)
+        {
+            return new SuccessDataResult<List<Order>>(_orderDal.GetAll(x=>x.CustomerId == customerId), Messages.Successful);
         }
 
         public IResult Update(Order order)

@@ -11,6 +11,7 @@ namespace Entities.DTOs
         public string RestaurantId { get; set; }
         public string OrderDescription { get; set; }
         public double OrderPrice { get; set; }
+        public string RestaurantName { get; set; }
         public string MenuName { get; set; }
         public string OrderStatus { get; set; }
         public string EstimatedTime { get; set; }
