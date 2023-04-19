@@ -6,6 +6,8 @@ using DataAccess.Concrete.DataBases.MongoDB;
 using DataAccess.Concrete.DataBases.MongoDB.Collections;
 using Entities.Concrete;
 using Entities.Dtos;
+using Entities.DTOs;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +18,10 @@ namespace DataAccess.Concrete.Databases.MongoDB
     {
         public List<OrderDto> GetAllOrders()
         {
+            BsonClassMap.RegisterClassMap<Order>();
             List<Order> orders = new List<Order>();
             List<Customer> customers = new List<Customer>();
+            List<Menu> menus = new List<Menu>();
             List<Restaurant> restaurants = new List<Restaurant>();
             List<CustomerAddresses> addresses = new List<CustomerAddresses>();
 
@@ -27,7 +31,14 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 addresses = addressContext.collection.Find<CustomerAddresses>(document => true).ToList();
             }
 
-            using (var orderContext = new MongoDB_Context<Order, MongoDB_OrderCollection>())
+            using (var menusContext = new MongoDB_Context<Menu, MongoDB_MenuCollection>())
+            {
+                menusContext.GetMongoDBCollection();
+                menus = menusContext.collection.Find<Menu>(document => true).ToList();
+            }
+
+
+                using (var orderContext = new MongoDB_Context<Order, MongoDB_OrderCollection>())
             {
                 orderContext.GetMongoDBCollection();
                 orders = orderContext.collection.Find<Order>(document => true).ToList();
@@ -47,17 +58,28 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 restaurant.GetMongoDBCollection();
                 restaurants = restaurant.collection.Find<Restaurant>(document => true).ToList();
             }
-
+            var list = new List<OrderMenuDetail>();
+ 
             foreach (var item in orders)
             {
+                
                 var currentCustomer = customers.Where(e => e.Id == item.CustomerId).FirstOrDefault();
                 var currentRestaurant = restaurants.Where(e => e.Id == item.RestaurantId).FirstOrDefault();
                 var currentAddress = addresses.Where(c => c.CustomerId == item.CustomerId).FirstOrDefault();
-
+                var currentMenu = menus.Where(x => x.RestaurantId == item.RestaurantId).FirstOrDefault();
+                list.Add(new OrderMenuDetail
+                { 
+                
+                MenuName = currentMenu.MenuTitle,
+                OrderPrice =currentMenu.MenuPrice,
+                RestaurantId = currentRestaurant.Id,
+                RestaurantName = currentRestaurant.RestaurantName,
+                Quantity = 1
+                });
+                
                 var dto = new OrderDto
                 {
                     FirstName = currentCustomer.FirstName,
-                    RestaurantId = currentRestaurant.RestaurantName,
                     OrderDescription = item.OrderDescription,
                     EstimatedTime = item.EstimatedTime,
                     OrderStatus = item.OrderStatus,
@@ -65,6 +87,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                     Address = currentAddress.Address,
                     PhoneNumber = currentCustomer.PhoneNumber,
                     CustomerId=currentCustomer.Id,
+                    Menus =  list
                 };
                 orderdto.Add(dto);
             }

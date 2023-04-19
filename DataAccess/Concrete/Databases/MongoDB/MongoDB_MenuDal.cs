@@ -51,7 +51,8 @@ namespace DataAccess.Concrete.Databases.MongoDB
                             MenuPrice = item.MenuPrice,
                             MenuTitle = item.MenuTitle,
                             Id = item.Id,
-                            RestaurantName = restaurant.RestaurantName
+                            RestaurantName = restaurant.RestaurantName,
+                            RestaurantId = restaurant.Id,
                         });
                     }
                 }
