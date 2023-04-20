@@ -40,6 +40,18 @@ namespace AciktimMusteriWebAPI.Controllers
             }
             return BadRequest(result.Message);
         }
+        [HttpGet("GetAllOrderDetails")]
+        public IActionResult GetAllOrderDetails()
+        {
+            var result = _orderService.GetAllOrdersDetails();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
+
         [HttpGet("GetById")]
         public IActionResult GetById(string id)
         {

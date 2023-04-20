@@ -13,6 +13,7 @@ namespace Entities.Dtos
         public string CustomerId { get; set; }
         public List<OrderMenuDetail>? Menus { get; set; }
         public string LastName { get; set; }
+        public string RestaurantName { get; set; }
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
         public string OrderDescription { get; set; }
