@@ -43,6 +43,11 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Order>>(_orderDal.GetAll(), Messages.Successful);
         }
 
+        public IDataResult<List<OrderDto>> GetAllOrdersDetails()
+        {
+            return new SuccessDataResult<List<OrderDto>>(_orderDal.GetAllOrders(),Messages.Successful);
+        }
+
         public IDataResult<Order> GetById(string id)
         {
             return new SuccessDataResult<Order>(_orderDal.Get(o => o.Id == id), Messages.Successful);

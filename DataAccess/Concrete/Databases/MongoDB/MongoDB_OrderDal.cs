@@ -18,10 +18,11 @@ namespace DataAccess.Concrete.Databases.MongoDB
     {
         public List<OrderDto> GetAllOrders()
         {
-            BsonClassMap.RegisterClassMap<Order>();
+            //BsonClassMap.RegisterClassMap<Order>();
             List<Order> orders = new List<Order>();
             List<Customer> customers = new List<Customer>();
             List<Menu> menus = new List<Menu>();
+            List<MenuImage> menuImages = new List<MenuImage>();
             List<Restaurant> restaurants = new List<Restaurant>();
             List<CustomerAddresses> addresses = new List<CustomerAddresses>();
 
@@ -37,8 +38,14 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 menus = menusContext.collection.Find<Menu>(document => true).ToList();
             }
 
+            using (var menuImagesContext = new MongoDB_Context<MenuImage, MongoDB_MenuImageCollection>())
+            {
+                menuImagesContext.GetMongoDBCollection();
+                menuImages = menuImagesContext.collection.Find<MenuImage>(document => true).ToList();
+            }
 
-                using (var orderContext = new MongoDB_Context<Order, MongoDB_OrderCollection>())
+
+            using (var orderContext = new MongoDB_Context<Order, MongoDB_OrderCollection>())
             {
                 orderContext.GetMongoDBCollection();
                 orders = orderContext.collection.Find<Order>(document => true).ToList();
@@ -59,22 +66,25 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 restaurants = restaurant.collection.Find<Restaurant>(document => true).ToList();
             }
             var list = new List<OrderMenuDetail>();
+
+            
  
             foreach (var item in orders)
             {
-                
                 var currentCustomer = customers.Where(e => e.Id == item.CustomerId).FirstOrDefault();
                 var currentRestaurant = restaurants.Where(e => e.Id == item.RestaurantId).FirstOrDefault();
                 var currentAddress = addresses.Where(c => c.CustomerId == item.CustomerId).FirstOrDefault();
                 var currentMenu = menus.Where(x => x.RestaurantId == item.RestaurantId).FirstOrDefault();
+                var currentMenuImage = menuImages.Where(x => x.MenuId == currentMenu.Id).FirstOrDefault();
+
                 list.Add(new OrderMenuDetail
                 { 
                 
                 MenuName = currentMenu.MenuTitle,
                 OrderPrice =currentMenu.MenuPrice,
                 RestaurantId = currentRestaurant.Id,
-                RestaurantName = currentRestaurant.RestaurantName,
-                Quantity = 1
+                Quantity = 1,
+                MenuImage = currentMenuImage.ImagePath,
                 });
                 
                 var dto = new OrderDto

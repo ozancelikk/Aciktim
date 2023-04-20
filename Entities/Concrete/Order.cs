@@ -20,6 +20,7 @@ namespace Entities.Concrete
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string RestaurantId { get; set; }
+        public string RestaurantName { get; set; }
         public string OrderDescription { get; set; }
         public string Address { get; set; }
         public string OrderStatus { get; set; }
