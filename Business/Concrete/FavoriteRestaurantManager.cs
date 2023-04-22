@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -21,6 +22,11 @@ namespace Business.Concrete
 
         public IResult Add(FavoriteRestaurant favouritere)
         {
+            var rules = BusinessRules.Run(CheckRestaurantIsAlreadyInList(favouritere));
+            if(rules!=null)
+            {
+                return rules;
+            }
             _favoriteRestaurantDal.Add(favouritere);
             return new SuccessResult(Messages.AddingSuccessful);
         }
@@ -52,12 +58,26 @@ namespace Business.Concrete
 
         public IDataResult<List<FavoriteRestaurantDto>> GetFavoriteRestaurantsByCustomerId(string id)
         {
-            return new SuccessDataResult<List<FavoriteRestaurantDto>>(_favoriteRestaurantDal.GetAllFavoriteRestaurant(id),Messages.Successful);
+            return new SuccessDataResult<List<FavoriteRestaurantDto>>(_favoriteRestaurantDal.GetAllFavoriteRestaurantByCustomerId(id),Messages.Successful);
         }
 
         public IResult Update(FavoriteRestaurant favouritere)
         {
             throw new NotImplementedException();
+        }
+
+
+        private IResult CheckRestaurantIsAlreadyInList(FavoriteRestaurant favouritere)
+        {
+            var temp = _favoriteRestaurantDal.GetAll(x=>x.CustomerId == favouritere.CustomerId);
+            foreach (var item in temp)
+            {
+                if(item.RestaurantId == favouritere.RestaurantId)
+                {
+                    return new ErrorResult("Bu restoran zaten favori listenizde ! ");
+                }
+            }
+            return new SuccessResult();
         }
 
     }

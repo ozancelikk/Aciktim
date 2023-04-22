@@ -1,4 +1,5 @@
-﻿using Core.DataAccess.Databases.MongoDB;
+﻿using AutoMapper;
+using Core.DataAccess.Databases.MongoDB;
 using Core.Entities.Concrete.DBEntities;
 using DataAccess.Abstract;
 using DataAccess.Concrete.Databases.MongoDB.Collections;
@@ -6,15 +7,21 @@ using DataAccess.Concrete.DataBases.MongoDB.Collections;
 using Entities.Concrete;
 using Entities.DTOs;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace DataAccess.Concrete.DataBases.MongoDB
 {
     public class MongoDB_FavoriteRestaurantDal : MongoDB_RepositoryBase<FavoriteRestaurant, MongoDB_Context<FavoriteRestaurant, MongoDB_FavoriteRestaurantCollection>>, IFavoriteRestaurantDal
     {
-        public List<FavoriteRestaurantDto> GetAllFavoriteRestaurant(string id)
+        private readonly IMapper _mapper;
+
+        public MongoDB_FavoriteRestaurantDal(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
+
+        public List<FavoriteRestaurantDto> GetAllFavoriteRestaurantByCustomerId(string id)
         {
             List<Customer> customers = new List<Customer>();
             using (var customerContext = new MongoDB_Context<Customer, MongoDB_CustomerCollection>())
@@ -35,21 +42,45 @@ namespace DataAccess.Concrete.DataBases.MongoDB
                 restaurant = restaurantContext.collection.Find<Restaurant>(document => true).ToList();
             }
 
-            var temp = new List<FavoriteRestaurantDto>();
-            foreach (var item in restaurants)
+
+            List<RestaurantImage> restaurantImages = new List<RestaurantImage>();
+            using (var restaurantImageContext = new MongoDB_Context<RestaurantImage, MongoDB_RestaurantImageCollection>())
             {
-                var favorite = restaurants.Find(x => x.CustomerId == id);
-                var currentRestaurant=restaurant.Find(x=>x.Id == item.RestaurantId);
+                restaurantImageContext.GetMongoDBCollection();
+                restaurantImages = restaurantImageContext.collection.Find<RestaurantImage>(document => true).ToList();
+            }
+
+
+
+
+
+
+
+            var temp = new List<FavoriteRestaurantDto>();
+            var favoriteRestaurants = restaurants.Where(x => x.CustomerId == id).ToList(); // ilgili kullanıcının favori restaurnt
+
+            foreach (var item in favoriteRestaurants)
+            {
+
+                var currentRestaurant = restaurant.Find(x => x.Id == item.RestaurantId);
+                var image = restaurantImages.Find(x => x.RestaurantId == item.RestaurantId);
                 temp.Add(new FavoriteRestaurantDto
                 {
-                   ClosingTime=currentRestaurant.ClosingTime,
-                   RestaurantId=item.RestaurantId,
-                   CustomerId=item.CustomerId,
-                   OpeningTime=currentRestaurant.OpeningTime,
-                   RestaurantAddress = currentRestaurant.RestaurantAddress,
-                   RestaurantName = currentRestaurant.RestaurantName,
-                   Status = true      
+                    ClosingTime = currentRestaurant.ClosingTime,
+                    RestaurantId = item.RestaurantId,
+                    OpeningTime = currentRestaurant.OpeningTime,
+                    RestaurantAddress = currentRestaurant.RestaurantAddress,
+                    RestaurantName = currentRestaurant.RestaurantName,
+                    CategoryId = currentRestaurant.CategoryId,
+                    CustomerId = item.CustomerId,
+                    MailAddress = currentRestaurant.MailAddress,
+                    MinCartPrice = currentRestaurant.MinCartPrice,
+                    PhoneNumber = currentRestaurant.PhoneNumber,
+                    imagePath = image.ImagePath,
+                    RestaurantRate = currentRestaurant.RestaurantRate,
+                    Id = item.Id,
                 });
+
             }
             return temp;
         }

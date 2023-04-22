@@ -53,5 +53,27 @@ namespace AciktimMusteriWebAPI.Controllers
             }
             return BadRequest(result.Message);
         }
+
+        [HttpGet("delete")]
+        public IActionResult Delete(string id)
+        {
+            var result = _customerAddressService.Delete(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
+        [HttpPost("update")]
+        public IActionResult Update(CustomerAddresses customerAddress)
+        {
+            var result = _customerAddressService.Update(customerAddress);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
     }
 }

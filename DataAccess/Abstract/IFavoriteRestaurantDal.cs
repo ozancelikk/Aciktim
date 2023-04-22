@@ -9,6 +9,6 @@ namespace DataAccess.Abstract
 {
     public interface IFavoriteRestaurantDal: IEntityRepository<FavoriteRestaurant>
     {
-        List<FavoriteRestaurantDto> GetAllFavoriteRestaurant(string id);
+        List<FavoriteRestaurantDto> GetAllFavoriteRestaurantByCustomerId(string id);
     }
 }

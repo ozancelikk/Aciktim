@@ -23,6 +23,7 @@ namespace Entities.Concrete
         public string RestaurantName { get; set; }
         public string OrderDescription { get; set; }
         public string Address { get; set; }
+        public string OrderDate { get; set; }
         public string OrderStatus { get; set; }
         public string EstimatedTime { get; set; }
         public List<OrderMenuDetail>? Menus { get; set; }

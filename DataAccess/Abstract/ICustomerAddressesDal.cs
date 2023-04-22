@@ -8,6 +8,6 @@ namespace DataAccess.Abstract
     public interface ICustomerAddressesDal : IEntityRepository<CustomerAddresses>
     {
         List<CustomerAddressesDto> GetAllAddresses();
-        List<CustomerAddressesDto> GetAllByCustomerId(string id);
+        //List<CustomerAddressesDto> GetAllByCustomerId(string id);
     }
 }

@@ -20,7 +20,7 @@ namespace AciktimMusteriWebAPI.Controllers
             _mapper = mapper;
         }
         [HttpPost("Add")]
-        public IActionResult Add(FavoriteRestaurantDetailsDto favoriteRestaurantDto)
+        public IActionResult Add(FavoriteRestaurantDto favoriteRestaurantDto)
         {
             var map = _mapper.Map<FavoriteRestaurant>(favoriteRestaurantDto);
             var result=_favoriteRestaurnatService.Add(map);
@@ -35,6 +35,17 @@ namespace AciktimMusteriWebAPI.Controllers
         public IActionResult GetALl()
         {
             var result = _favoriteRestaurnatService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
+        [HttpGet("Delete")]
+        public IActionResult Delete(string id)
+        {
+            var result = _favoriteRestaurnatService.Delete(id);
             if (result.Success)
             {
                 return Ok(result);
