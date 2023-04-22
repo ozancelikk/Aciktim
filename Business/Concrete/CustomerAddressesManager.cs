@@ -44,9 +44,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CustomerAddressesDto>>(_customerAddressesDal.GetAllAddresses(), Messages.Successful);
         }
 
-        public IDataResult<List<CustomerAddressesDto>> GetAllByCustomerId(string customerId)
+        public IDataResult<List<CustomerAddresses>> GetAllByCustomerId(string customerId)
         {
-            return new SuccessDataResult<List<CustomerAddressesDto>>(_customerAddressesDal.GetAllByCustomerId(customerId), Messages.Successful);
+            return new SuccessDataResult<List<CustomerAddresses>>(_customerAddressesDal.GetAll(x=>x.CustomerId == customerId), Messages.Successful);
         }
 
         public IDataResult<CustomerAddresses> GetById(string id)

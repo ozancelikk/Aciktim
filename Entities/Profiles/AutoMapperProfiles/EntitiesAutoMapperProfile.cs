@@ -48,6 +48,8 @@ namespace Entities.Profiles.AutoMapperProfiles
             CreateMap<CategoryImage, CategoryImageDto>();
             CreateMap<MenuImage, MenuImageDto>();
             CreateMap<MenuImageDto, MenuImage>();
+            CreateMap<FavoriteRestaurantDto, FavoriteRestaurant>();
+            CreateMap<FavoriteRestaurant, FavoriteRestaurantDto>();
 
         }
     }

@@ -9,6 +9,5 @@ namespace Entities.DTOs
     {
         public string CustomerId { get; set; }
         public string RestaurantId { get; set; }
-        public bool Status { get; set; }
     }
 }

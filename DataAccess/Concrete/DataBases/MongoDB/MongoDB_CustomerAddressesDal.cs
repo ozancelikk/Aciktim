@@ -48,22 +48,15 @@ namespace DataAccess.Concrete.DataBases.MongoDB
             }
         }
 
-        public List<CustomerAddressesDto> GetAllByCustomerId(string id)
+        /*public List<CustomerAddresses> GetAllByCustomerId(string id)
         {
             using (var customerContext = new MongoDB_Context<CustomerAddresses, MongoDB_CustomerAddressesCollection>())
             {
                 customerContext.GetMongoDBCollection();
                 var customerAddresses = customerContext.collection.Find<CustomerAddresses>(document => true).ToList();
                 var temp = customerAddresses.Where(x => x.CustomerId == id).ToList();
-                List<CustomerAddressesDto> addressesDtos = new List<CustomerAddressesDto>();
-
-                foreach (var item in temp)
-                {
-                    var customer = _mapper.Map<CustomerAddressesDto>(item);
-                    addressesDtos.Add(customer);
-                }
-                return addressesDtos;
+                return temp;
             }
-        }
+        }*/
     }
 }

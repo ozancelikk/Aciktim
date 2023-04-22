@@ -14,6 +14,5 @@ namespace Entities.Concrete
         public string Id { get; set; }
         public string CustomerId { get; set; }
         public string RestaurantId { get; set; }
-        public bool Status { get; set; }
     }
 }

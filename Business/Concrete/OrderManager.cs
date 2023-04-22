@@ -38,6 +38,11 @@ namespace Business.Concrete
             return new ErrorResult(Messages.Unsuccessful);
         }
 
+        public IDataResult<List<Order>> GetActiveOrderDetailsByCustomerId(string customerId)
+        {
+            return new SuccessDataResult<List<Order>>(_orderDal.GetAll(x=>x.OrderStatus == "Aktif"), Messages.Successful);
+        }
+
         public IDataResult<List<Order>> GetAll()
         {
             return new SuccessDataResult<List<Order>>(_orderDal.GetAll(), Messages.Successful);
@@ -51,6 +56,11 @@ namespace Business.Concrete
         public IDataResult<Order> GetById(string id)
         {
             return new SuccessDataResult<Order>(_orderDal.Get(o => o.Id == id), Messages.Successful);
+        }
+
+        public IDataResult<List<Order>> GetCompletedOrdersDetailsByCustomerId(string customerId)
+        {
+            return new SuccessDataResult<List<Order>>(_orderDal.GetAll(x => x.OrderStatus == "Tamamlandı"), Messages.Successful);
         }
 
         public IDataResult<List<Order>> GetOrderDetailsByCustomerId(string customerId)
