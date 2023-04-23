@@ -80,6 +80,11 @@ namespace Business.Concrete
             return new SuccessDataResult<RestaurantImageDetailDto>(_restaurantDal.GetRestaurantDetailImagesById(restaurantId), Messages.Successful);
         }
 
+        public IDataResult<List<RestaurantImageDetailDto>> GetRestaurantsByCategoryId(string categoryId)
+        {
+            return new SuccessDataResult<List<RestaurantImageDetailDto>>(_restaurantDal.GetRestaurantsByCategoryId(categoryId), Messages.Successful); ;
+        }
+
         public IResult Update(Restaurant restaurant)
         {
             var result = _restaurantDal.Update(restaurant);

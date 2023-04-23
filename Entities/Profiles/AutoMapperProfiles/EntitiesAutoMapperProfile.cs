@@ -44,12 +44,17 @@ namespace Entities.Profiles.AutoMapperProfiles
             CreateMap<FavoriteRestaurant, FavoriteRestaurantDetailsDto>();
             CreateMap<RestaurantImage, RestaurantImageDto>();
             CreateMap<RestaurantImageDto, RestaurantImage>();
+
             CreateMap<AddCategoryImageDto,CategoryImage>();
             CreateMap<CategoryImage, CategoryImageDto>();
             CreateMap<MenuImage, MenuImageDto>();
             CreateMap<MenuImageDto, MenuImage>();
             CreateMap<FavoriteRestaurantDto, FavoriteRestaurant>();
             CreateMap<FavoriteRestaurant, FavoriteRestaurantDto>();
+            CreateMap<RestaurantImageDetailDto, Restaurant>();
+            CreateMap<Restaurant, RestaurantImageDetailDto>();
+
+            
 
         }
     }

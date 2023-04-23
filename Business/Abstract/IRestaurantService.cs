@@ -21,5 +21,6 @@ namespace Business.Abstract
         IDataResult<Restaurant> GetByMail(string mail);
         IResult ChangeForgottenPassword(Restaurant restaurant);
         IDataResult<List<OperationClaim>> GetClaims(Restaurant restaurant);
+        IDataResult<List<RestaurantImageDetailDto>> GetRestaurantsByCategoryId(string categoryId);
     }
 }

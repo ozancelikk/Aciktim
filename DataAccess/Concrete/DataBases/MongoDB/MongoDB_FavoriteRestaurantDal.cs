@@ -9,6 +9,7 @@ using Entities.DTOs;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DataAccess.Concrete.DataBases.MongoDB
 {
@@ -50,21 +51,43 @@ namespace DataAccess.Concrete.DataBases.MongoDB
                 restaurantImages = restaurantImageContext.collection.Find<RestaurantImage>(document => true).ToList();
             }
 
-
-
-
-
-
-
-            var temp = new List<FavoriteRestaurantDto>();
+            var list = new List<FavoriteRestaurantDto>();
             var favoriteRestaurants = restaurants.Where(x => x.CustomerId == id).ToList(); // ilgili kullanıcının favori restaurnt
+
+            //ESKİ HALİ
+            //foreach (var item in favoriteRestaurants)
+            //{
+
+            //    var currentRestaurant = restaurant.Find(x => x.Id == item.RestaurantId);
+            //    var image = restaurantImages.Find(x => x.RestaurantId == item.RestaurantId);
+            //    temp.Add(new FavoriteRestaurantDto
+            //    {
+            //        ClosingTime = currentRestaurant.ClosingTime,
+            //        RestaurantId = item.RestaurantId,
+            //        OpeningTime = currentRestaurant.OpeningTime,
+            //        RestaurantAddress = currentRestaurant.RestaurantAddress,
+            //        RestaurantName = currentRestaurant.RestaurantName,
+            //        CategoryId = currentRestaurant.CategoryId,
+            //        CustomerId = item.CustomerId,
+            //        MailAddress = currentRestaurant.MailAddress,
+            //        MinCartPrice = currentRestaurant.MinCartPrice,
+            //        PhoneNumber = currentRestaurant.PhoneNumber,
+            //        imagePath = image.ImagePath,
+            //        RestaurantRate = currentRestaurant.RestaurantRate,
+            //        Id = item.Id,
+            //    });
+
+            //}
+
+
+            //------------------------------------------------------------------------------
+
 
             foreach (var item in favoriteRestaurants)
             {
-
                 var currentRestaurant = restaurant.Find(x => x.Id == item.RestaurantId);
-                var image = restaurantImages.Find(x => x.RestaurantId == item.RestaurantId);
-                temp.Add(new FavoriteRestaurantDto
+                //var image = restaurantImages.Find(x => x.RestaurantId == item.RestaurantId);
+                var next = new FavoriteRestaurantDto
                 {
                     ClosingTime = currentRestaurant.ClosingTime,
                     RestaurantId = item.RestaurantId,
@@ -76,13 +99,16 @@ namespace DataAccess.Concrete.DataBases.MongoDB
                     MailAddress = currentRestaurant.MailAddress,
                     MinCartPrice = currentRestaurant.MinCartPrice,
                     PhoneNumber = currentRestaurant.PhoneNumber,
-                    imagePath = image.ImagePath,
+                    //imagePath = image.ImagePath,
                     RestaurantRate = currentRestaurant.RestaurantRate,
                     Id = item.Id,
-                });
+                };
 
+                var image = restaurantImages.FirstOrDefault(x => x.RestaurantId == item.RestaurantId);
+                next.imagePath = (image != null) ? (item.Id + "/" + image.ImagePath) : null;
+                list.Add(next);
             }
-            return temp;
+            return list;
         }
     }
 }
