@@ -18,6 +18,7 @@ namespace DataAccess.Abstract
         RestaurantEvolved GetWithClaims(string restaurantId);
         void DeleteClaims(Restaurant restaurant);
         List<RestaurantImageDetailDto> GetAllRestaurantWithImages();
+        List<RestaurantImageDetailDto> GetRestaurantsByCategoryId(string categoryId);
         RestaurantImageDetailDto GetRestaurantDetailImagesById(string restaurantId);
     }
 }

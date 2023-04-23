@@ -37,26 +37,45 @@ namespace DataAccess.Concrete.Databases.MongoDB
 
             foreach (var item in menus)
             {
+                //if (item.RestaurantId == restaurantId)
+                //{
+                //    var menuImage = menuImages.Find(x => x.MenuId == item.Id); //menüımage
+                //    var restaurant = restaurants.Find(x => x.Id == item.RestaurantId); //menüımage
+
+                //    if (menuImage != null)
+                //    {
+                //        list.Add(new MenuDetailsDto
+                //        {
+                //            MenuDescription = item.MenuDescription,
+                //            MenuImage = menuImage.ImagePath,
+                //            MenuPrice = item.MenuPrice,
+                //            MenuTitle = item.MenuTitle,
+                //            Id = item.Id,
+                //            RestaurantName = restaurant.RestaurantName,
+                //            RestaurantId = restaurant.Id,
+                //        });
+                //    }
+                //}
+
+
+
                 if (item.RestaurantId == restaurantId)
                 {
-                    var menuImage = menuImages.Find(x => x.MenuId == item.Id); //menüımage
-                    var restaurant = restaurants.Find(x => x.Id == item.RestaurantId); //menüımage
-
-                    if (menuImage!= null)
+                    var restaurant = restaurants.Find(x => x.Id == item.RestaurantId); //restaurant
+                    var temp = new MenuDetailsDto()
                     {
-                        list.Add(new MenuDetailsDto
-                        {
-                            MenuDescription = item.MenuDescription,
-                            MenuImage = menuImage.ImagePath,
-                            MenuPrice = item.MenuPrice,
-                            MenuTitle = item.MenuTitle,
-                            Id = item.Id,
-                            RestaurantName = restaurant.RestaurantName,
-                            RestaurantId = restaurant.Id,
-                        });
-                    }
+                        MenuDescription = item.MenuDescription,
+                        //MenuImage = menuImage.ImagePath,
+                        MenuPrice = item.MenuPrice,
+                        MenuTitle = item.MenuTitle,
+                        Id = item.Id,
+                        RestaurantName = restaurant.RestaurantName,
+                        RestaurantId = restaurant.Id,
+                    };
+                    var menuImage = menuImages.Find(x => x.MenuId == item.Id); //menüımage
+                    temp.MenuImage = menuImage != null ? menuImage.ImagePath : null;
+                    list.Add(temp);
                 }
-
             }
             return list;
         }
