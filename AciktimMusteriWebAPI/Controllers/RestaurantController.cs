@@ -43,14 +43,13 @@ namespace AciktimMusteriWebAPI.Controllers
         [HttpGet("GetRestaurantsByCategoryId")]
         public IActionResult GetRestaurantsByCategoryId(string categoryId)
         {
-			var result = _restaurantService.GetRestaurantsByCategoryId(categoryId);
+            var result = _restaurantService.GetRestaurantsByCategoryId(categoryId);
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
-
 
         [HttpGet("GetById")]
 		public IActionResult GetById(string id)
