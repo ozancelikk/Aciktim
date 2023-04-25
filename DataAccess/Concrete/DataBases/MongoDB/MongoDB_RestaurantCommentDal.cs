@@ -52,7 +52,8 @@ namespace DataAccess.Concrete.DataBases.MongoDB
                     CommentDate = item.CommentDate,
                     CommentTitle = item.CommentTitle,
                     CustomerName = currentCustomer.FirstName + " " + currentCustomer.LastName,
-                    RestaurantName = myrestaurant.RestaurantName
+                    RestaurantName = myrestaurant.RestaurantName,
+                    RestaurantRate = item.RestaurantRate
                 };
                 list.Add(temp);
                
