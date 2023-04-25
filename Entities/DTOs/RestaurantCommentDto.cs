@@ -12,5 +12,6 @@ namespace Entities.DTOs
         public string CommentTitle { get; set; }
         public string CommentContent { get; set; }
         public string CommentDate { get; set; }
+        public double RestaurantRate { get; set; }
     }
 }
