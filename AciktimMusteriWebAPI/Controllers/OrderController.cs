@@ -73,10 +73,12 @@ namespace AciktimMusteriWebAPI.Controllers
             }
             return BadRequest(result.Message);
         }
-        [HttpGet("GetActiveOrderDetailsByCustomerId")]
-        public IActionResult GetActiveOrderDetailsByCustomerId(string customerId)
+
+
+        [HttpGet("GetActiveOrdersByCustomerId")]
+        public IActionResult GetOrdersByCustomerIdYeni(string customerId)
         {
-            var result = _orderService.GetActiveOrderDetailsByCustomerId(customerId);
+            var result = _orderService.GetActiveOrdersDetailsByCustomerId(customerId);
             if (result.Success)
             {
                 return Ok(result);

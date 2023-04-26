@@ -14,6 +14,7 @@ namespace Entities.Dtos
         public List<OrderMenuDetail>? Menus { get; set; }
         public string LastName { get; set; }
         public string RestaurantName { get; set; }
+        public string RestaurantId { get; set; }
         public string Address { get; set; }
         public string OrderDate { get; set; }
         public string PhoneNumber { get; set; }
