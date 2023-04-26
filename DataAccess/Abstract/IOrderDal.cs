@@ -10,5 +10,6 @@ namespace DataAccess.Abstract
     public interface IOrderDal:IEntityRepository<Order>
     {
         List<OrderDto> GetAllOrders();
+        List<Order> GetActiveOrdersByCustomerId(string  customerId);
     }
 }
