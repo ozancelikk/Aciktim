@@ -37,8 +37,6 @@ namespace Business.Concrete
             }
             return new ErrorResult(Messages.Unsuccessful);
         }
-
-
         public IDataResult<List<Order>> GetAll()
         {
             return new SuccessDataResult<List<Order>>(_orderDal.GetAll(), Messages.Successful);
