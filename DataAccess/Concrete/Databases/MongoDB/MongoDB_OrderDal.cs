@@ -76,23 +76,26 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 var currentAddress = addresses.Where(c => c.CustomerId == item.CustomerId).FirstOrDefault();
                 var currentMenu = menus.Where(x => x.RestaurantId == item.RestaurantId).FirstOrDefault();
                 var currentMenuImage = menuImages.Where(x => x.MenuId == currentMenu.Id).FirstOrDefault();
-
-                list.Add(new Order 
+                if (currentCustomer!=null)
                 {
-                    CustomerId = currentCustomer.Id,
-                    Address = currentAddress.Address,
-                    Id = item.Id,
-                    OrderStatus = item.OrderStatus,
-                    OrderDate = item.OrderDate,
-                    EstimatedTime = item.EstimatedTime,
-                    FirstName = currentCustomer.FirstName,
-                    LastName = currentCustomer.LastName,
-                    Menus = item.Menus,
-                    OrderDescription = item.OrderDescription,
-                    RestaurantId = currentRestaurant.Id,
-                    RestaurantName = currentRestaurant.RestaurantName
-                }
+                    list.Add(new Order
+                    {
+                        CustomerId = currentCustomer.Id,
+                        Address = currentAddress.Address,
+                        Id = item.Id,
+                        OrderStatus = item.OrderStatus,
+                        OrderDate = item.OrderDate,
+                        EstimatedTime = item.EstimatedTime,
+                        FirstName = currentCustomer.FirstName,
+                        LastName = currentCustomer.LastName,
+                        Menus = item.Menus,
+                        OrderDescription = item.OrderDescription,
+                        RestaurantId = currentRestaurant.Id,
+                        RestaurantName = currentRestaurant.RestaurantName
+                    }
                 );
+                }
+                
             }
             return list;
            

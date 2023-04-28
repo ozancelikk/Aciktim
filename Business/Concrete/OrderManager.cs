@@ -54,7 +54,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Order>> GetCompletedOrdersDetailsByCustomerId(string customerId)
         {
-            return new SuccessDataResult<List<Order>>(_orderDal.GetAll(x => x.OrderStatus == "Tamamlandı"), Messages.Successful);
+            return new SuccessDataResult<List<Order>>(_orderDal.GetAll(x => x.OrderStatus == "Tamamlandı" && x.CustomerId==customerId), Messages.Successful);
         }
 
         public IDataResult<List<Order>> GetActiveOrdersDetailsByCustomerId(string customerId)
