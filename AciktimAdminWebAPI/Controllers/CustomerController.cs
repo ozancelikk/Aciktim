@@ -94,7 +94,7 @@ namespace AciktimAdminWebAPI.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpPost("delete")]
+        [HttpGet("delete")]
 
         public IActionResult Delete(string id)
         {
