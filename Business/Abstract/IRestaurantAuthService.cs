@@ -14,7 +14,7 @@ namespace Business.Abstract
         IDataResult<Restaurant> Register(RestaurantForRegisterDto restaurantForRegisterDto);
         IDataResult<Restaurant> Login(RestaurantForLoginDto restaurantForLoginDto);
         IResult UserExists(string email);
-        IDataResult<AccessToken> CreateAccessToken(Restaurant restaurant);
+        IDataResult<RestaurantAccessToken> CreateAccessToken(Restaurant restaurant);
         IResult ForgotPassword(string eMail);
         IResult ChangeForgottenPassword(ForgettenPasswordForRestaurant forgettenPasswordForRestaurant);
     }

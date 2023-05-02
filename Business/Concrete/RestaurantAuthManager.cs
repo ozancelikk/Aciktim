@@ -55,11 +55,11 @@ namespace Business.Concrete
             return new ErrorResult(Messages.Unsuccessful);
         }
 
-        public IDataResult<AccessToken> CreateAccessToken(Restaurant restaurant)
+        public IDataResult<RestaurantAccessToken> CreateAccessToken(Restaurant restaurant)
         {
             var claims = _restaurantService.GetClaims(restaurant);
             var accessToken = _tokenHelper.CreateTokenForRestaurant(restaurant, claims.Data);
-            return new SuccessDataResult<AccessToken>(accessToken, Messages.AccessTokenCreated);
+            return new SuccessDataResult<RestaurantAccessToken>(accessToken, Messages.AccessTokenCreated);
         }
 
         public IResult ForgotPassword(string eMail)
@@ -97,6 +97,16 @@ namespace Business.Concrete
                 MailAddress = restaurantForRegisterDto.Email,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
+                Status=false,
+                OpeningTime= restaurantForRegisterDto.OpeningTime,
+                CategoryId=restaurantForRegisterDto.CategoryId,
+                ClosingTime = restaurantForRegisterDto.ClosingTime,
+                MinCartPrice = restaurantForRegisterDto.MinCartPrice,
+                PhoneNumber = restaurantForRegisterDto.PhoneNumber,
+                RestaurantAddress = restaurantForRegisterDto.RestaurantAddress,
+                RestaurantName= restaurantForRegisterDto.RestaurantName,
+                TaxNumber = restaurantForRegisterDto.TaxNumber,
+                RestaurantRate=0,
             };
 
             _restaurantService.Add(restaurant);

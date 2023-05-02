@@ -58,7 +58,8 @@ namespace DataAccess.Concrete.Databases.MongoDB
                             MinCartPrice = restaurant.MinCartPrice,
                             RestaurantRate = restaurant.RestaurantRate,
                             TaxNumber = restaurant.TaxNumber,
-                            PhoneNumber = restaurant.PhoneNumber
+                            PhoneNumber = restaurant.PhoneNumber,
+                            Status=false
                         });
                     }
                 }
@@ -166,7 +167,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 RestaurantAddress = restaurant[0].RestaurantAddress,
                 RestaurantName = restaurant[0].RestaurantName,
                 RestaurantRate = total / totalComment,
-                PhoneNumber = restaurant[0].PhoneNumber
+                PhoneNumber = restaurant[0].PhoneNumber,
             };
             temp.ImagePath = restaurantImage.Any() ? restaurantImage[0].ImagePath : null;
             return temp;

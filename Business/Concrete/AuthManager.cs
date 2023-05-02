@@ -39,7 +39,7 @@ namespace Business.Concrete
                 LastName = userForRegisterDto.LastName,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
-                Status = true
+                Status = false
             };
 
             _userService.Add(user);
@@ -121,11 +121,11 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Successful);
         }
 
-        public IDataResult<AccessToken> CreateAccessToken(User user)
+        public IDataResult<UserAccessToken> CreateAccessToken(User user)
         {
             var claims = _userService.GetClaims(user);
             var accessToken = _tokenHelper.CreateTokenForUser(user, claims.Data);
-            return new SuccessDataResult<AccessToken>(accessToken, Messages.AccessTokenCreated);
+            return new SuccessDataResult<UserAccessToken>(accessToken, Messages.AccessTokenCreated);
         }
     }
 }
