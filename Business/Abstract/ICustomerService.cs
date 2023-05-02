@@ -14,6 +14,7 @@ namespace Business.Abstract
         IResult ChangeForgottenPassword(Customer customer);
         IDataResult<List<OperationClaim>> GetClaims(Customer customer);
         IDataResult<List<CustomerDto>> GetAll();
+        IDataResult<List<CustomerDetailsDto>> GetAllWithId();
         IDataResult<Customer> GetById(string id);
         IDataResult<CustomerDetailsDto> GetDetailsById(string id);
         IResult Add(Customer customer);

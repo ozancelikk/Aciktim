@@ -36,7 +36,7 @@ namespace AciktimAdminWebAPI.Controllers
 
         public IActionResult GetAll()
         {
-            var result = _customerService.GetAll();
+            var result = _customerService.GetAllWithId();
             if (result.Success)
             {
                 return Ok(result);
