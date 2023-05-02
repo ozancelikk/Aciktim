@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Castle.Core.Resource;
 using Core.DataAccess.Databases.MongoDB;
 using Core.Entities.Concrete.DBEntities;
 using Core.Utilities.Results;
@@ -61,9 +62,24 @@ namespace DataAccess.Concrete.Databases.MongoDB
                     }
                 }
                 return customerDtos;
+            }             
+        }
+
+        public List<CustomerDetailsDto> GetAllCustomerWithId()
+        {
+            List<Customer> customers = new List<Customer>();
+            List<CustomerDetailsDto> myList = new List<CustomerDetailsDto>();
+            using (var customerContext = new MongoDB_Context<Customer, MongoDB_CustomerCollection>())
+            {
+                customerContext.GetMongoDBCollection();
+                customers = customerContext.collection.Find<Customer>(document => true).ToList();
             }
-            
-            
+            foreach (var item in customers)
+            {
+                var map = _mapper.Map<CustomerDetailsDto>(item);
+                myList.Add(map);
+            }
+            return myList;
         }
 
         public List<CustomerEvolved> GetAllWithClaims()

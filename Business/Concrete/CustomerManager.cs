@@ -50,6 +50,11 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CustomerDto>>(_customerDal.GetAllCustomer(), Messages.Successful); 
         }
 
+        public IDataResult<List<CustomerDetailsDto>> GetAllWithId()
+        {
+            return new SuccessDataResult<List<CustomerDetailsDto>>(_customerDal.GetAllCustomerWithId(),Messages.Successful);
+        }
+
         public IDataResult<Customer> GetById(string id)
         {
             return new SuccessDataResult<Customer>(_customerDal.Get(c => c.Id == id), Messages.Successful);
