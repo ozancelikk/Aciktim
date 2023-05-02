@@ -2,6 +2,7 @@
 using Business.Abstract;
 using Core.Entities.Concrete.DBEntities;
 using Entities.Dtos;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -84,9 +85,10 @@ namespace AciktimAdminWebAPI.Controllers
 
         [HttpPost("update")]
 
-        public IActionResult Update(Customer customer)
+        public IActionResult Update(CustomerDetailsDto customer)
         {
-            var result = _customerService.Update(customer);
+            var map = _mapper.Map<Customer>(customer);
+            var result = _customerService.Update(map);
             if (result.Success)
             {
                 return Ok(result);
