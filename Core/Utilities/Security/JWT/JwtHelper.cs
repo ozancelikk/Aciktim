@@ -22,7 +22,7 @@ namespace Core.Utilities.Security.JWT
             _tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
         }
-        public AccessToken CreateTokenForUser(User user, List<OperationClaim> operationClaims)
+        public UserAccessToken CreateTokenForUser(User user, List<OperationClaim> operationClaims)
         {
             _accessTokenExpiration = DateTime.Now.AddMinutes(_tokenOptions.AccessTokenExpiration);
             var securityKey = SecurityKeyHelper.CreateSecurityKey(_tokenOptions.SecurityKey);
@@ -32,8 +32,9 @@ namespace Core.Utilities.Security.JWT
             var token = jwtSecurityTokenHandler.WriteToken(jwt);
 
 
-            return new AccessToken
+            return new UserAccessToken
             {
+                UserId = user.Id,
                 Token = token,
                 Expiration = _accessTokenExpiration
             };
@@ -136,7 +137,7 @@ namespace Core.Utilities.Security.JWT
             return jwt;
         }
 
-        public AccessToken CreateTokenForRestaurant(Restaurant restaurant, List<OperationClaim> claims)
+        public RestaurantAccessToken CreateTokenForRestaurant(Restaurant restaurant, List<OperationClaim> claims)
         {
             _accessTokenExpiration = DateTime.Now.AddMinutes(_tokenOptions.AccessTokenExpiration);
             var securityKey = SecurityKeyHelper.CreateSecurityKey(_tokenOptions.SecurityKey);
@@ -146,8 +147,9 @@ namespace Core.Utilities.Security.JWT
             var token = jwtSecurityTokenHandler.WriteToken(jwt);
 
 
-            return new AccessToken
+            return new RestaurantAccessToken
             {
+                RestaurantId = restaurant.Id,
                 Token = token,
                 Expiration = _accessTokenExpiration
             };

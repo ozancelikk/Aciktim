@@ -16,6 +16,7 @@ namespace Entities.Dtos
         public string CategoryId { get; set; }
         public double RestaurantRate { get; set; }
         public double MinCartPrice { get; set; }
- 
+        public bool Status { get; set; }
+
     }
 }
