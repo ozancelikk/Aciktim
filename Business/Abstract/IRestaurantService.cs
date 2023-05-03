@@ -12,6 +12,8 @@ namespace Business.Abstract
     {
         IDataResult<List<RestaurantDto>> GetAll();
         IDataResult<List<RestaurantImageDetailDto>> GetAllWithImages();
+        IDataResult<List<RestaurantImageDetailDto>> GetActiveRestaurantsWithImages();
+        IDataResult<List<RestaurantImageDetailDto>> GetPassiveRestaurantsWithImages();
         IDataResult<RestaurantImageDetailDto> GetRestaurantDetailByRestaurantId(string restaurantId);
         IDataResult<Restaurant> GetById(string id);
         IDataResult<RestaurantDetailsDto> GetDetailsById(string id);
