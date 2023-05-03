@@ -14,9 +14,11 @@ namespace Business.Abstract
         IResult Add(Order order);
         IResult Update(Order order);
         IResult Delete(string id);
-        IDataResult<List<Order>> GetOrderDetailsByCustomerId(string customerId); //+
-        IDataResult<List<Order>> GetCompletedOrdersDetailsByCustomerId(string customerId); //+
+        IDataResult<List<Order>> GetOrderDetailsByCustomerId(string customerId); 
+        IDataResult<List<Order>> GetCompletedOrdersDetailsByCustomerId(string customerId); 
         IDataResult<List<Order>> GetActiveOrdersDetailsByCustomerId(string customerId);
+        IDataResult<List<Order>> GetActiveOrdersDetailsByRestaurantId(string restaurantId);
+        IDataResult<List<Order>> GetPassiveOrdersDetailsByRestaurantId(string restaurantId);
         IDataResult<List<OrderDto>> GetAllOrdersDetails();
 
     }
