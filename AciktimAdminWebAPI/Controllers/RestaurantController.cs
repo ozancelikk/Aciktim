@@ -2,6 +2,7 @@
 using Business.Abstract;
 using Core.Entities.Concrete.DBEntities;
 using Entities.Dtos;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,8 +33,30 @@ namespace AciktimAdminWebAPI.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpGet("getdetailsbyid")]
+        [HttpGet("GetActiveRestaurantsWithImage")]
+        public IActionResult GetAllWithImage()
+        {
+            var result = _restaurantService.GetActiveRestaurantsWithImages();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
 
+        [HttpGet("GetPassiveRestaurantsWithImage")]
+
+        public IActionResult GetPassiveRestaurantsWithImage()
+        {
+            var result = _restaurantService.GetPassiveRestaurantsWithImages();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
+        [HttpGet("getdetailsbyid")]
         public IActionResult GetDetailsById(string id)
         {
             var result = _restaurantService.GetDetailsById(id);
@@ -44,6 +67,16 @@ namespace AciktimAdminWebAPI.Controllers
             return BadRequest(result.Message);
         }
 
+        [HttpGet("GetRestaurantDetailByRestaurantId")]
+        public IActionResult GetRestaurantDetailByRestaurantId(string restaurantId)
+        {
+            var result = _restaurantService.GetRestaurantDetailByRestaurantId(restaurantId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
 
         [HttpPost("add")]
 
@@ -60,9 +93,11 @@ namespace AciktimAdminWebAPI.Controllers
 
         [HttpPost("update")]
 
-        public IActionResult Update(Restaurant restaurant)
+        public IActionResult Update(RestaurantForUpdateDto restaurant)
         {
-            var result = _restaurantService.Update(restaurant);
+            restaurant.Status = true;
+            var map = _mapper.Map<Restaurant>(restaurant);
+            var result = _restaurantService.Update(map);
             if (result.Success)
             {
                 return Ok(result);
@@ -70,7 +105,7 @@ namespace AciktimAdminWebAPI.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpPost("delete")]
+        [HttpGet("delete")]
 
         public IActionResult Delete(string id)
         {
@@ -93,5 +128,6 @@ namespace AciktimAdminWebAPI.Controllers
             }
             return BadRequest(result.Message);
         }
+
     }
 }

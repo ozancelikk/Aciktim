@@ -45,6 +45,11 @@ namespace Business.Concrete
             return new ErrorResult(Messages.Unsuccessful);
         }
 
+        public IDataResult<List<RestaurantImageDetailDto>> GetActiveRestaurantsWithImages()
+        {
+            return new SuccessDataResult<List<RestaurantImageDetailDto>>(_restaurantDal.GetActiveRestaurantsWithImages(), Messages.Successful);
+        }
+
         public IDataResult<List<RestaurantDto>> GetAll()
         {
             return new SuccessDataResult<List<RestaurantDto>>(_restaurantDal.GetAllRestaurant(), Messages.Successful);
@@ -73,6 +78,11 @@ namespace Business.Concrete
         public IDataResult<RestaurantDetailsDto> GetDetailsById(string id)
         {
             return new SuccessDataResult<RestaurantDetailsDto>(_restaurantDal.GetRestaurantById(id), Messages.Successful);  
+        }
+
+        public IDataResult<List<RestaurantImageDetailDto>> GetPassiveRestaurantsWithImages()
+        {
+            return new SuccessDataResult<List<RestaurantImageDetailDto>>(_restaurantDal.GetPassiveRestaurantsWithImages(), Messages.Successful);
         }
 
         public IDataResult<RestaurantImageDetailDto> GetRestaurantDetailByRestaurantId(string restaurantId)

@@ -91,8 +91,6 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 restaurantComment = restaurantComments.collection.Find<RestaurantComment>(document => true).ToList(); //tüm restoranlar
             }
 
-
-
             foreach (var item in restaurant)
             {
                 double total = 0;
@@ -112,6 +110,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                     RestaurantAddress = item.RestaurantAddress,
                     RestaurantName = item.RestaurantName,
                     MinCartPrice = item.MinCartPrice,
+                    TaxNumber = item.TaxNumber,
                     RestaurantRate = totalComment == 0 ? 0 : total / totalComment,
                     PhoneNumber = item.PhoneNumber,
                     Id = item.Id,
@@ -168,6 +167,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 RestaurantName = restaurant[0].RestaurantName,
                 RestaurantRate = totalComment==0 ?0 : total / totalComment,
                 PhoneNumber = restaurant[0].PhoneNumber,
+                TaxNumber = restaurant[0].TaxNumber,
             };
             temp.ImagePath = restaurantImage.Any() ? restaurantImage[0].ImagePath : null;
             return temp;
@@ -252,7 +252,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
             return restaurantEvolved;
         }
 
-        public List<RestaurantImageDetailDto> GetRestaurantsByCategoryId(params string[] categoryId) // qweqewewqwqeqweeqe
+        public List<RestaurantImageDetailDto> GetRestaurantsByCategoryId(params string[] categoryId)
         {
             var list = new List<RestaurantImageDetailDto>();
             List<Restaurant> restaurant = new List<Restaurant>();
@@ -276,7 +276,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 {
                     if (roles.Contains(item.CategoryId))
                     {
-                        myRestaurants.Add(item);  // burger ve mc var
+                        myRestaurants.Add(item); 
                     }
                 }
             }
@@ -324,6 +324,118 @@ namespace DataAccess.Concrete.Databases.MongoDB
             }
             return list;
         }
+
+        public List<RestaurantImageDetailDto> GetActiveRestaurantsWithImages()
+        {
+            List<Restaurant> restaurant = new List<Restaurant>();
+            using (var restaurants = new MongoDB_Context<Restaurant, MongoDB_RestaurantCollection>())
+            {
+                restaurants.GetMongoDBCollection();
+                restaurant = restaurants.collection.Find<Restaurant>(document => document.Status == true).ToList();
+            }
+            var list = new List<RestaurantImageDetailDto>();
+            List<RestaurantImage> restaurantImage = new List<RestaurantImage>();
+            using (var restaurantImages = new MongoDB_Context<RestaurantImage, MongoDB_RestaurantImageCollection>())
+            {
+                restaurantImages.GetMongoDBCollection();
+                restaurantImage = restaurantImages.collection.Find<RestaurantImage>(document => true).ToList();
+            }
+
+
+            List<RestaurantComment> restaurantComment = new List<RestaurantComment>();
+            using (var restaurantComments = new MongoDB_Context<RestaurantComment, MongoDB_RestaurantCommentCollection>())
+            {
+                restaurantComments.GetMongoDBCollection();
+                restaurantComment = restaurantComments.collection.Find<RestaurantComment>(document => true).ToList(); //tüm restoranlar
+            }
+
+            foreach (var item in restaurant)
+            {
+                double total = 0;
+                var currentComment = restaurantComment.Where(x => x.RestaurantId == item.Id).ToList();  // o anki restorana ait yorumların listesi
+
+                foreach (var item2 in currentComment)
+                {
+                    total += item2.RestaurantRate;
+                }
+                var totalComment = currentComment.Count;
+                var next = new RestaurantImageDetailDto
+                {
+                    CategoryId = item.CategoryId,
+                    ClosingTime = item.ClosingTime,
+                    MailAddress = item.MailAddress,
+                    OpeningTime = item.OpeningTime,
+                    RestaurantAddress = item.RestaurantAddress,
+                    RestaurantName = item.RestaurantName,
+                    MinCartPrice = item.MinCartPrice,
+                    TaxNumber = item.TaxNumber,
+                    RestaurantRate = totalComment == 0 ? 0 : total / totalComment,
+                    PhoneNumber = item.PhoneNumber,
+                    Id = item.Id,
+                };
+                var temp = restaurantImage.FirstOrDefault(x => x.RestaurantId == item.Id);
+                next.ImagePath = (temp != null) ? (item.Id + "/" + temp.ImagePath) : null;
+                list.Add(next);
+            }
+            return list;
+        }
+
+
+        public List<RestaurantImageDetailDto> GetPassiveRestaurantsWithImages()
+        {
+            List<Restaurant> restaurant = new List<Restaurant>();
+            using (var restaurants = new MongoDB_Context<Restaurant, MongoDB_RestaurantCollection>())
+            {
+                restaurants.GetMongoDBCollection();
+                restaurant = restaurants.collection.Find<Restaurant>(document => document.Status == false).ToList();
+            }
+            var list = new List<RestaurantImageDetailDto>();
+            List<RestaurantImage> restaurantImage = new List<RestaurantImage>();
+            using (var restaurantImages = new MongoDB_Context<RestaurantImage, MongoDB_RestaurantImageCollection>())
+            {
+                restaurantImages.GetMongoDBCollection();
+                restaurantImage = restaurantImages.collection.Find<RestaurantImage>(document => true).ToList();
+            }
+
+
+            List<RestaurantComment> restaurantComment = new List<RestaurantComment>();
+            using (var restaurantComments = new MongoDB_Context<RestaurantComment, MongoDB_RestaurantCommentCollection>())
+            {
+                restaurantComments.GetMongoDBCollection();
+                restaurantComment = restaurantComments.collection.Find<RestaurantComment>(document => true).ToList(); //tüm restoranlar
+            }
+
+            foreach (var item in restaurant)
+            {
+                double total = 0;
+                var currentComment = restaurantComment.Where(x => x.RestaurantId == item.Id).ToList();  // o anki restorana ait yorumların listesi
+
+                foreach (var item2 in currentComment)
+                {
+                    total += item2.RestaurantRate;
+                }
+                var totalComment = currentComment.Count;
+                var next = new RestaurantImageDetailDto
+                {
+                    CategoryId = item.CategoryId,
+                    ClosingTime = item.ClosingTime,
+                    MailAddress = item.MailAddress,
+                    OpeningTime = item.OpeningTime,
+                    RestaurantAddress = item.RestaurantAddress,
+                    RestaurantName = item.RestaurantName,
+                    MinCartPrice = item.MinCartPrice,
+                    TaxNumber = item.TaxNumber,
+                    RestaurantRate = totalComment == 0 ? 0 : total / totalComment,
+                    PhoneNumber = item.PhoneNumber,
+                    Id = item.Id,
+                };
+                var temp = restaurantImage.FirstOrDefault(x => x.RestaurantId == item.Id);
+                next.ImagePath = (temp != null) ? (item.Id + "/" + temp.ImagePath) : null;
+                list.Add(next);
+            }
+            return list;
+        }
+
 
 
     }
