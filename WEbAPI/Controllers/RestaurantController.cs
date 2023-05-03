@@ -53,6 +53,7 @@ namespace AciktimRestoranWebAPI.Controllers
             return BadRequest(result.Message);
 
         }
+
         [HttpPost("Update")]
         public IActionResult Update(Restaurant restaurant)
         {
@@ -64,6 +65,7 @@ namespace AciktimRestoranWebAPI.Controllers
             return BadRequest(result.Message);
 
         }
+
         [HttpPost("Delete")]
         public IActionResult Delete(string id)
         {
@@ -95,6 +97,16 @@ namespace AciktimRestoranWebAPI.Controllers
             }
             return BadRequest(result.Message);
 
+        }
+        [HttpGet("getdetailsdtobyid")]
+        public IActionResult GetRestaurantDetailsById(string id)
+        {
+            var result = _restaurantService.GetRestaurantDetailByRestaurantId(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
         }
     }
 }
