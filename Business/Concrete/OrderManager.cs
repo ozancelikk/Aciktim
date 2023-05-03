@@ -76,5 +76,15 @@ namespace Business.Concrete
             }
             throw new FormatException(Messages.Unsuccessful);
         }
+
+        public IDataResult<List<Order>> GetActiveOrdersDetailsByRestaurantId(string restaurantId)
+        {
+            return new SuccessDataResult<List<Order>>(_orderDal.GetAll(x=>x.RestaurantId == restaurantId && ((x.OrderStatus == "Kuryede") || x.OrderStatus == "Hazırlanıyor" || x.OrderStatus == "Alındı")), Messages.Successful);    
+        }
+
+        public IDataResult<List<Order>> GetPassiveOrdersDetailsByRestaurantId(string restaurantId)
+        {
+            return new SuccessDataResult<List<Order>>(_orderDal.GetAll(x => x.RestaurantId == restaurantId && x.OrderStatus == "Tamamlandı" ), Messages.Successful);
+        }
     }
 }

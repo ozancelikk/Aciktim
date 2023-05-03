@@ -43,5 +43,27 @@ namespace AciktimAdminWebAPI.Controllers
             }
             return BadRequest(result.Message);
         }
+
+        [HttpGet("GetActiveOrdersByRestaurantId")]
+        public IActionResult GetActiveOrdersByRestaurantId(string restaurantId)
+        {
+            var result = _orderService.GetActiveOrdersDetailsByRestaurantId(restaurantId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
+        [HttpGet("GetPassiveOrdersByRestaurantId")]
+        public IActionResult GetPassiveOrdersByRestaurantId(string restaurantId)
+        {
+            var result = _orderService.GetPassiveOrdersDetailsByRestaurantId(restaurantId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
     }
 }
