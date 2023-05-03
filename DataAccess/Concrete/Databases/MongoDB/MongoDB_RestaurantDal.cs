@@ -112,7 +112,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                     RestaurantAddress = item.RestaurantAddress,
                     RestaurantName = item.RestaurantName,
                     MinCartPrice = item.MinCartPrice,
-                    RestaurantRate = total / totalComment,
+                    RestaurantRate = totalComment == 0 ? 0 : total / totalComment,
                     PhoneNumber = item.PhoneNumber,
                     Id = item.Id,
                 };
@@ -166,7 +166,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 OpeningTime = restaurant[0].OpeningTime,
                 RestaurantAddress = restaurant[0].RestaurantAddress,
                 RestaurantName = restaurant[0].RestaurantName,
-                RestaurantRate = total / totalComment,
+                RestaurantRate = totalComment==0 ?0 : total / totalComment,
                 PhoneNumber = restaurant[0].PhoneNumber,
             };
             temp.ImagePath = restaurantImage.Any() ? restaurantImage[0].ImagePath : null;
@@ -313,7 +313,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                     RestaurantAddress = item.RestaurantAddress,
                     RestaurantName = item.RestaurantName,
                     MinCartPrice = item.MinCartPrice,
-                    RestaurantRate = total / totalComment,
+                    RestaurantRate = totalComment == 0 ? 0 : total / totalComment,
                     PhoneNumber = item.PhoneNumber,
                     Id = item.Id,
                 };
