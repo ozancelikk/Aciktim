@@ -52,5 +52,15 @@ namespace AciktimRestoranWebAPI.Controllers
             }
             return BadRequest(result);
         }
+        [HttpPost("ChangePassword")]
+        public ActionResult ChangePassword(CustomerChangePasswordDto customerChangePasswordDto)
+        {
+            var result = _restaurantAuthService.ChangePassword(customerChangePasswordDto);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
     }
 }

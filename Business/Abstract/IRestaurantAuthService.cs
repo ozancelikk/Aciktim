@@ -17,5 +17,6 @@ namespace Business.Abstract
         IDataResult<RestaurantAccessToken> CreateAccessToken(Restaurant restaurant);
         IResult ForgotPassword(string eMail);
         IResult ChangeForgottenPassword(ForgettenPasswordForRestaurant forgettenPasswordForRestaurant);
+        IResult ChangePassword(CustomerChangePasswordDto customerChangePasswordDto);
     }
 }
