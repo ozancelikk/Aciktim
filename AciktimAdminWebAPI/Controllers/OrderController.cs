@@ -65,5 +65,16 @@ namespace AciktimAdminWebAPI.Controllers
             }
             return BadRequest(result.Message);
         }
+
+        [HttpGet("GetById")]
+        public IActionResult GetById(string id)
+        {
+            var result = _orderService.GetById(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
     }
 }
