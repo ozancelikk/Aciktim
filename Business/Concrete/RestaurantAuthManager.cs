@@ -134,5 +134,26 @@ namespace Business.Concrete
             }
             return new SuccessResult(Messages.Successful);
         }
+
+        public IResult ChangePassword(CustomerChangePasswordDto customerChangePasswordDto)
+        {
+            var result = _restaurantService.GetByMail(customerChangePasswordDto.EMail);
+            if (result.Data != null)
+            {
+                byte[] passwordHash, passwordSalt;
+                HashingHelper.CreatePasswordHash(customerChangePasswordDto.OldPassword, out passwordHash, out passwordSalt);
+                if (!HashingHelper.VerifyPasswordHash(customerChangePasswordDto.OldPassword, result.Data.PasswordHash, result.Data.PasswordSalt))
+                {
+                    return new ErrorResult(Messages.PasswordError);
+                }
+
+                HashingHelper.CreatePasswordHash(customerChangePasswordDto.NewPassword, out byte[] newPasswordHash, out byte[] newPasswordSalt);
+                result.Data.PasswordSalt = newPasswordSalt;
+                result.Data.PasswordHash = newPasswordHash;
+                _restaurantService.Update(result.Data);
+                return new SuccessResult(Messages.Successful);
+            }
+            return new ErrorResult(Messages.Unsuccessful);
+        }
     }
 }

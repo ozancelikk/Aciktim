@@ -127,5 +127,6 @@ namespace Business.Concrete
             var accessToken = _tokenHelper.CreateTokenForUser(user, claims.Data);
             return new SuccessDataResult<UserAccessToken>(accessToken, Messages.AccessTokenCreated);
         }
+         
     }
 }

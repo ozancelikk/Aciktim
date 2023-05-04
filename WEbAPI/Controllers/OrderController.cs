@@ -60,6 +60,27 @@ namespace AciktimRestoranWebAPI.Controllers
             }
             return BadRequest(result);
         }
+        [HttpGet("GetActiveOrdersByRestaurantId")]
+        public IActionResult GetActiveOrdersByRestaurantId(string restaurantId)
+        {
+            var result = _orderService.GetActiveOrdersDetailsByRestaurantId(restaurantId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
+        [HttpGet("GetPassiveOrdersByRestaurantId")]
+        public IActionResult GetPassiveOrdersByRestaurantId(string restaurantId)
+        {
+            var result = _orderService.GetPassiveOrdersDetailsByRestaurantId(restaurantId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
         [HttpPost("GetById")]
         public IActionResult GetById(string id)
         {
@@ -69,6 +90,42 @@ namespace AciktimRestoranWebAPI.Controllers
                 return Ok(result);
             }
             return BadRequest(result);
+        }
+        [HttpPost("ChangeOrderStatusToCourier")]
+        public IActionResult ChangeOrderStatusToCourier(Order order)
+        {
+            order.OrderStatus = "Kuryede";
+            var result = _orderService.Update(order);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+
+        }
+        [HttpPost("ChangeOrderStatusToReady")]
+        public IActionResult ChangeOrderStatusToReady(Order order)
+        {
+            order.OrderStatus = "Hazırlanıyor";
+            var result = _orderService.Update(order);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+
+        }
+        [HttpPost("ChangeOrderStatusToComplete")]
+        public IActionResult ChangeOrderStatusToComplete(Order order)
+        {
+            order.OrderStatus = "Tamamlandı";
+            var result = _orderService.Update(order);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+
         }
     }
 }
