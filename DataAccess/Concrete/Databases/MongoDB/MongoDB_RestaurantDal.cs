@@ -168,6 +168,9 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 RestaurantRate = totalComment==0 ?0 : total / totalComment,
                 PhoneNumber = restaurant[0].PhoneNumber,
                 TaxNumber = restaurant[0].TaxNumber,
+                RegisterDate = restaurant[0].RegisterDate,
+                
+                
             };
             temp.ImagePath = restaurantImage.Any() ? restaurantImage[0].ImagePath : null;
             return temp;
@@ -316,6 +319,8 @@ namespace DataAccess.Concrete.Databases.MongoDB
                     RestaurantRate = totalComment == 0 ? 0 : total / totalComment,
                     PhoneNumber = item.PhoneNumber,
                     Id = item.Id,
+                    RegisterDate = item.RegisterDate,
+
                 };
                 var temp = restaurantImage.FirstOrDefault(x => x.RestaurantId == item.Id);
                 next.ImagePath = (temp != null) ? (item.Id + "/" + temp.ImagePath) : null;
@@ -372,6 +377,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                     RestaurantRate = totalComment == 0 ? 0 : total / totalComment,
                     PhoneNumber = item.PhoneNumber,
                     Id = item.Id,
+                    RegisterDate = item.RegisterDate,
                 };
                 var temp = restaurantImage.FirstOrDefault(x => x.RestaurantId == item.Id);
                 next.ImagePath = (temp != null) ? (item.Id + "/" + temp.ImagePath) : null;
@@ -428,6 +434,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                     RestaurantRate = totalComment == 0 ? 0 : total / totalComment,
                     PhoneNumber = item.PhoneNumber,
                     Id = item.Id,
+                    RegisterDate = item.RegisterDate,
                 };
                 var temp = restaurantImage.FirstOrDefault(x => x.RestaurantId == item.Id);
                 next.ImagePath = (temp != null) ? (item.Id + "/" + temp.ImagePath) : null;

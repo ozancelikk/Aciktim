@@ -53,5 +53,17 @@ namespace AciktimRestoranWebAPI.Controllers
             return Ok(result);
         }
 
+        [HttpPost("Update")]
+        public IActionResult Update([FromForm(Name = "Image")] IFormFile file, [FromForm] UpdateRestaurantImageDto restaurantImageDto)
+        {
+            var map = _mapper.Map<RestaurantImage>(restaurantImageDto);
+            var result = _restaurantImageService.Update(file, map);
+            if (!result.Success)
+            {
+                return BadRequest(result.Message);
+            }
+            return Ok(result);
+        }
+
     }
 }

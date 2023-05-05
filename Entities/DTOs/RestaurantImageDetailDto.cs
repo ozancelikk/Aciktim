@@ -18,6 +18,7 @@ namespace Entities.DTOs
         public double RestaurantRate { get; set; }
         public double MinCartPrice { get; set; }
         public string TaxNumber { get; set; }
-        public string ImagePath { get; set; } 
+        public string ImagePath { get; set; }
+        public string RegisterDate { get; set; }
     }
 }

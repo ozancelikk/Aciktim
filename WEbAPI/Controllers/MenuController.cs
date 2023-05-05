@@ -31,6 +31,17 @@ namespace AciktimRestoranWebAPI.Controllers
             }
             return BadRequest(result);
         }
+        [HttpPost("AddMenuWithImage")]
+        public IActionResult AddWithMenuImage(MenuDto menuDto)
+        {
+            var menu = _mapper.Map<Menu>(menuDto);
+            var result = _menuService.AddMenuWithImage(menu);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
         [HttpPost("Update")]
         public IActionResult Update(Menu menu)
         {
