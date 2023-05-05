@@ -23,6 +23,12 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Successful);
         }
 
+        public IDataResult<string> AddMenuWithImage(Menu menu)
+        {
+            _menuDal.Add(menu);
+            return new SuccessDataResult<string>(menu.Id,Messages.Successful);
+        }
+
         public IResult Delete(string id)
         {
             var menu=GetById(id);

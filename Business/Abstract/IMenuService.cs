@@ -11,6 +11,7 @@ namespace Business.Abstract
     {
         IDataResult<List<Menu>> GetAll();
         IDataResult<Menu> GetById(string id);
+        IDataResult<string> AddMenuWithImage(Menu menu);
         IResult Add(Menu menu);
         IResult Update(Menu menu);
         IResult Delete(string id);

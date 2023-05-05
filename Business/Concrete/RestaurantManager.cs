@@ -4,6 +4,7 @@ using Castle.Core.Resource;
 using Core.Entities.Concrete.DBEntities;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using Entities.Concrete;
 using Entities.Dtos;
 using Entities.DTOs;
 using System;
@@ -22,6 +23,11 @@ namespace Business.Concrete
         {
             _restaurantDal.Add(restaurant);
             return new SuccessResult(Messages.AddingSuccessful);
+        }
+        public IDataResult<string> AddRestaurantWithImage(Restaurant restaurant)
+        {
+            _restaurantDal.Add(restaurant);
+            return new SuccessDataResult<string>(restaurant.Id, Messages.Successful);
         }
 
         public IResult ChangeForgottenPassword(Restaurant restaurant)

@@ -58,6 +58,8 @@ namespace Entities.Profiles.AutoMapperProfiles
             CreateMap<SupportDto, Support>();
             CreateMap<RestaurantForUpdateDto, Restaurant>();
             CreateMap<Restaurant, RestaurantForUpdateDto>();
+            CreateMap<RestaurantImage, UpdateRestaurantImageDto>();
+            CreateMap<UpdateRestaurantImageDto, RestaurantImage>();
         }
     }
 }

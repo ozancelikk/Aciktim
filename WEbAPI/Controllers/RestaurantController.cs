@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Business.Abstract;
 using Core.Entities.Concrete.DBEntities;
+using Entities.Concrete;
 using Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,18 @@ namespace AciktimRestoranWebAPI.Controllers
             return BadRequest(result.Message);
 
         }
+        [HttpPost("AddMenuWithImage")]
+        public IActionResult AddWithMenuImage(RestaurantDto restaurantDto)
+        {
+            var restaurant = _mapper.Map<Restaurant>(restaurantDto);
+            var result = _restaurantService.AddRestaurantWithImage(restaurant);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpGet("GetAll")]
         public IActionResult GetALl()
         {

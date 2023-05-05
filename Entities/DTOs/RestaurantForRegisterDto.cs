@@ -16,6 +16,7 @@ namespace Entities.DTOs
         public string ClosingTime { get; set; }
         public string PhoneNumber { get; set; }
         public string CategoryId { get; set; }
+        public string RegisterDate { get; set; }
         public double MinCartPrice { get; set; }
     }
 }

@@ -107,6 +107,7 @@ namespace Business.Concrete
                 RestaurantName= restaurantForRegisterDto.RestaurantName,
                 TaxNumber = restaurantForRegisterDto.TaxNumber,
                 RestaurantRate=0,
+                RegisterDate=restaurantForRegisterDto.RegisterDate
             };
 
             _restaurantService.Add(restaurant);

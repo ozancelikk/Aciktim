@@ -18,6 +18,7 @@ namespace Business.Abstract
         IDataResult<Restaurant> GetById(string id);
         IDataResult<RestaurantDetailsDto> GetDetailsById(string id);
         IResult Add(Restaurant restaurant);
+        public IDataResult<string> AddRestaurantWithImage(Restaurant restaurant);
         IResult Update(Restaurant restaurant);
         IResult Delete(string id);
         IDataResult<Restaurant> GetByMail(string mail);
