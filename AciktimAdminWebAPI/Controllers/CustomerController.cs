@@ -46,6 +46,20 @@ namespace AciktimAdminWebAPI.Controllers
         }
 
 
+        
+
+        [HttpGet("GetCustomerOrdersByOrderNumbers")]
+
+        public IActionResult GetCustomerOrdersByOrderNumbers()
+        {
+            var result = _customerService.GetCustomerOrdersByOrderNumbers();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
         [HttpGet("getdetailsbyid")]
 
         public IActionResult GetDetailsById(string id)

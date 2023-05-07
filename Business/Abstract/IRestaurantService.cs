@@ -25,5 +25,6 @@ namespace Business.Abstract
         IResult ChangeForgottenPassword(Restaurant restaurant);
         IDataResult<List<OperationClaim>> GetClaims(Restaurant restaurant);
         IDataResult<List<RestaurantImageDetailDto>> GetRestaurantsByCategoryId(params string[] categoryId);
+        IDataResult<List<RestaurantOrderDto>> GetRestaurantsOrderNumber();
     }
 }

@@ -4,6 +4,7 @@ using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Dtos;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -85,6 +86,18 @@ namespace Business.Concrete
         public IDataResult<List<Order>> GetPassiveOrdersDetailsByRestaurantId(string restaurantId)
         {
             return new SuccessDataResult<List<Order>>(_orderDal.GetAll(x => x.RestaurantId == restaurantId && x.OrderStatus == "Tamamlandı" ), Messages.Successful);
+        }
+
+        public IDataResult<OrdersByDateDto> GetTodayOrders()
+        {
+            return new SuccessDataResult<OrdersByDateDto>(_orderDal.GetOrdersByDate(DateTime.Today.ToString("dd.MM.yyyy")),Messages.Successful);
+        }
+
+        public IDataResult<OrdersByDateDto> GetYesterdayOrders()
+        {
+            DateTime yesterday = DateTime.Today.AddDays(-1);
+            string yesterdayString = yesterday.ToString("dd.MM.yyyy");
+            return new SuccessDataResult<OrdersByDateDto>(_orderDal.GetOrdersByDate(yesterdayString), Messages.Successful);
         }
     }
 }

@@ -7,8 +7,8 @@ using DataAccess.Concrete.DataBases.MongoDB.Collections;
 using Entities.Concrete;
 using Entities.Dtos;
 using Entities.DTOs;
-using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -76,7 +76,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 var currentAddress = addresses.Where(c => c.CustomerId == item.CustomerId).FirstOrDefault();
                 var currentMenu = menus.Where(x => x.RestaurantId == item.RestaurantId).FirstOrDefault();
                 var currentMenuImage = menuImages.Where(x => x.MenuId == currentMenu.Id).FirstOrDefault();
-                if (currentCustomer!=null)
+                if (currentCustomer != null)
                 {
                     list.Add(new Order
                     {
@@ -95,15 +95,15 @@ namespace DataAccess.Concrete.Databases.MongoDB
                     }
                 );
                 }
-                
+
             }
             return list;
-           
+
         }
 
         public List<OrderDto> GetAllOrders()
         {
-            
+
             List<Order> orders = new List<Order>();
             List<Customer> customers = new List<Customer>();
             List<Menu> menus = new List<Menu>();
@@ -152,8 +152,8 @@ namespace DataAccess.Concrete.Databases.MongoDB
             }
             var list = new List<OrderMenuDetail>();
 
-            
- 
+
+
             foreach (var item in orders)
             {
                 var currentCustomer = customers.Where(e => e.Id == item.CustomerId).FirstOrDefault();
@@ -163,15 +163,15 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 var currentMenuImage = menuImages.Where(x => x.MenuId == currentMenu.Id).FirstOrDefault();
 
                 list.Add(new OrderMenuDetail
-                { 
-                
-                MenuName = currentMenu.MenuTitle,
-                OrderPrice =currentMenu.MenuPrice,
-                RestaurantId = currentRestaurant.Id,
-                Quantity = 1,
-                MenuImage = currentMenuImage.ImagePath,
+                {
+
+                    MenuName = currentMenu.MenuTitle,
+                    OrderPrice = currentMenu.MenuPrice,
+                    RestaurantId = currentRestaurant.Id,
+                    Quantity = 1,
+                    MenuImage = currentMenuImage.ImagePath,
                 });
-                
+
                 var dto = new OrderDto
                 {
                     FirstName = currentCustomer.FirstName,
@@ -181,13 +181,35 @@ namespace DataAccess.Concrete.Databases.MongoDB
                     LastName = currentCustomer.LastName,
                     Address = currentAddress.Address,
                     PhoneNumber = currentCustomer.PhoneNumber,
-                    CustomerId=currentCustomer.Id,
-                    Menus =  list
+                    CustomerId = currentCustomer.Id,
+                    Menus = list
                 };
                 orderdto.Add(dto);
             }
             return orderdto;
 
+        }
+
+        public OrdersByDateDto GetOrdersByDate(string date)
+        {
+            List<Order> orders = new List<Order>();
+            using (var orderContext = new MongoDB_Context<Order, MongoDB_OrderCollection>())
+            {
+                orderContext.GetMongoDBCollection();
+                orders = orderContext.collection.Find<Order>(document => true).ToList();
+            }
+            var count = 0;
+            foreach (var order in orders)
+            {
+                var a = order.OrderDate.Split('.', ' ');
+                var orderDate = a[0] + "." + a[1] + "." + a[2]; // o anki siparişin tarihi var
+                if (orderDate == date) // istediğimiz sipiarş
+                {
+                    count++;
+                }
+            }
+            var x = new OrdersByDateDto { Count = count, Date = date };
+            return x;
         }
     }
 }
