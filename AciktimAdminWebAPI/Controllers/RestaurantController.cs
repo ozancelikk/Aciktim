@@ -67,6 +67,17 @@ namespace AciktimAdminWebAPI.Controllers
             return BadRequest(result.Message);
         }
 
+        [HttpGet("GetRestaurantsOrderNumber")]
+        public IActionResult GetRestaurantsOrderNumber()
+        {
+            var result = _restaurantService.GetRestaurantsOrderNumber();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
         [HttpGet("GetRestaurantDetailByRestaurantId")]
         public IActionResult GetRestaurantDetailByRestaurantId(string restaurantId)
         {

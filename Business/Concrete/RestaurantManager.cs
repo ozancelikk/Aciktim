@@ -101,6 +101,10 @@ namespace Business.Concrete
             return new SuccessDataResult<List<RestaurantImageDetailDto>>(_restaurantDal.GetRestaurantsByCategoryId(categoryId), Messages.Successful);
         }
 
+        public IDataResult<List<RestaurantOrderDto>> GetRestaurantsOrderNumber()
+        {
+            return new SuccessDataResult<List<RestaurantOrderDto>>(_restaurantDal.GetRestaurantsOrderNumber(), Messages.Successful);
+        }
 
         public IResult Update(Restaurant restaurant)
         {

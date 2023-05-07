@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Castle.Core.Resource;
 using Core.DataAccess.Databases.MongoDB;
 using Core.Entities.Concrete.DBEntities;
 using Core.Utilities.Results;
@@ -7,6 +6,7 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.Databases.MongoDB.Collections;
 using DataAccess.Concrete.DataBases.MongoDB;
 using DataAccess.Concrete.DataBases.MongoDB.Collections;
+using Entities.Concrete;
 using Entities.Concrete.Simples;
 using Entities.Dtos;
 using Entities.DTOs;
@@ -40,29 +40,29 @@ namespace DataAccess.Concrete.Databases.MongoDB
         public List<CustomerDto> GetAllCustomer()
         {
             List<Customer> customers = new List<Customer>();
-            using (var customerContext = new MongoDB_Context<Customer,MongoDB_CustomerCollection>())
+            using (var customerContext = new MongoDB_Context<Customer, MongoDB_CustomerCollection>())
             {
                 customerContext.GetMongoDBCollection();
-                customers=customerContext.collection.Find<Customer>(document=>true).ToList();
+                customers = customerContext.collection.Find<Customer>(document => true).ToList();
                 var customerDtos = new List<CustomerDto>();
                 foreach (var customer in customers)
                 {
-                    if (customer.Id!=null)
+                    if (customer.Id != null)
                     {
                         customerDtos.Add(new CustomerDto
                         {
-                            BirthDay=customer.BirthDay,
-                            FirstName=customer.FirstName,
-                            LastName=customer.LastName,
-                            MailAddress=customer.MailAddress,
-                            NationalityId=customer.NationalityId,
-                            PhoneNumber=customer.PhoneNumber,
+                            BirthDay = customer.BirthDay,
+                            FirstName = customer.FirstName,
+                            LastName = customer.LastName,
+                            MailAddress = customer.MailAddress,
+                            NationalityId = customer.NationalityId,
+                            PhoneNumber = customer.PhoneNumber,
                             RegisterDate = customer.RegisterDate,
                         });
                     }
                 }
                 return customerDtos;
-            }             
+            }
         }
 
         public List<CustomerDetailsDto> GetAllCustomerWithId()
@@ -149,7 +149,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 customerContext.GetMongoDBCollection();
                 var customers = customerContext.collection.Find<Customer>(document => true).ToList();
                 var temp = customers.Find(x => x.Id == id);
-               
+
                 var real = _mapper.Map<CustomerDetailsDto>(temp);
                 return real;
             }
@@ -167,7 +167,40 @@ namespace DataAccess.Concrete.Databases.MongoDB
             }
         }
 
-        
+        public List<CustomerOrdersByOrderNumberDto> GetCustomerOrdersByOrderNumbers()
+        {
+            List<CustomerOrdersByOrderNumberDto> list = new List<CustomerOrdersByOrderNumberDto>();
+            List<Customer> customer = new List<Customer>();
+            List<Order> order = new List<Order>();
+            using (var customers = new MongoDB_Context<Customer, MongoDB_CustomerCollection>())
+            {
+                customers.GetMongoDBCollection();
+                customer = customers.collection.Find<Customer>(document => true).ToList();
+            }
+
+            using (var orderContext = new MongoDB_Context<Order, MongoDB_OrderCollection>())
+            {
+                orderContext.GetMongoDBCollection();
+                order = orderContext.collection.Find<Order>(document => true).ToList();
+            }
+
+            var temp = order.GroupBy(x => x.CustomerId).ToList().OrderByDescending(x => x.Count()).Take(10).ToList();
+
+            foreach (var group in temp)
+            {
+                var müsteri = customer.FirstOrDefault(x => x.Id == group.Key);
+                if (customer != null)
+                {
+                    list.Add(new CustomerOrdersByOrderNumberDto
+                    {
+                        CustomerId = müsteri.Id,
+                        CustomerName = müsteri.FirstName + " " + müsteri.LastName,
+                        OrderNumber = group.Count()
+                    });
+                }
+            }
+            return list;
+        }
 
         public CustomerEvolved GetWithClaims(string customerId)
         {
@@ -185,7 +218,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
                 OperationClaims = GetClaims(customer),
-                
+
 
             };
             return customerEvolved;

@@ -76,5 +76,27 @@ namespace AciktimAdminWebAPI.Controllers
             }
             return BadRequest(result.Message);
         }
+
+        [HttpGet("GetTodayOrders")]
+        public IActionResult GetTodayOrders()
+        {
+            var result = _orderService.GetTodayOrders();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
+        [HttpGet("GetYesterdayOrders")]
+        public IActionResult GetYesterdayOrders()
+        {
+            var result = _orderService.GetYesterdayOrders();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
     }
 }

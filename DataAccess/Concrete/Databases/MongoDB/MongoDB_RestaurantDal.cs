@@ -59,7 +59,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                             RestaurantRate = restaurant.RestaurantRate,
                             TaxNumber = restaurant.TaxNumber,
                             PhoneNumber = restaurant.PhoneNumber,
-                            Status=false
+                            Status = false
                         });
                     }
                 }
@@ -165,12 +165,12 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 OpeningTime = restaurant[0].OpeningTime,
                 RestaurantAddress = restaurant[0].RestaurantAddress,
                 RestaurantName = restaurant[0].RestaurantName,
-                RestaurantRate = totalComment==0 ?0 : total / totalComment,
+                RestaurantRate = totalComment == 0 ? 0 : total / totalComment,
                 PhoneNumber = restaurant[0].PhoneNumber,
                 TaxNumber = restaurant[0].TaxNumber,
                 RegisterDate = restaurant[0].RegisterDate,
-                
-                
+
+
             };
             temp.ImagePath = restaurantImage.Any() ? restaurantImage[0].ImagePath : null;
             return temp;
@@ -279,7 +279,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 {
                     if (roles.Contains(item.CategoryId))
                     {
-                        myRestaurants.Add(item); 
+                        myRestaurants.Add(item);
                     }
                 }
             }
@@ -443,7 +443,35 @@ namespace DataAccess.Concrete.Databases.MongoDB
             return list;
         }
 
+        public List<RestaurantOrderDto> GetRestaurantsOrderNumber()
+        {
+            List<RestaurantOrderDto> myList = new List<RestaurantOrderDto>();
 
+            List<Restaurant> restaurant = new List<Restaurant>();
 
+            using (var restaurants = new MongoDB_Context<Restaurant, MongoDB_RestaurantCollection>())
+            {
+                restaurants.GetMongoDBCollection();
+                restaurant = restaurants.collection.Find<Restaurant>(document => true).ToList();
+            }
+            List<Order> order = new List<Order>();
+            using (var orders = new MongoDB_Context<Order, MongoDB_OrderCollection>())
+            {
+                orders.GetMongoDBCollection();
+                order = orders.collection.Find<Order>(document => document.OrderStatus == "Tamamlandı" ).ToList();
+            }
+
+            foreach (var item in restaurant)
+            {
+                var currentRestaurantOrderNumber = order.Where(x => x.RestaurantId == item.Id).ToList().Count;
+                myList.Add(new RestaurantOrderDto
+                {
+                    RestaurantName = item.RestaurantName,
+                    RestaurantOrderNumber = currentRestaurantOrderNumber
+                });
+
+            }
+            return myList;
+        }
     }
 }

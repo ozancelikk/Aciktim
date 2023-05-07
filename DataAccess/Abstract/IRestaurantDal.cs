@@ -22,5 +22,6 @@ namespace DataAccess.Abstract
         List<RestaurantImageDetailDto> GetPassiveRestaurantsWithImages();
         List<RestaurantImageDetailDto> GetRestaurantsByCategoryId(params string[] categoryId);
         RestaurantImageDetailDto GetRestaurantDetailImagesById(string restaurantId);
+        List<RestaurantOrderDto> GetRestaurantsOrderNumber();
     }
 }
