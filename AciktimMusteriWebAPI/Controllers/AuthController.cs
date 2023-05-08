@@ -24,7 +24,7 @@ namespace AciktimMusteriWebAPI.Controllers
             {
                 return BadRequest(exists.Message);
             }
-            customerForRegisterDto.RegisterDate = DateTime.Now.ToShortDateString();
+            customerForRegisterDto.RegisterDate = DateTime.Today.ToString("dd.MM.yyyy");
 
             var register = _customerAuthService.Register(customerForRegisterDto);
             var check = _customerAuthService.CreateAccessToken(register.Data);
