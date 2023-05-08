@@ -211,5 +211,57 @@ namespace DataAccess.Concrete.Databases.MongoDB
             var x = new OrdersByDateDto { Count = count, Date = date };
             return x;
         }
+
+        public List<OrdersByRestaurantDto> GetOrdersByRestaurantId(string restaurantId)
+        {
+            List<OrdersByRestaurantDto> orderDtos = new List<OrdersByRestaurantDto>();
+            List<Order> orders = new List<Order>();
+            using (var orderContext = new MongoDB_Context<Order, MongoDB_OrderCollection>())
+            {
+                orderContext.GetMongoDBCollection();
+                orders = orderContext.collection.Find<Order>(document => document.RestaurantId == restaurantId).ToList();
+            }
+            List<Restaurant>restaurants= new List<Restaurant>();
+            using (var restaurant = new MongoDB_Context<Restaurant, MongoDB_RestaurantCollection>())
+            {
+                restaurant.GetMongoDBCollection();
+                restaurants = restaurant.collection.Find<Restaurant>(document => true).ToList();
+            }
+            Dictionary<string, int> menuCount = new Dictionary<string, int>();
+            foreach (var item in orders)
+            {
+                foreach (var menu in item.Menus)
+                {
+                    string menuName = (string)menu.MenuName;
+                    if (!menuCount.ContainsKey(menuName))
+                    {
+                        menuCount[menuName] = 0;
+                    }
+                    menuCount[menuName] += (int)menu.Quantity;
+                }
+            }
+
+            var topOrderedMenus = menuCount.OrderByDescending(x => x.Value).Take(5);
+            Dictionary<string, int> topOrderedMenuDict = topOrderedMenus.ToDictionary(x => x.Key, x => x.Value);
+
+            // En fazla sipariş verilen 5 menüyü yazdır
+            if (topOrderedMenuDict.Any())
+            {
+                Console.WriteLine("En fazla sipariş verilen 5 menü:");
+                foreach (var menu in topOrderedMenuDict)
+                {
+                    orderDtos.Add(new OrdersByRestaurantDto{
+                        MenuName=menu.Key,
+                        Quantity=menu.Value
+                    });
+                    Console.WriteLine($"{menu.Key} ({menu.Value} sipariş)");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Hiçbir menü sipariş edilmedi.");
+            }
+            return orderDtos;
+        }
     }
 }

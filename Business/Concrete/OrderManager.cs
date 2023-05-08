@@ -99,5 +99,10 @@ namespace Business.Concrete
             string yesterdayString = yesterday.ToString("dd.MM.yyyy");
             return new SuccessDataResult<OrdersByDateDto>(_orderDal.GetOrdersByDate(yesterdayString), Messages.Successful);
         }
+
+        public IDataResult<List<OrdersByRestaurantDto>> OrderMenusByRestaurantId(string restaurantId)
+        {
+            return new SuccessDataResult<List<OrdersByRestaurantDto>>(_orderDal.GetOrdersByRestaurantId(restaurantId),Messages.Successful);
+        }
     }
 }

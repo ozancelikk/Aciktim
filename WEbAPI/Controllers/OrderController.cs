@@ -60,6 +60,16 @@ namespace AciktimRestoranWebAPI.Controllers
             }
             return BadRequest(result);
         }
+        [HttpGet("OrderMenusByRestaurantId")]
+        public IActionResult OrderMenusByRestaurantId(string restaurantId)
+        {
+            var result = _orderService.OrderMenusByRestaurantId(restaurantId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
         [HttpGet("GetActiveOrdersByRestaurantId")]
         public IActionResult GetActiveOrdersByRestaurantId(string restaurantId)
         {
