@@ -151,7 +151,8 @@ namespace Core.Utilities.Security.JWT
             {
                 RestaurantId = restaurant.Id,
                 Token = token,
-                Expiration = _accessTokenExpiration
+                Expiration = _accessTokenExpiration,
+                Status=restaurant.Status,
             };
 
         }
