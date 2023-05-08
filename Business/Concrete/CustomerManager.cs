@@ -80,6 +80,11 @@ namespace Business.Concrete
            return new SuccessDataResult<List<CustomerOrdersByOrderNumberDto>>(_customerDal.GetCustomerOrdersByOrderNumbers(),Messages.Successful);
         }
 
+        public IDataResult<int> GetCustomersByTodayRegisterDate()
+        {
+            return new SuccessDataResult<int>(_customerDal.GetCustomersByTodayRegisterDate(),Messages.Successful);
+        }
+
         public IDataResult<CustomerDetailsDto> GetDetailsById(string id)
         {
             return new SuccessDataResult<CustomerDetailsDto>(_customerDal.GetCustomerById(id), Messages.Successful);

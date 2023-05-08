@@ -11,6 +11,7 @@ using Entities.Concrete.Simples;
 using Entities.Dtos;
 using Entities.DTOs;
 using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -200,6 +201,28 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 }
             }
             return list;
+        }
+
+        public int GetCustomersByTodayRegisterDate()
+        {
+            List<Customer> customers = new List<Customer>();
+            int count = 0;
+            using (var customerContext = new MongoDB_Context<Customer, MongoDB_CustomerCollection>())
+            {
+                customerContext.GetMongoDBCollection();
+                customers = customerContext.collection.Find<Customer>(document => true).ToList();
+                foreach (var customer in customers)
+                {
+                    var a = customer.RegisterDate.Split('.', ' ');
+                    var registerDate = a[0] + "." + a[1] + "." + a[2];
+                    if(registerDate == DateTime.Today.ToString("dd.MM.yyyy"))
+                    {
+                        count++;
+                    }
+                    
+                }
+            }
+            return count;
         }
 
         public CustomerEvolved GetWithClaims(string customerId)
