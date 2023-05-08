@@ -48,6 +48,17 @@ namespace AciktimAdminWebAPI.Controllers
 
         
 
+        [HttpGet("GetCustomersByTodayRegisterDate")]
+        public IActionResult GetCustomersByTodayRegisterDate()
+        {
+            var result = _customerService.GetCustomersByTodayRegisterDate();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
         [HttpGet("GetCustomerOrdersByOrderNumbers")]
 
         public IActionResult GetCustomerOrdersByOrderNumbers()

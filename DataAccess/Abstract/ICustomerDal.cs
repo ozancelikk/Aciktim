@@ -21,5 +21,6 @@ namespace DataAccess.Abstract
         void DeleteClaims(Customer customer);
         List<CustomerDetailsDto> GetAllCustomerWithId();
         List<CustomerOrdersByOrderNumberDto> GetCustomerOrdersByOrderNumbers();
+        int GetCustomersByTodayRegisterDate();
     }
 }

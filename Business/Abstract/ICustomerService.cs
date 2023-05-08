@@ -22,6 +22,7 @@ namespace Business.Abstract
         IResult Delete(string id);
         IDataResult<CustomerDto> GetCustomerDetailsByMail(string mail);
         IDataResult<List<CustomerOrdersByOrderNumberDto>> GetCustomerOrdersByOrderNumbers();
-    
+        IDataResult<int> GetCustomersByTodayRegisterDate();
+
     }
 }
