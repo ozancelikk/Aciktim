@@ -13,5 +13,6 @@ namespace DataAccess.Abstract
         List<OrderDto> GetAllOrders();
         List<Order> GetActiveOrdersByCustomerId(string  customerId);
         OrdersByDateDto GetOrdersByDate(string date);
+        List<OrdersByRestaurantDto> GetOrdersByRestaurantId(string restaurantId);
     }
 }
