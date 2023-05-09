@@ -42,6 +42,7 @@ namespace AciktimAdminWebAPI.Controllers
 
         public IActionResult Login(UserForLoginDto user)
         {
+            
             var result = _authService.Login(user);
             if (!result.Success)
             {
