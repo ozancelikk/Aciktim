@@ -104,5 +104,17 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<OrdersByRestaurantDto>>(_orderDal.GetOrdersByRestaurantId(restaurantId),Messages.Successful);
         }
+
+        public IDataResult<OrdersByDateDto> GetTodayOrdersByRestaurantId(string restaurantId)
+        {
+            return new SuccessDataResult<OrdersByDateDto>(_orderDal.GetOrdersDateByRestaurantId(DateTime.Today.ToString("dd.MM.yyyy"), restaurantId),Messages.Successful);
+        }
+
+        public IDataResult<OrdersByDateDto> GetYesterdayOrdersByRestaurantId(string restaurantId)
+        {
+            DateTime yesterday = DateTime.Today.AddDays(-1);
+            string yesterdayString = yesterday.ToString("dd.MM.yyyy");
+            return new SuccessDataResult<OrdersByDateDto>(_orderDal.GetOrdersDateByRestaurantId(yesterdayString, restaurantId),Messages.Successful);
+        }
     }
 }

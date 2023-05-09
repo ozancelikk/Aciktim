@@ -137,5 +137,26 @@ namespace AciktimRestoranWebAPI.Controllers
             return BadRequest(result.Message);
 
         }
+        [HttpGet("GetTodayOrdersByRestaurantId")]
+        public IActionResult GetTodayOrdersByRestaurantId(string restaurantId)
+        {
+            var result = _orderService.GetTodayOrdersByRestaurantId(restaurantId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
+        [HttpGet("GetYesterdayOrdersByRestaurantId")]
+        public IActionResult GetYesterdayOrdersByRestaurantId(string restaurantId)
+        {
+            var result = _orderService.GetYesterdayOrdersByRestaurantId(restaurantId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
     }
 }

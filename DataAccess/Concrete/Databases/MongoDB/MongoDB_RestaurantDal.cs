@@ -59,7 +59,9 @@ namespace DataAccess.Concrete.Databases.MongoDB
                             RestaurantRate = restaurant.RestaurantRate,
                             TaxNumber = restaurant.TaxNumber,
                             PhoneNumber = restaurant.PhoneNumber,
-                            Status = false
+                            Status = false,
+                            RegisterDate = restaurant.RegisterDate,
+                            RestaurantStatus=restaurant.RestaurantStatus,
                         });
                     }
                 }
@@ -169,6 +171,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 PhoneNumber = restaurant[0].PhoneNumber,
                 TaxNumber = restaurant[0].TaxNumber,
                 RegisterDate = restaurant[0].RegisterDate,
+                RestaurantStatus = restaurant[0].RestaurantStatus,
 
 
             };

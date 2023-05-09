@@ -7,8 +7,10 @@ namespace Entities.Dtos
 {
     public class RestaurantDto:IDto
     {
+        public string Id { get; set; }
         public string RestaurantName { get; set; }
         public string RestaurantAddress { get; set; }
+        public string MailAddress { get; set; }
         public string TaxNumber { get; set; }
         public string OpeningTime { get; set; }
         public string ClosingTime { get; set; }
@@ -18,6 +20,7 @@ namespace Entities.Dtos
         public double MinCartPrice { get; set; }
         public string RegisterDate { get; set; }
         public bool Status { get; set; }
+        public bool RestaurantStatus { get; set; }
 
     }
 }

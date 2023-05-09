@@ -23,6 +23,8 @@ namespace Business.Abstract
         IDataResult<List<OrderDto>> GetAllOrdersDetails();
         IDataResult<OrdersByDateDto> GetTodayOrders();
         IDataResult<OrdersByDateDto> GetYesterdayOrders();
+        IDataResult<OrdersByDateDto> GetTodayOrdersByRestaurantId(string restaurantId);
+        IDataResult<OrdersByDateDto> GetYesterdayOrdersByRestaurantId(string restaurantId);
         IDataResult<List<OrdersByRestaurantDto>>  OrderMenusByRestaurantId(string restaurantId);
 
     }
