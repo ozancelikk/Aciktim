@@ -39,7 +39,7 @@ namespace Business.Concrete
                 LastName = userForRegisterDto.LastName,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
-                Status = false
+                Status = true
             };
 
             _userService.Add(user);
@@ -68,7 +68,7 @@ namespace Business.Concrete
             var userToCheck = _userService.GetByMail(userForLoginDto.Email);
             if (userToCheck.Data == null || !userToCheck.Data.Status)
             {
-                return new ErrorDataResult<User>(Messages.MissingOrIncorrectEntry);
+                return new ErrorDataResult<User>("E-Posta veya şifreniz yanlış");
             }
 
             if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password, userToCheck.Data.PasswordHash, userToCheck.Data.PasswordSalt))

@@ -18,7 +18,7 @@ namespace Business.Constants
         internal static string UserUpdated = "Kullanıcı Güncellendi";
         internal static string ThisOperationClaimAlreadyExists="Bu rol zaten mevcut";
         internal static string UserRegistered ="Kullanıcı kayıtı başarılı.";
-        internal static User MissingOrIncorrectEntry;
+        public static string MissingOrIncorrectEntry ="Eksik Ya Da Hatalı Giriş";
         internal static string SuccessfulLogin="Giriş Başarılı";
         internal static string AccessTokenCreated="Erişim tokeni oluşturuldu.";
         internal static string CustomerRegistered = "Müşteri başarıyla kayıt oldu";

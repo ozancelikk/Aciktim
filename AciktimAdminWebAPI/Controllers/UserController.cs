@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Business.Abstract;
 using Core.Entities.Concrete.DBEntities;
-using Entities.Concrete;
 using Entities.DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AciktimAdminWebAPI.Controllers
@@ -35,7 +33,6 @@ namespace AciktimAdminWebAPI.Controllers
         }
 
         [HttpGet("getbyid")]
-
         public IActionResult GetById(string id)
         {
             var result = _userService.GetById(id);
@@ -82,5 +79,28 @@ namespace AciktimAdminWebAPI.Controllers
             }
             return BadRequest();
         }
+
+        [HttpGet("GetByMail")]
+        public IActionResult GetByMail(string mail)
+        {
+            var result = _userService.GetByMail(mail);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest();
+        }
+
+        [HttpGet("GetClaimAndUserDetails")]
+        public IActionResult GetClaimAndUserDetails(string mail)
+        {
+            var result = _userService.GetClaimAndUserDetails(mail);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
     }
 }

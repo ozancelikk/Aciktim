@@ -14,9 +14,13 @@ namespace Business.Abstract
         IResult Add(User user);
         IResult Delete(User user); 
         IDataResult<UserEvolved> GetById(string id);
-        IDataResult<User> GetByMail(string email); 
+        IDataResult<User> GetByMail(string email);
         IDataResult<UserDto> Update(UserDto user);   
         IResult ChangePassword(UserForChangePasswordDto userForRegisterDto);
         IResult ChangeForgottenPassword(User user);
+        IDataResult<UserClaimDto> GetClaimAndUserDetails(string mail);
+
+
+
     }
 }

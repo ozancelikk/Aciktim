@@ -156,10 +156,48 @@ namespace DataAccess.Concrete.DataBases.MongoDB
                 userContext.GetMongoDBCollection();
                 var users = userContext.collection.Find<User>(document=>true).ToList();
                 var tempt = users.Find(u => u.Id == id);
-
                 var real=_mapper.Map<UserDto>(tempt);
                 return real;
             }
+        }
+
+        public UserClaimDto GetClaimAndUserDetails(string email)
+        {
+            UserClaimDto myList = new UserClaimDto();
+            
+            List<User> _users = new List<User>();
+            using (var users = new MongoDB_Context<User, MongoDB_UserCollection>())
+            {
+                users.GetMongoDBCollection();
+                _users = users.collection.Find<User>(document => true).ToList();
+            }
+
+            List<UserOperationClaim> _userOperationClaims = new List<UserOperationClaim>();
+            using (var userOperationClaims = new MongoDB_Context<UserOperationClaim, MongoDB_UserOperationClaimCollection>())
+            {
+                userOperationClaims.GetMongoDBCollection();
+                _userOperationClaims = userOperationClaims.collection.Find<UserOperationClaim>(document => true).ToList();
+            }
+            foreach (var item in _userOperationClaims)
+            {
+                var user = _users.Find(x => x.Email == email); // user dönüyor
+                if(user != null) 
+                {
+                    if (item.UserId == user.Id)
+                    {
+                        myList.OperationClaims = GetClaims(user);
+                        myList.Status = user.Status;
+                        myList.UserId = user.Id;
+                        myList.FirstName = user.FirstName;
+                        myList.LastName = user.LastName;
+                        myList.EMail = user.Email;
+                    }
+                }
+                
+            }
+            return myList;
+
+            
         }
     }
 }

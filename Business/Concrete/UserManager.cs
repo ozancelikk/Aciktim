@@ -98,6 +98,13 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(_userDal.Get(u => u.Email == email));
         }
 
+        public IDataResult<UserClaimDto> GetClaimAndUserDetails(string mail)
+        {
+             
+
+           return new SuccessDataResult<UserClaimDto>(_userDal.GetClaimAndUserDetails(mail),Messages.Successful);
+        }
+
         public IDataResult<List<OperationClaim>> GetClaims(User user)
         {
             return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user), Messages.Successful);
