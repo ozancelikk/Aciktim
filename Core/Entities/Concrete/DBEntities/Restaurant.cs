@@ -24,6 +24,7 @@ namespace Core.Entities.Concrete.DBEntities
         public string CategoryId { get; set; }
         public string RegisterDate { get; set; }
         public bool Status { get; set; }
+        public bool RestaurantStatus { get; set; }
         public byte[] PasswordSalt { get; set; }
         public byte[] PasswordHash { get; set; }
     }

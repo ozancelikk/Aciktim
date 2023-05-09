@@ -211,6 +211,29 @@ namespace DataAccess.Concrete.Databases.MongoDB
             var x = new OrdersByDateDto { Count = count, Date = date };
             return x;
         }
+        public OrdersByDateDto GetOrdersDateByRestaurantId(string date,string restaurantId)
+        {
+            List<Order> orders = new List<Order>();
+            using (var orderContext = new MongoDB_Context<Order, MongoDB_OrderCollection>())
+            {
+                orderContext.GetMongoDBCollection();
+                orders = orderContext.collection.Find<Order>(document => true).ToList();
+            }
+            var count = 0;
+            foreach (var order in orders)
+            {
+                var a = order.OrderDate.Split('.', ' ');
+                var orderDate = a[0] + "." + a[1] + "." + a[2]; // o anki siparişin tarihi var
+                if (order.RestaurantId==restaurantId) {
+                    if (orderDate == date) // istediğimiz sipiarş
+                    {
+                        count++;
+                    }
+                }
+            }
+            var x = new OrdersByDateDto { Count = count, Date = date };
+            return x;
+        }
 
         public List<OrdersByRestaurantDto> GetOrdersByRestaurantId(string restaurantId)
         {
@@ -221,6 +244,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 orderContext.GetMongoDBCollection();
                 orders = orderContext.collection.Find<Order>(document => document.RestaurantId == restaurantId).ToList();
             }
+
             List<Restaurant>restaurants= new List<Restaurant>();
             using (var restaurant = new MongoDB_Context<Restaurant, MongoDB_RestaurantCollection>())
             {
@@ -263,5 +287,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
             }
             return orderDtos;
         }
+
+     
     }
 }

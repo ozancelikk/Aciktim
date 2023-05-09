@@ -66,6 +66,34 @@ namespace AciktimRestoranWebAPI.Controllers
             return BadRequest(result.Message);
 
         }
+        [HttpPost("ChangeRestaurantActiveStatus")]
+        public IActionResult ChangeRestaurantActiveStatus(RestaurantDto restaurant)
+        {
+            var map = _mapper.Map<Restaurant>(restaurant);
+            map.RestaurantStatus = true;
+            var result = _restaurantService.Update(map);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+        [HttpPost("ChangeRestaurantPassiveStatus")]
+        public IActionResult ChangeRestaurPassiveStatus(RestaurantDto restaurant)
+        {
+            var x = _restaurantService.GetById(restaurant.Id);
+            var map = _mapper.Map<Restaurant>(restaurant);
+            map.RestaurantStatus = false;
+            map.Status = x.Data.Status;
+            map.PasswordSalt = x.Data.PasswordSalt;
+            map.PasswordHash = x.Data.PasswordHash;
+            var result = _restaurantService.Update(map);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
 
         [HttpPost("Update")]
         public IActionResult Update(Restaurant restaurant)
