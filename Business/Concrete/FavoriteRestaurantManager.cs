@@ -38,7 +38,7 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.Unsuccessful);
             }
-            var result = _favoriteRestaurantDal.Delete(favorite.Data);
+            var result = _favoriteRestaurantDal.Delete(favorite.Data.Id);
             if (result.DeletedCount > 0)
             {
                 return new SuccessResult(Messages.AddingSuccessful);

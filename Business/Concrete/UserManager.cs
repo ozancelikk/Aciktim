@@ -70,7 +70,7 @@ namespace Business.Concrete
             var claim = claims.Data.Find(c => c.Name == "suser");
             if (claim == null)
             {
-                var result = _userDal.Delete(user);
+                var result = _userDal.Delete(user.Id);
                 if (result.DeletedCount > 0)
                 {
                     _userDal.DeleteClaims(user);

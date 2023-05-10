@@ -39,7 +39,7 @@ namespace Business.Concrete
 
         public IResult Delete(RestaurantOperationClaim restaurantOperationClaimSimple)
         {
-            var result = _restaurantOperationClaimDal.Delete(restaurantOperationClaimSimple);
+            var result = _restaurantOperationClaimDal.Delete(restaurantOperationClaimSimple.Id);
             if (result.DeletedCount > 0)
             {
                 return new SuccessResult(Messages.Successful);

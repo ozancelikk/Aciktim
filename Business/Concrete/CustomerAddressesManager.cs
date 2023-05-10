@@ -31,7 +31,7 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.Unsuccessful);
             }
-            var result = _customerAddressesDal.Delete(customer.Data);
+            var result = _customerAddressesDal.Delete(customer.Data.Id);
             if (result.DeletedCount > 0)
             {
                 return new SuccessResult(Messages.DeletionSuccessful);

@@ -76,18 +76,67 @@ namespace DataAccess.Concrete.DataBases.MongoDB
                 operationClaims.GetMongoDBCollection();
                 _usertOperationClaim = operationClaims.collection.Find<UserOperationClaim>(document => true).ToList();
             }
-            var userOperationClaims = _usertOperationClaim.Where(u => true).ToList();   // restaurantların claimlerini tutuyor
+            var userOperationClaims = _usertOperationClaim.Where(u => true).ToList();   
 
 
             foreach (var userOperationClaim in userOperationClaims)
             {
-                var currentUser = user.Find(x => x.Id == userOperationClaim.UserId);       // current restaurant
+                var currentUser = user.Find(x => x.Id == userOperationClaim.UserId);       
                 var claimName = claims.Find(x => x.Id == userOperationClaim.OperationClaimId);
                 dtos.Add(new UserClaimDetailsDto
                 {
                     OperationClaimName = claimName.Name,
                     UserName = currentUser.Email
                 });
+            }
+            return dtos;
+        }
+
+        public List<UserClaimDetailsDto> GetClaimDetailsByUserId(string userId)
+        {
+            List<User> user = new List<User>();
+            List<UserOperationClaim> _usertOperationClaim = new List<UserOperationClaim>();
+            List<UserClaimDetailsDto> dtos = new List<UserClaimDetailsDto>();
+
+            using (var customers = new MongoDB_Context<User, MongoDB_UserCollection>())
+            {
+                customers.GetMongoDBCollection();
+                user = customers.collection.Find<User>(document => document.Id == userId).ToList();
+            }
+            List<OperationClaim> claims = new List<OperationClaim>();
+            using (var operationClaims = new MongoDB_Context<OperationClaim, MongoDB_OperationClaimCollection>())
+            {
+                operationClaims.GetMongoDBCollection();
+                claims = operationClaims.collection.Find<OperationClaim>(document => true).ToList();
+            }
+
+            List<OperationClaim> _currentUserOperationClaims = new List<OperationClaim>();
+
+            using (var operationClaims = new MongoDB_Context<UserOperationClaim, MongoDB_UserOperationClaimCollection>())
+            {
+                operationClaims.GetMongoDBCollection();
+                _usertOperationClaim = operationClaims.collection.Find<UserOperationClaim>(document => true).ToList();
+            }
+            var userOperationClaims = _usertOperationClaim.Where(u => true).ToList();
+
+            
+            foreach (var userOperationClaim in userOperationClaims)
+            {
+                
+                var currentUser = user.Find(x => x.Id == userOperationClaim.UserId);
+                var claimName = claims.Find(x => x.Id == userOperationClaim.OperationClaimId);
+                var claim = userOperationClaims.Find(x => x.UserId == userOperationClaim.UserId && x.OperationClaimId == userOperationClaim.OperationClaimId);
+                if (currentUser != null)
+                {
+                    dtos.Add(new UserClaimDetailsDto
+                    {
+                        OperationClaimName = claimName.Name,
+                        UserName = currentUser.Email,
+                        OperationClaimId = claimName.Id,
+                        Id = claim.Id
+                    });
+                } 
+
             }
             return dtos;
         }

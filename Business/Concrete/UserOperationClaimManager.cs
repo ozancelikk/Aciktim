@@ -35,9 +35,9 @@ namespace Business.Concrete
             return new ErrorResult(result.Message);
         }
 
-        public IResult Delete(UserOperationClaim userOperationClaim)
+        public IResult Delete(string id)
         {
-            var result = _userOperationClaimDal.Delete(userOperationClaim);
+            var result = _userOperationClaimDal.Delete(id);
             if (result.DeletedCount > 0)
             {
                 return new SuccessResult(Messages.Successful);
@@ -63,6 +63,11 @@ namespace Business.Concrete
         public IDataResult<List<UserClaimDetailsDto>> GetClaimDetails()
         {
             return new SuccessDataResult<List<UserClaimDetailsDto>>(_userOperationClaimDal.GetClaimDetails(), Messages.Successful);
+        }
+
+        public IDataResult<List<UserClaimDetailsDto>> GetClaimDetailsByUserId(string userId)
+        {
+            return new SuccessDataResult<List<UserClaimDetailsDto>>(_userOperationClaimDal.GetClaimDetailsByUserId(userId), Messages.Successful);
         }
 
         public IResult Update(UserOperationClaim userOperationClaim)

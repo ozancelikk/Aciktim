@@ -31,7 +31,7 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.Unsuccessful);
             }
-            var result = _orderCommentDal.Delete(orderComment.Data);
+            var result = _orderCommentDal.Delete(orderComment.Data.Id);
             if (result.DeletedCount>0)
             {
                 return new SuccessResult(Messages.DeletionSuccessful);

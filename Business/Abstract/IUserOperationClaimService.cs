@@ -11,9 +11,10 @@ namespace Business.Abstract
         IDataResult<UserOperationClaim> GetById(string id);
         IDataResult<List<UserOperationClaimsEvolved>> GetAllClaims();
         IDataResult<List<UserClaimDetailsDto>> GetClaimDetails();
+        IDataResult<List<UserClaimDetailsDto>> GetClaimDetailsByUserId(string userId);
         IDataResult<List<UserOperationClaim>> GetAll();
         IResult Add(UserOperationClaimDto userOperationClaimSimple);
-        IResult Delete(UserOperationClaim userOperationClaim);
+        IResult Delete(string id);
         IResult Update(UserOperationClaim userOperationClaim);
         
     }

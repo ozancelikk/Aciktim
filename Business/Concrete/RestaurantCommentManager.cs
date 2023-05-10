@@ -32,7 +32,7 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.Unsuccessful);
             }
-            var result = _restaurantCommentDal.Delete(restaurantComment.Data);
+            var result = _restaurantCommentDal.Delete(restaurantComment.Data.Id);
             if (result.DeletedCount > 0)
             {
                 return new SuccessResult(Messages.DeletionSuccessful);

@@ -12,5 +12,8 @@ namespace DataAccess.Abstract
     {
         List<UserOperationClaimsEvolved> GetAllClaims();
         List<UserClaimDetailsDto> GetClaimDetails();
+        List<UserClaimDetailsDto> GetClaimDetailsByUserId(string userId);
+
+
     }
 }
