@@ -30,6 +30,17 @@ namespace AciktimRestoranWebAPI.Controllers
             }
             return BadRequest(result.Message);
         }
+        [HttpPost("Update")]
+        public IActionResult Update(RestaurantCommentDto restaurantCommentDto)
+        {
+            var map = _mapper.Map<RestaurantComment>(restaurantCommentDto);
+            var result = _restaurantCommentService.Update(map);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {

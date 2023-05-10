@@ -18,5 +18,7 @@ namespace Entities.Concrete
         public string CommentContent { get ; set ; }
         public string CommentDate { get ; set ; }
         public double RestaurantRate { get ; set ; }
+        public string Answer { get; set; }
+        public string AnswerDate { get; set; }
     }
 }
