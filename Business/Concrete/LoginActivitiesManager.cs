@@ -25,7 +25,7 @@ namespace Business.Concrete
         }
         public IResult Delete(LoginActivities loginActivities)
         {
-            var result = _loginActivitiesDal.Delete(loginActivities);
+            var result = _loginActivitiesDal.Delete(loginActivities.Id);
             if (result.DeletedCount > 0)
             {
                 return new SuccessResult(Messages.DeletionSuccessful);

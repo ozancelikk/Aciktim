@@ -21,9 +21,9 @@ namespace Core.DataAccess.Databases.MongoDB
         {
             _collection.InsertOne(entity);
         }
-        public DeleteResult Delete(TEntity entity)
+        public DeleteResult Delete(string id)
         {
-            return _collection.DeleteOne(e => e.Id == entity.Id);
+            return _collection.DeleteOne(e => e.Id == id);
         }
         public DeleteResult DeleteMany(Expression<Func<TEntity, bool>> filter = null)
         {

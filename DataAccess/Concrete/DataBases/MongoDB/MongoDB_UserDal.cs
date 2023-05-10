@@ -142,6 +142,7 @@ namespace DataAccess.Concrete.DataBases.MongoDB
                             FirstName = user.FirstName,
                             LastName = user.LastName,
                             Status = user.Status,
+                            Id = user.Id
                         });
                     }
                 }

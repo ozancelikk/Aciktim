@@ -31,7 +31,7 @@ namespace Business.Concrete
         public IResult Delete(CategoryImage categoryImage)
         {
             _fileHelper.Delete(PathConstant.RestaurantImagesPath + categoryImage.CategoryId + "\\" + categoryImage.ImagePath);
-            _categoryImageDal.Delete(categoryImage);
+            _categoryImageDal.Delete(categoryImage.Id);
             return new SuccessResult();
         }
 

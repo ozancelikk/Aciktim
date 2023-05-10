@@ -42,6 +42,18 @@ namespace AciktimAdminWebAPI.Controllers
             return BadRequest(result.Message);
         }
 
+        [HttpGet("GetClaimDetailsByUserId")]
+
+        public IActionResult GetClaimDetailsByUserId(string userId)
+        {
+            var result = _userOperationClaimService.GetClaimDetailsByUserId(userId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
         [HttpGet("getall")]
 
         public IActionResult GetAll()
@@ -79,11 +91,11 @@ namespace AciktimAdminWebAPI.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpPost("delete")]
+        [HttpGet("delete")]
 
-        public IActionResult Delete(UserOperationClaim userOperationClaim)
+        public IActionResult Delete(string id)
         {
-            var result = _userOperationClaimService.Delete(userOperationClaim);
+            var result = _userOperationClaimService.Delete(id);
             if (result.Success)
             {
                 return Ok(result);

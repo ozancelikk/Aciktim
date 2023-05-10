@@ -43,7 +43,7 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.Unsuccessful);
             }
-            var result = _restaurantDal.Delete(restaurant.Data);
+            var result = _restaurantDal.Delete(restaurant.Data.Id);
             if (result.DeletedCount > 0)
             {
                 return new SuccessResult(Messages.DeletionSuccessful);

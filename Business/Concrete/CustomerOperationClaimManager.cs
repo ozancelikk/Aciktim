@@ -38,7 +38,7 @@ namespace Business.Concrete
 
         public IResult Delete(CustomerOperationClaim CustomerOperationClaim)
         {
-            var result = _customerOperationClaimdal.Delete(CustomerOperationClaim);
+            var result = _customerOperationClaimdal.Delete(CustomerOperationClaim.Id);
             if (result.DeletedCount > 0)
             {
                 return new SuccessResult(Messages.Successful);

@@ -30,7 +30,7 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.Unsuccessful);
             }
-            var result = _categoryDal.Delete(category.Data);
+            var result = _categoryDal.Delete(category.Data.Id);
             if (result.DeletedCount>0)
             {
                 return new SuccessResult(Messages.DeletionSuccessful);

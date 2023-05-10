@@ -36,7 +36,7 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.Unsuccessful);
             }
-            var result = _menuDal.Delete(menu.Data);
+            var result = _menuDal.Delete(menu.Data.Id);
             if (result.DeletedCount>0)
             {
                 return new SuccessResult(Messages.AddingSuccessful);

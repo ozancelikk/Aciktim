@@ -27,7 +27,7 @@ namespace Business.Concrete
             var result = GetByEMail(eMail);
             if (result.Success)
             {
-                _passwordRecoveryDal.Delete(result.Data);
+                _passwordRecoveryDal.Delete(result.Data.Id);
                 return new SuccessResult(Messages.Successful);
             }
             return new ErrorResult(Messages.Unsuccessful);
