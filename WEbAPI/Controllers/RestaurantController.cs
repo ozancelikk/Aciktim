@@ -69,7 +69,12 @@ namespace AciktimRestoranWebAPI.Controllers
         [HttpPost("ChangeRestaurantActiveStatus")]
         public IActionResult ChangeRestaurantActiveStatus(RestaurantDto restaurant)
         {
+            var x = _restaurantService.GetById(restaurant.Id);
             var map = _mapper.Map<Restaurant>(restaurant);
+            map.RestaurantStatus = false;
+            map.Status = x.Data.Status;
+            map.PasswordSalt = x.Data.PasswordSalt;
+            map.PasswordHash = x.Data.PasswordHash;
             map.RestaurantStatus = true;
             var result = _restaurantService.Update(map);
             if (result.Success)
