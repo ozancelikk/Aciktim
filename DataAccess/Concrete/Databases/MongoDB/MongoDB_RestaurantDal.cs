@@ -75,7 +75,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
             using (var restaurants = new MongoDB_Context<Restaurant, MongoDB_RestaurantCollection>())
             {
                 restaurants.GetMongoDBCollection();
-                restaurant = restaurants.collection.Find<Restaurant>(document => true).ToList();
+                restaurant = restaurants.collection.Find<Restaurant>(document => document.Status==true).ToList();
             }
             var list = new List<RestaurantImageDetailDto>();
             List<RestaurantImage> restaurantImage = new List<RestaurantImage>();
@@ -116,6 +116,9 @@ namespace DataAccess.Concrete.Databases.MongoDB
                     RestaurantRate = totalComment == 0 ? 0 : total / totalComment,
                     PhoneNumber = item.PhoneNumber,
                     Id = item.Id,
+                    RestaurantStatus = item.RestaurantStatus,
+                    Status = item.Status,
+                    RegisterDate = item.RegisterDate,
                 };
                 var temp = restaurantImage.FirstOrDefault(x => x.RestaurantId == item.Id);
                 next.ImagePath = (temp != null) ? (item.Id + "/" + temp.ImagePath) : null;

@@ -63,5 +63,15 @@ namespace AciktimMusteriWebAPI.Controllers
             }
             return BadRequest(result.Message);
         }
+        [HttpGet("GetCommentsByCustomerId")]
+        public IActionResult GetCommentsByCustomerId(string customerId,string restaurantId)
+        {
+            var result = _restaurantCommentService.GetCommentByCustomerId(customerId,restaurantId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
     }
 }

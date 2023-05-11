@@ -15,5 +15,6 @@ namespace DataAccess.Abstract
         OrdersByDateDto GetOrdersByDate(string date);
         OrdersByDateDto GetOrdersDateByRestaurantId(string date,string restaurantId);
         List<OrdersByRestaurantDto> GetOrdersByRestaurantId(string restaurantId);
+        List<Order> GetOrdersByRestaurantAndCustomerId(string customerId,string restaurantId);
     }
 }

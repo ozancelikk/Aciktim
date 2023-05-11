@@ -21,6 +21,6 @@ namespace Entities.DTOs
         public string ImagePath { get; set; }
         public string RegisterDate { get; set; }
         public bool RestaurantStatus { get; set; }
-
+        public bool Status { get; set; }
     }
 }

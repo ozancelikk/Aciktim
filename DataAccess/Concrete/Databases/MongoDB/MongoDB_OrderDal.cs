@@ -288,6 +288,91 @@ namespace DataAccess.Concrete.Databases.MongoDB
             return orderDtos;
         }
 
-     
+        public List<Order> GetOrdersByRestaurantAndCustomerId(string customerId, string restaurantId)
+        {
+            List<Order> orders = new List<Order>();
+            List<Customer> customers = new List<Customer>();
+            List<Menu> menus = new List<Menu>();
+            List<MenuImage> menuImages = new List<MenuImage>();
+            List<Restaurant> restaurants = new List<Restaurant>();
+            List<CustomerAddresses> addresses = new List<CustomerAddresses>();
+
+            using (var addressContext = new MongoDB_Context<CustomerAddresses, MongoDB_CustomerAddressesCollection>())
+            {
+                addressContext.GetMongoDBCollection();
+                addresses = addressContext.collection.Find<CustomerAddresses>(document => true).ToList();
+            }
+
+            using (var menusContext = new MongoDB_Context<Menu, MongoDB_MenuCollection>())
+            {
+                menusContext.GetMongoDBCollection();
+                menus = menusContext.collection.Find<Menu>(document => true).ToList();
+            }
+
+            using (var menuImagesContext = new MongoDB_Context<MenuImage, MongoDB_MenuImageCollection>())
+            {
+                menuImagesContext.GetMongoDBCollection();
+                menuImages = menuImagesContext.collection.Find<MenuImage>(document => true).ToList();
+            }
+
+
+            using (var orderContext = new MongoDB_Context<Order, MongoDB_OrderCollection>())
+            {
+                orderContext.GetMongoDBCollection();
+                orders = orderContext.collection.Find<Order>(document => document.OrderStatus == "Tamamlandı").ToList();
+            }
+
+            using (var customer = new MongoDB_Context<Customer, MongoDB_CustomerCollection>())
+            {
+                customer.GetMongoDBCollection();
+                customers = customer.collection.Find<Customer>(document => document.Id == customerId).ToList();
+
+            }
+            var orderdto = new List<OrderDto>();   //restaurant-customer
+
+
+            using (var restaurant = new MongoDB_Context<Restaurant, MongoDB_RestaurantCollection>())
+            {
+                restaurant.GetMongoDBCollection();
+                restaurants = restaurant.collection.Find<Restaurant>(document => document.Id==restaurantId).ToList();
+            }
+            var list = new List<Order>();
+
+
+
+            foreach (var item in orders)
+            {
+                var currentCustomer = customers.Where(e => e.Id == item.CustomerId).FirstOrDefault();
+                var currentRestaurant = restaurants[0];
+                var currentAddress = addresses.Where(c => c.CustomerId == item.CustomerId).FirstOrDefault();
+                var currentMenu = menus.Where(x => x.RestaurantId == item.RestaurantId).FirstOrDefault();
+                var currentMenuImage = menuImages.Where(x => x.MenuId == currentMenu.Id).FirstOrDefault();
+                if (currentCustomer != null)
+                {
+                    if (item.CustomerId==currentCustomer.Id && item.RestaurantId==currentRestaurant.Id)
+                    {
+                        list.Add(new Order
+                        {
+                            CustomerId = currentCustomer.Id,
+                            Address = currentAddress.Address,
+                            Id = item.Id,
+                            OrderStatus = item.OrderStatus,
+                            OrderDate = item.OrderDate,
+                            EstimatedTime = item.EstimatedTime,
+                            FirstName = currentCustomer.FirstName,
+                            LastName = currentCustomer.LastName,
+                            Menus = item.Menus,
+                            OrderDescription = item.OrderDescription,
+                            RestaurantId = currentRestaurant.Id,
+                            RestaurantName = currentRestaurant.RestaurantName
+                        }
+                                       );
+                    }
+                   
+                }
+
+            }
+            return list;
+        }
     }
 }

@@ -15,5 +15,6 @@ namespace Business.Abstract
         IResult Update(RestaurantComment restaurantComment);
         IResult Delete(string id);
         IDataResult<List<RestaurantCommentDetailsDto>> GetCommentByRestaurantId(string restaurantId);
+        IDataResult<List<RestaurantCommentDetailsDto>> GetCommentByCustomerId(string customerId, string restaurantId);
     }
 }
