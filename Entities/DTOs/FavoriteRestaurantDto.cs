@@ -24,7 +24,8 @@ namespace Entities.DTOs
         public double MinCartPrice { get; set; }
         public string CategoryId { get; set; }
         public string? imagePath { get; set; }
-  
+        public bool Status { get; set; }
+        public bool RestaurantStatus { get; set; }
 
     }
 }

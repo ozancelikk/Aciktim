@@ -9,6 +9,7 @@ namespace DataAccess.Abstract
 {
     public interface IRestaurantCommentDal : IEntityRepository<RestaurantComment>
     {
+        List<RestaurantCommentDetailsDto> GetCommentByCustomerId(string customerId,string restaurantId);
         List<RestaurantCommentDetailsDto> GetCommentByRestaurantId(string restaurantId);
     }
 }

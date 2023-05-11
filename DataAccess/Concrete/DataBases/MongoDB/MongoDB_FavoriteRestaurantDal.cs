@@ -53,36 +53,6 @@ namespace DataAccess.Concrete.DataBases.MongoDB
 
             var list = new List<FavoriteRestaurantDto>();
             var favoriteRestaurants = restaurants.Where(x => x.CustomerId == id).ToList(); // ilgili kullanıcının favori restaurnt
-
-            //ESKİ HALİ
-            //foreach (var item in favoriteRestaurants)
-            //{
-
-            //    var currentRestaurant = restaurant.Find(x => x.Id == item.RestaurantId);
-            //    var image = restaurantImages.Find(x => x.RestaurantId == item.RestaurantId);
-            //    temp.Add(new FavoriteRestaurantDto
-            //    {
-            //        ClosingTime = currentRestaurant.ClosingTime,
-            //        RestaurantId = item.RestaurantId,
-            //        OpeningTime = currentRestaurant.OpeningTime,
-            //        RestaurantAddress = currentRestaurant.RestaurantAddress,
-            //        RestaurantName = currentRestaurant.RestaurantName,
-            //        CategoryId = currentRestaurant.CategoryId,
-            //        CustomerId = item.CustomerId,
-            //        MailAddress = currentRestaurant.MailAddress,
-            //        MinCartPrice = currentRestaurant.MinCartPrice,
-            //        PhoneNumber = currentRestaurant.PhoneNumber,
-            //        imagePath = image.ImagePath,
-            //        RestaurantRate = currentRestaurant.RestaurantRate,
-            //        Id = item.Id,
-            //    });
-
-            //}
-
-
-            //------------------------------------------------------------------------------
-
-
             foreach (var item in favoriteRestaurants)
             {
                 var currentRestaurant = restaurant.Find(x => x.Id == item.RestaurantId);
@@ -99,7 +69,8 @@ namespace DataAccess.Concrete.DataBases.MongoDB
                     MailAddress = currentRestaurant.MailAddress,
                     MinCartPrice = currentRestaurant.MinCartPrice,
                     PhoneNumber = currentRestaurant.PhoneNumber,
-                    //imagePath = image.ImagePath,
+                    Status=currentRestaurant.Status,
+                    RestaurantStatus = currentRestaurant.RestaurantStatus,
                     RestaurantRate = currentRestaurant.RestaurantRate,
                     Id = item.Id,
                 };
