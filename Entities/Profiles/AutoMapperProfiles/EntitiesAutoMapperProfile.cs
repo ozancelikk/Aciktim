@@ -62,6 +62,8 @@ namespace Entities.Profiles.AutoMapperProfiles
             CreateMap<UpdateRestaurantImageDto, RestaurantImage>();
             CreateMap<User,UserEvolved>();
             CreateMap<UserEvolved,User>();
+            CreateMap<RestaurantSupport, RestaurantSupportDto>();
+            CreateMap<RestaurantSupportDto, RestaurantSupport>();
         }
     }
 }
