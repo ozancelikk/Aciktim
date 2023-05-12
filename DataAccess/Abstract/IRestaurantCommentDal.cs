@@ -11,5 +11,7 @@ namespace DataAccess.Abstract
     {
         List<RestaurantCommentDetailsDto> GetCommentByCustomerId(string customerId,string restaurantId);
         List<RestaurantCommentDetailsDto> GetCommentByRestaurantId(string restaurantId);
+        List<RestaurantCommentDetailsDto> GetAllActiveComments();
+        List<RestaurantCommentDetailsDto> GetAllPassiveComments();
     }
 }
