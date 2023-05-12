@@ -24,6 +24,7 @@ namespace AciktimMusteriWebAPI.Controllers
         public IActionResult Add(RestaurantCommentDto restaurantCommentDto)
         {
             var map = _mapper.Map<RestaurantComment>(restaurantCommentDto);
+            map.Status = false;
             var result = _restaurantCommentService.Add(map);
             if (result.Success)
             {
@@ -73,5 +74,6 @@ namespace AciktimMusteriWebAPI.Controllers
             }
             return BadRequest(result.Message);
         }
+
     }
 }

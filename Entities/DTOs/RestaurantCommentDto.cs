@@ -16,5 +16,6 @@ namespace Entities.DTOs
         public double RestaurantRate { get; set; }
         public string Answer { get; set; }
         public string AnswerDate { get; set; }
+        public bool Status { get; set; }
     }
 }

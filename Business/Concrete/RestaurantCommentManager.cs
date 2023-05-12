@@ -45,6 +45,16 @@ namespace Business.Concrete
             return new SuccessDataResult<List<RestaurantComment>>(_restaurantCommentDal.GetAll(), Messages.Successful);
         }
 
+        public IDataResult<List<RestaurantCommentDetailsDto>> GetAllActiveComments()
+        {
+            return new SuccessDataResult<List<RestaurantCommentDetailsDto>>(_restaurantCommentDal.GetAllActiveComments(), Messages.Successful);
+        }
+
+        public IDataResult<List<RestaurantCommentDetailsDto>> GetAllPassiveComments()
+        {
+            return new SuccessDataResult<List<RestaurantCommentDetailsDto>>(_restaurantCommentDal.GetAllPassiveComments(), Messages.Successful);
+        }
+
         public IDataResult<RestaurantComment> GetById(string id)
         {
             return new SuccessDataResult<RestaurantComment>(_restaurantCommentDal.Get(c => c.Id == id), Messages.Successful);

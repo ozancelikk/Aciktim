@@ -326,6 +326,9 @@ namespace DataAccess.Concrete.Databases.MongoDB
                     PhoneNumber = item.PhoneNumber,
                     Id = item.Id,
                     RegisterDate = item.RegisterDate,
+                    RestaurantStatus = item.RestaurantStatus,
+                    Status = item.Status,
+                    TaxNumber = item.TaxNumber,
 
                 };
                 var temp = restaurantImage.FirstOrDefault(x => x.RestaurantId == item.Id);
