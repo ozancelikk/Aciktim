@@ -112,7 +112,12 @@ namespace AciktimAdminWebAPI.Controllers
 
         public IActionResult Update(CustomerDetailsDto customer)
         {
+            var currentUser = _customerService.GetById(customer.Id);
+            var hash = currentUser.Data.PasswordHash;
+            var salt = currentUser.Data.PasswordSalt;
             var map = _mapper.Map<Customer>(customer);
+            map.PasswordHash = hash;
+            map.PasswordSalt = salt;
             var result = _customerService.Update(map);
             if (result.Success)
             {

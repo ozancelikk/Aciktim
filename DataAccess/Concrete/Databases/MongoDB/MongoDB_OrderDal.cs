@@ -211,7 +211,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
             var x = new OrdersByDateDto { Count = count, Date = date };
             return x;
         }
-        public OrdersByDateDto GetOrdersDateByRestaurantId(string date,string restaurantId)
+        public OrdersByDateDto GetOrdersDateByRestaurantId(string date, string restaurantId)
         {
             List<Order> orders = new List<Order>();
             using (var orderContext = new MongoDB_Context<Order, MongoDB_OrderCollection>())
@@ -224,7 +224,8 @@ namespace DataAccess.Concrete.Databases.MongoDB
             {
                 var a = order.OrderDate.Split('.', ' ');
                 var orderDate = a[0] + "." + a[1] + "." + a[2]; // o anki siparişin tarihi var
-                if (order.RestaurantId==restaurantId) {
+                if (order.RestaurantId == restaurantId)
+                {
                     if (orderDate == date) // istediğimiz sipiarş
                     {
                         count++;
@@ -245,7 +246,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 orders = orderContext.collection.Find<Order>(document => document.RestaurantId == restaurantId).ToList();
             }
 
-            List<Restaurant>restaurants= new List<Restaurant>();
+            List<Restaurant> restaurants = new List<Restaurant>();
             using (var restaurant = new MongoDB_Context<Restaurant, MongoDB_RestaurantCollection>())
             {
                 restaurant.GetMongoDBCollection();
@@ -274,9 +275,10 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 Console.WriteLine("En fazla sipariş verilen 5 menü:");
                 foreach (var menu in topOrderedMenuDict)
                 {
-                    orderDtos.Add(new OrdersByRestaurantDto{
-                        MenuName=menu.Key,
-                        Quantity=menu.Value
+                    orderDtos.Add(new OrdersByRestaurantDto
+                    {
+                        MenuName = menu.Key,
+                        Quantity = menu.Value
                     });
                     Console.WriteLine($"{menu.Key} ({menu.Value} sipariş)");
                 }
@@ -334,7 +336,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
             using (var restaurant = new MongoDB_Context<Restaurant, MongoDB_RestaurantCollection>())
             {
                 restaurant.GetMongoDBCollection();
-                restaurants = restaurant.collection.Find<Restaurant>(document => document.Id==restaurantId).ToList();
+                restaurants = restaurant.collection.Find<Restaurant>(document => document.Id == restaurantId).ToList();
             }
             var list = new List<Order>();
 
@@ -349,7 +351,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                 var currentMenuImage = menuImages.Where(x => x.MenuId == currentMenu.Id).FirstOrDefault();
                 if (currentCustomer != null)
                 {
-                    if (item.CustomerId==currentCustomer.Id && item.RestaurantId==currentRestaurant.Id)
+                    if (item.CustomerId == currentCustomer.Id && item.RestaurantId == currentRestaurant.Id)
                     {
                         list.Add(new Order
                         {
@@ -365,14 +367,104 @@ namespace DataAccess.Concrete.Databases.MongoDB
                             OrderDescription = item.OrderDescription,
                             RestaurantId = currentRestaurant.Id,
                             RestaurantName = currentRestaurant.RestaurantName
-                        }
-                                       );
+                        });
                     }
-                   
                 }
-
             }
             return list;
+        }
+
+        public List<Order> GetCustomerOrderDetailsByDate(string start, string end, string customerId)
+        {
+            List<Order> myList = new List<Order>();
+
+            DateTime startDate = DateTime.ParseExact(start, "dd.MM.yyyy", null).Date;
+            DateTime endDate = DateTime.ParseExact(end, "dd.MM.yyyy", null).Date;
+            List<Order> orders = new List<Order>();
+            using (var orderContext = new MongoDB_Context<Order, MongoDB_OrderCollection>())
+            {
+                orderContext.GetMongoDBCollection();
+                orders = orderContext.collection.Find<Order>(document => document.CustomerId == customerId).ToList();
+            }
+
+            for (int i = 0; i < orders.Count; i++)
+            {
+                DateTime date = DateTime.ParseExact(orders[i].OrderDate, "dd.MM.yyyy HH:mm:ss", null).Date;
+                if (startDate <= date && date <= endDate)
+                {
+                    myList.Add(orders[i]);
+                }
+            }
+            return myList;
+        }
+
+        public List<Order> GetRestaurantOrderDetailsByDate(string start, string end, string restaurantId)
+        {
+             List<Order> myList = new List<Order>();
+
+            DateTime startDate = DateTime.ParseExact(start, "dd.MM.yyyy", null).Date;
+            DateTime endDate = DateTime.ParseExact(end, "dd.MM.yyyy", null).Date;
+            List<Order> orders = new List<Order>();
+            using (var orderContext = new MongoDB_Context<Order, MongoDB_OrderCollection>())
+            {
+                orderContext.GetMongoDBCollection();
+                orders = orderContext.collection.Find<Order>(document => document.RestaurantId == restaurantId).ToList();
+            }
+            for (int i = 0; i < orders.Count; i++)
+            {
+                DateTime date = DateTime.ParseExact(orders[i].OrderDate, "dd.MM.yyyy HH:mm:ss", null).Date;
+                if (startDate <= date && date <= endDate)
+                {
+                    myList.Add(orders[i]);
+                }
+            }
+            return myList;
+        }
+
+        public List<Order> GetRestaurantActiveOrderDetailsByDate(string start, string end, string restaurantId)
+        {
+            List<Order> myList = new List<Order>();
+
+            DateTime startDate = DateTime.ParseExact(start, "dd.MM.yyyy", null).Date;
+            DateTime endDate = DateTime.ParseExact(end, "dd.MM.yyyy", null).Date;
+            List<Order> orders = new List<Order>();
+            using (var orderContext = new MongoDB_Context<Order, MongoDB_OrderCollection>())
+            {
+                orderContext.GetMongoDBCollection();
+                orders = orderContext.collection.Find<Order>(document => document.RestaurantId == restaurantId && (document.OrderStatus == "Kuryede" || document.OrderStatus =="Alındı" || document.OrderStatus == "Hazırlanıyor")).ToList();
+            }
+            for (int i = 0; i < orders.Count; i++)
+            {
+                DateTime date = DateTime.ParseExact(orders[i].OrderDate, "dd.MM.yyyy HH:mm:ss", null).Date;
+                if (startDate <= date && date <= endDate)
+                {
+                    myList.Add(orders[i]);
+                }
+            }
+            return myList;
+        }
+
+        public List<Order> GetRestaurantPassiveOrderDetailsByDate(string start, string end, string restaurantId)
+        {
+            List<Order> myList = new List<Order>();
+
+            DateTime startDate = DateTime.ParseExact(start, "dd.MM.yyyy", null).Date;
+            DateTime endDate = DateTime.ParseExact(end, "dd.MM.yyyy", null).Date;
+            List<Order> orders = new List<Order>();
+            using (var orderContext = new MongoDB_Context<Order, MongoDB_OrderCollection>())
+            {
+                orderContext.GetMongoDBCollection();
+                orders = orderContext.collection.Find<Order>(document => document.RestaurantId == restaurantId && document.OrderStatus == "Tamamlandı").ToList();
+            }
+            for (int i = 0; i < orders.Count; i++)
+            {
+                DateTime date = DateTime.ParseExact(orders[i].OrderDate, "dd.MM.yyyy HH:mm:ss", null).Date;
+                if (startDate <= date && date <= endDate)
+                {
+                    myList.Add(orders[i]);
+                }
+            }
+            return myList;
         }
     }
 }

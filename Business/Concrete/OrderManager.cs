@@ -6,6 +6,7 @@ using Entities.Concrete;
 using Entities.Dtos;
 using Entities.DTOs;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -121,5 +122,31 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<Order>>(_orderDal.GetOrdersByRestaurantAndCustomerId(customerId,restaurantId), Messages.Successful);
         }
+
+        public IDataResult<List<Order>> GetCustomerOrderDetailsByDate(string start, string end, string customerId)
+        {
+            return new SuccessDataResult<List<Order>>(_orderDal.GetCustomerOrderDetailsByDate(start,end,customerId), Messages.Successful);
+        }
+
+        public IDataResult<List<Order>> GetRestaurantOrderDetailsByDate(string start, string end, string restaurantId)
+        {
+            return new SuccessDataResult<List<Order>>(_orderDal.GetRestaurantOrderDetailsByDate(start, end, restaurantId), Messages.Successful);
+        }
+
+        public IDataResult<List<Order>> GetOrdersByRestaurantId(string restaurantId)
+        {
+            return new SuccessDataResult<List<Order>>(_orderDal.GetAll(x=>x.RestaurantId == restaurantId), Messages.Successful);
+        }
+
+        public IDataResult<List<Order>> GetRestaurantPassiveOrderDetailsByDate(string start, string end, string restaurantId)
+        {
+            return new SuccessDataResult<List<Order>>(_orderDal.GetRestaurantPassiveOrderDetailsByDate(start,end,restaurantId),Messages.Successful);
+        }
+
+        public IDataResult<List<Order>> GetRestaurantActiveOrderDetailsByDate(string start, string end, string restaurantId)
+        {
+            return new SuccessDataResult<List<Order>>(_orderDal.GetRestaurantActiveOrderDetailsByDate(start, end, restaurantId), Messages.Successful);
+        }
     }
 }
+
