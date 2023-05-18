@@ -14,11 +14,13 @@ namespace AciktimAdminWebAPI.Controllers
     {
         private readonly IRestaurantService _restaurantService;
         private readonly IMapper _mapper;
+        private readonly IRestaurantMailSender _mailSender;
 
-        public RestaurantController(IRestaurantService restaurantService, IMapper mapper)
+        public RestaurantController(IRestaurantService restaurantService, IMapper mapper, IRestaurantMailSender mailSender)
         {
             _restaurantService = restaurantService;
             _mapper = mapper;
+            _mailSender = mailSender;
         }
 
         [HttpGet("getall")]
@@ -109,6 +111,7 @@ namespace AciktimAdminWebAPI.Controllers
             restaurant.Status = true;
             var map = _mapper.Map<Restaurant>(restaurant);
             var result = _restaurantService.Update(map);
+            _mailSender.Mail(restaurant.MailAddress);
             if (result.Success)
             {
                 return Ok(result);

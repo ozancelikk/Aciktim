@@ -42,6 +42,7 @@ namespace Business.Concrete
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
                 RegisterDate = customerForRegisterDto.RegisterDate,
+                Status=false
             };
 
             _customerservice.Add(customer);

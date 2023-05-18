@@ -64,6 +64,8 @@ namespace Entities.Profiles.AutoMapperProfiles
             CreateMap<UserEvolved,User>();
             CreateMap<RestaurantSupport, RestaurantSupportDto>();
             CreateMap<RestaurantSupportDto, RestaurantSupport>();
+            CreateMap<MailConsumerPasswordKey, MailConsumerPasswordKeyDto>();
+            CreateMap<MailConsumerPasswordKeyDto, MailConsumerPasswordKey>();
         }
     }
 }
