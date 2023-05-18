@@ -59,6 +59,7 @@ namespace DataAccess.Concrete.Databases.MongoDB
                             NationalityId = customer.NationalityId,
                             PhoneNumber = customer.PhoneNumber,
                             RegisterDate = customer.RegisterDate,
+                            Status= customer.Status,
                         });
                     }
                 }

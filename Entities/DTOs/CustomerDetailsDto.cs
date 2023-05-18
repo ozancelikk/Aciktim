@@ -19,5 +19,6 @@ namespace Entities.DTOs
         public string PhoneNumber { get; set; }
         public string MailAddress { get; set; }
         public string RegisterDate { get; set; }
+        public bool Status { get; set; }
     }
 }
