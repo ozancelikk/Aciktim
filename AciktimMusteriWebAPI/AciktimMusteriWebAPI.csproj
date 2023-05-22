@@ -7,6 +7,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="wwwroot\Uploads\Images\**" />
+	  <Content Remove="wwwroot\Uploads\Images\**" />
+	  <EmbeddedResource Remove="wwwroot\Uploads\Images\**" />
+	  <None Remove="wwwroot\Uploads\Images\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.13" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
@@ -18,8 +25,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="wwwroot\Uploads\Images\Category\" />
-	  <Folder Include="wwwroot\Uploads\Images\Restaurant\" />
+	  <Folder Include="wwwroot\Uploads\" />
 	</ItemGroup>
 
 </Project>

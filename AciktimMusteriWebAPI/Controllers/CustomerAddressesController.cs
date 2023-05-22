@@ -53,6 +53,16 @@ namespace AciktimMusteriWebAPI.Controllers
             }
             return BadRequest(result.Message);
         }
+        [HttpGet("GetById")]
+        public IActionResult GetById(string id)
+        {
+            var result = _customerAddressService.GetById(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
 
         [HttpGet("delete")]
         public IActionResult Delete(string id)
