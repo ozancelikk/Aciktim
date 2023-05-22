@@ -9,8 +9,7 @@ namespace Entities.DTOs
 {
     public class FavoriteRestaurantDto:IDto
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
+
         public string Id { get; set; }
         public string CustomerId { get; set; }
         public string RestaurantId { get; set; }

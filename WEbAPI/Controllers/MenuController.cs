@@ -12,12 +12,14 @@ namespace AciktimRestoranWebAPI.Controllers
     public class MenuController : ControllerBase
     {
         private readonly IMenuService  _menuService;
+        private readonly IMenuImageService _menuImageService;
         private readonly IMapper _mapper;
 
-        public MenuController(IMenuService menuService, IMapper mapper)
+        public MenuController(IMenuService menuService, IMapper mapper, IMenuImageService menuImageService)
         {
             _menuService = menuService;
             _mapper = mapper;
+            _menuImageService = menuImageService;
         }
 
         [HttpPost("Add")]
@@ -52,10 +54,15 @@ namespace AciktimRestoranWebAPI.Controllers
             }
             return BadRequest(result);
         }
-        [HttpPost("Delete")]
+        [HttpGet("Delete")]
         public IActionResult Delete(string id)
         {
             var result = _menuService.Delete(id);
+            var menuImage = _menuImageService.GetImagesByMenuId(id);
+            if (menuImage.Data.Count>0)
+            {
+                _menuImageService.Delete(menuImage.Data[0]);
+            }
             if (result.Success)
             {
                 return Ok(result);
